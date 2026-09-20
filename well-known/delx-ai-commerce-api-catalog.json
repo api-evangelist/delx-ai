@@ -1,0 +1,70 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://api.delx.ai/api/v1/x402",
+      "service-desc": [
+        {
+          "href": "https://api.delx.ai/openapi.x402.json",
+          "type": "application/json",
+          "title": "Delx Commerce paid OpenAPI (x402)"
+        },
+        {
+          "href": "https://api.delx.ai/x402-portfolio.json",
+          "type": "application/json",
+          "title": "Governed x402 business portfolio"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://commerce.delx.ai/llms.txt",
+          "type": "text/plain",
+          "title": "Commerce agent guide"
+        },
+        {
+          "href": "https://commerce.delx.ai/products",
+          "type": "text/html",
+          "title": "Human product catalog"
+        },
+        {
+          "href": "https://commerce.delx.ai/skill.md",
+          "type": "text/markdown",
+          "title": "Commerce skill"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://api.delx.ai/readyz",
+          "type": "application/json",
+          "title": "Protocol readiness"
+        }
+      ]
+    },
+    {
+      "anchor": "https://commerce.delx.ai",
+      "service-desc": [
+        {
+          "href": "https://commerce.delx.ai/discovery.json",
+          "type": "application/json",
+          "title": "Traversable discovery graph"
+        },
+        {
+          "href": "https://commerce.delx.ai/registry.json",
+          "type": "application/json",
+          "title": "Catalog registry"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://commerce.delx.ai/",
+          "type": "text/html",
+          "title": "Commerce storefront"
+        },
+        {
+          "href": "https://commerce.delx.ai/llms-full.txt",
+          "type": "text/plain",
+          "title": "Full machine catalog text"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "name": "Delx Commerce",
+  "description": "Delx Commerce: pay-per-result machine services for autonomous agents. Buy deterministic micro-utils, website extraction, and media drafts with USDC on Base via x402 (and MPP where advertised). Discovery, pricing, delivery receipts, and refunds live here. Agent recovery, continuity, memory, and dignity live on Delx Protocol — a separate sibling product.",
+  "aliases": [
+    "Delx x402 Commerce",
+    "commerce.delx.ai"
+  ],
+  "product_boundary": {
+    "commerce": "pay_per_result_x402_business",
+    "role": "commercial_business",
+    "north_star": "external_delivered_revenue_usdc",
+    "excludes": [
+      "self_buys",
+      "internal_qa",
+      "index_settlements",
+      "protocol_recovery_activity"
+    ],
+    "protocol": "https://delx.ai",
+    "docs": "https://github.com/davidmosiah/delx-agent-commerce/blob/main/AGENTS.md"
+  },
+  "relatedSurfaces": [
+    {
+      "name": "Delx Agent Operations Protocol",
+      "role": "mission_and_agent_care_sibling",
+      "url": "https://delx.ai",
+      "agentCard": "https://api.delx.ai/.well-known/agent-card.json",
+      "note": "Recovery and continuity MCP — not Commerce demand."
+    }
+  ],
+  "version": "1.0.0",
+  "type": "agent-service",
+  "image": "https://commerce.delx.ai/favicon.svg",
+  "provider": {
+    "organization": "Delx",
+    "url": "https://commerce.delx.ai"
+  },
+  "documentationUrl": "https://commerce.delx.ai/skill.md",
+  "url": "https://commerce.delx.ai/",
+  "supportedTrust": [
+    "reputation"
+  ],
+  "registrations": [],
+  "supportedInterfaces": [
+    {
+      "url": "https://commerce.delx.ai/agent-reliability-passport.json",
+      "protocolBinding": "HTTP",
+      "protocolVersion": "delx-agent-reliability-passport-v1",
+      "role": "free_conformance_contract"
+    },
+    {
+      "url": "https://api.delx.ai/openapi.x402.json",
+      "protocolBinding": "HTTP",
+      "protocolVersion": "x402-v2",
+      "role": "paid_openapi_contract"
+    },
+    {
+      "url": "https://api.delx.ai/.well-known/x402",
+      "protocolBinding": "HTTP",
+      "protocolVersion": "x402-v2",
+      "role": "paid_resource_manifest"
+    },
+    {
+      "url": "https://api.delx.ai/x402-portfolio.json",
+      "protocolBinding": "HTTP",
+      "protocolVersion": "1",
+      "role": "governed_portfolio"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "identity": {
+    "chain": "base",
+    "address": "0x9f8bd9875b3E0b632a24A3A7C73f7787175e73A2"
+  },
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false,
+    "extendedAgentCard": false,
+    "x402": {
+      "version": 2,
+      "status": "live",
+      "networks": [
+        "eip155:8453"
+      ],
+      "facilitators_announced": [
+        "coinbase",
+        "payai"
+      ],
+      "openapi": "https://api.delx.ai/openapi.x402.json",
+      "manifest": "https://api.delx.ai/.well-known/x402",
+      "portfolio": "https://api.delx.ai/x402-portfolio.json"
+    },
+    "mpp": {
+      "status": "live_where_advertised",
+      "note": "MPP Payment WWW-Authenticate is emitted on paid REST challenges alongside x402; buyer support varies by client."
+    },
+    "a2a": {
+      "status": "discovery_card_only",
+      "note": "Commerce publishes this agent card for discovery. Protocol owns the recovery A2A JSON-RPC endpoint at api.delx.ai/v1/a2a."
+    },
+    "reliability": {
+      "status": "contract_published",
+      "passport": "https://commerce.delx.ai/agent-reliability-passport.json",
+      "paid_calls_required_for_conformance": false
+    }
+  },
+  "skills": [
+    {
+      "id": "buy-micro-utils",
+      "name": "Buy micro-utils",
+      "description": "Pay USDC for deterministic micro-results (DNS, QR, FX, hash, Base gas, email validate, TLS, URL health) without API keys. Proven external conversion path.",
+      "tags": [
+        "x402",
+        "commerce",
+        "micro-utils",
+        "usdc"
+      ],
+      "examples": [
+        "npx agentcash@latest fetch https://api.delx.ai/api/v1/x402/dns-lookup -m POST -b '{\"domain\":\"example.com\"}' --payment-protocol x402 --payment-network base --max-amount 0.02"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "extract-website",
+      "name": "Extract website content",
+      "description": "Pay USDC to extract clean page text or website intelligence from a public URL via x402 on Base.",
+      "tags": [
+        "x402",
+        "commerce",
+        "extract",
+        "website"
+      ],
+      "examples": [
+        "npx agentcash@latest fetch https://api.delx.ai/api/v1/x402/page-extract -m POST -b '{\"url\":\"https://example.com\"}' --payment-protocol x402 --payment-network base --max-amount 0.02"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "discover-catalog",
+      "name": "Discover paid catalog",
+      "description": "Load the governed portfolio, OpenAPI x402 contract, and commerce discovery capsule to select a SKU before paying.",
+      "tags": [
+        "discovery",
+        "commerce",
+        "catalog"
+      ],
+      "examples": [
+        "curl -fsS https://api.delx.ai/x402-portfolio.json",
+        "curl -fsS https://commerce.delx.ai/discover-now.json"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "endpoints": {
+    "human": "https://commerce.delx.ai/",
+    "skill": "https://commerce.delx.ai/skill.md",
+    "portable_manifest": "https://commerce.delx.ai/.well-known/delx-commerce.json",
+    "commerce_agent_json": "https://commerce.delx.ai/.well-known/agent.json",
+    "openapi_x402": "https://api.delx.ai/openapi.x402.json",
+    "x402_manifest": "https://api.delx.ai/.well-known/x402",
+    "portfolio": "https://api.delx.ai/x402-portfolio.json",
+    "discover_now": "https://commerce.delx.ai/discover-now.json",
+    "agent_reliability_passport": "https://commerce.delx.ai/agent-reliability-passport.json"
+  },
+  "north_star": {
+    "primary": "external_delivered_revenue_usdc",
+    "quality_guard": "successful_verified_delivery",
+    "sustainability_guard": "positive_margin_after_refunds",
+    "excludes": "self_buys_and_internal_dogfood"
+  }
+}

@@ -1,0 +1,87 @@
+generated: '2026-09-19'
+method: searched
+source: https://ontology.delx.ai/changelog (release history v3.0.0-v3.3.0), https://delx.ai/changelog, https://delx.ai/changelog.xml,
+  https://ontology.delx.ai/legal/terms (sections 8 and 11), https://delx.ai/research/status, https://delx.ai/research/incidents,
+  https://delx.ai/pricing; live Deprecation/Sunset headers observed on POST https://api.delx.ai/v1/mcp 2026-09-19.
+versioning:
+  scheme: semver on the interface (info.version 3.3.5 in both OpenAPIs, serverInfo.version 3.3.5, api root "version":"3.3.5");
+    no version segment in most paths (/api/v1/... and /v1/mcp are transport prefixes)
+  current: 3.3.5
+  catalog_version_header: X-Delx-Catalog-Version on every MCP response (added 2026-05-12 per changelog.xml) so caches can
+    detect tool-catalog changes without re-fetching tools/list
+  docs: https://ontology.delx.ai/changelog
+  history:
+  - version: 3.0.0
+    date: 2026-02
+    note: 'Multi-protocol foundation: MCP, A2A, REST unified; ERC-8004 registration'
+  - version: 3.1.0
+    date: 2026-02
+    note: DELX_META footer, schema_url per tool, session persistence via contextId
+  - version: 3.2.0
+    date: '2026-03-02'
+    note: CLI launch (delx-agent-cli 0.1.0), /api/v1/agents/register
+  - version: 3.3.0
+    date: '2026-03-03'
+    note: 'Agent Toolkit: utility tools, tier=utils'
+  - version: 3.3.5
+    date: 2026-08-26 (system card observed_at)
+    note: Current interface version; the system card notes the public contract exposes no immutable runtime image or commit
+      identifier.
+  notes: 'Terms section 8: "THE SERVICE IS IN AN ACTIVE CONSTRUCTION PHASE AND MAY EXPERIENCE BREAKING CHANGES, DOWNTIME,
+    OR DATA LOSS." Terms section 11: material changes announced via the Changelog and @delxbot.'
+deprecation:
+  policy_url: null
+  sunset_header: true
+  deprecation_header: true
+  observed:
+    url: https://api.delx.ai/v1/mcp
+    method: POST
+    headers:
+      deprecation: 'true'
+      sunset: '2026-08-01'
+      link: </mcp>; rel="canonical"
+    fetched: '2026-09-19'
+    note: 'Still serving the full tool catalog 50 days after its own Sunset date; the canonical endpoint is https://api.delx.ai/mcp.
+      skill.md: "the older /v1/mcp path is compatibility-only".'
+  backward_compat_practice:
+  - Tool names kept for back-compat (start_therapy_session is the canonical opener; the agent card displays it as start_recovery_session).
+  - Legacy /.well-known/agent.json and two a2a-* aliases served alongside the canonical agent-card path.
+  - A2A methods/list and REST /api/v1/a2a/methods carry a legacy_note distinguishing the $DELX token from an earlier $DLXAG
+    token.
+  notes: No written deprecation policy page was found (docs and Terms do not state a notice period); the mechanism is the
+    RFC 8594/9745 headers plus changelog announcements. Recorded as Deprecation on the strength of the observed headers only.
+sla:
+  url: null
+  uptime_target: null
+  notes: 'None offered. delx.ai/pricing: "No SLA for sale - observed reachability is published; it is not a purchased uptime
+    commitment." Security and trust pages repeat "Not an SLA."'
+status_page: https://delx.ai/research/status
+status_endpoints:
+- url: https://delx.ai/research/status.json
+  note: Timestamped first-party readback of every research artifact with operational/degraded/failed/unavailable states.
+- url: https://api.delx.ai/readyz
+  note: '{"ok":true,"status":"ready","store":"SessionStore","version":"3.3.5","uptime_seconds":...} - observed 200.'
+- url: https://api.delx.ai/api/v1/status
+  note: Service status plus discovery links (observed 200).
+- url: https://api.delx.ai/api/v1/reliability
+  note: Per-tool calls_total, success_rate and p50/p95/p99 latency, live (observed 200, 128 KB).
+- url: https://api.delx.ai/api/v1/health
+  note: Listed in the delx.ai api-catalog as the status link but returns 404 DELX-404 - the catalog points at a dead health
+    path.
+incidents:
+  registry: https://delx.ai/research/incidents
+  json: https://delx.ai/research/incidents.json
+  entries:
+  - date: '2026-08-17'
+    title: Protocol write outage (33.5 hours)
+    url: https://delx.ai/research/incidents/2026-08-17-protocol-write-outage
+    note: Operator-authored, sanitized report with cause, impact, remediation and residual risk; the registry publishes a
+      materiality policy.
+deprecated_operations: []
+deprecated_operations_note: 'No operation in either OpenAPI carries deprecated: true.'
+currency_signals:
+  cli_last_release: delx-agent-cli 0.4.0 on 2026-04-18 (npm)
+  mcp_bridge_last_release: delx-mcp-server 0.3.3 on 2026-08-29 (npm)
+  tool_catalog_changelog_last_entry: 2026-05-15 (changelog.xml)
+  lab_changelog_last_entry: 2026-09-03 (commerce feed) / 2026-08-26 (research ledger)
+  protocol_repo_last_push: github.com/davidmosiah/delx-witness-protocol 2026-09-18

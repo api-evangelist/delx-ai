@@ -1,0 +1,53 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Delx Commerce x402 API
+  version: 1.0.0
+extends: openapi/delx-ai-commerce-x402-openapi.json
+x-apievangelist:
+  generated: '2026-09-19'
+  method: generated
+  source: Harvested verbatim from https://api.delx.ai/openapi.json (byte-identical to /openapi.x402.json and to https://commerce.delx.ai/openapi.json)
+    on 2026-09-19. Post-harvest, 0-working/sanitize-secrets.py replaced ONE Stripe-key-shaped example token inside the saved
+    copy with a REDACTED_* placeholder (GitHub push-protection); no other byte differs from the provider document.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: delx-ai
+    x-apievangelist-harvested-from: https://api.delx.ai/openapi.x402.json
+    x-apievangelist-harvested: '2026-09-19'
+    x-apievangelist-catalog-stats:
+      operations: 987
+      all_post: true
+      response_codes_per_operation:
+      - '200'
+      - '400'
+      - '402'
+      price_currency: USD (settled as USDC)
+      price_min: 0.001
+      price_median: 0.001
+      price_max: 0.08
+      price_histogram:
+        '0.001': 800
+        '0.003': 111
+        '0.01': 36
+        '0.002': 32
+        '0.005': 4
+        '0.02': 2
+        '0.004': 1
+        '0.08': 1
+      payment_protocols:
+      - x402
+      - mpp
+      operations_with_refund_policy_declared: 339
+- target: $
+  update:
+    tags:
+    - name: x402
+      description: Pay-per-result route settled by an HTTP 402 challenge
+    - name: utility
+- target: $.paths['/api/v1/x402/await'].post
+  update:
+    x-apievangelist-idempotency: 'requestBody.idempotency_key: replaying the same paid request returns the same promise (provider-documented).'
+- target: $.paths['/api/v1/x402/demand/rfqs'].post
+  update:
+    x-apievangelist-idempotency: requestBody.idempotency_key required.

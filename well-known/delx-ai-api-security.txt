@@ -1,0 +1,4 @@
+Contact: mailto:support@delx.ai
+Expires: 2027-07-29T23:59:59Z
+Canonical: https://api.delx.ai/.well-known/security.txt
+Preferred-Languages: en, pt-BR

@@ -1,0 +1,485 @@
+generated: '2026-09-19'
+method: probed
+source: Live GET probes of the named /.well-known/* path list on every host the record knows, 2026-09-19 (re-issued at write
+  time so each status below is the one returned).
+summary:
+  hosts_probed: 5
+  paths_per_host: 19
+  documents_saved: 35
+  note: 'Delx serves an unusually complete discovery surface. delx.ai, api.delx.ai and ontology.delx.ai each answer RFC 8414
+    oauth-authorization-server and RFC 9728 oauth-protected-resource metadata (all declaring delx:oauth_supported false and
+    a single ''public'' scope: the documents exist to advertise the access mode and an agent_auth block, not an OAuth flow),
+    an RFC 9116 security.txt (Expires 2027-02-17 on delx.ai/ontology, 2027-07-29 on api), an RFC 9727 api-catalog linkset,
+    an MCP server card, an agentskills.io discovery index and an A2A agent card at both the canonical and legacy paths. api.delx.ai
+    is the MCP resource host and the A2A host, so its rows are the ones RFC 9728 cares about. commerce.delx.ai serves OAuth
+    metadata, an api-catalog and its own agent card but no security.txt. www.delx.ai does not respond at all. Misses that
+    matter: no APIs.json at any of the three probed locations on any host, no AAuth resource document, and no UCP/ACP manifests
+    even though the agent card''s commerce.protocols lists ucp and acp. The 200s are real documents, not a catch-all: a negative-control
+    path 404s on every host, and 404s come back as real JSON/plain-text 404 bodies (api, commerce) or the site''s 404 page
+    (delx.ai, ontology).'
+  pointer_basis: 'WellKnown and SecurityTxt pointers are earned: real security.txt, OAuth metadata, api-catalog, MCP card
+    and agent cards were fetched and saved.'
+  host_quirks:
+  - api.delx.ai serves a byte-identical body at /.well-known/openid-configuration and /.well-known/oauth-authorization-server
+    (the RFC 8414 document is aliased onto the OIDC path).
+  - delx.ai /.well-known/openid-configuration declares issuer https://ontology.delx.ai and delx:oidc_supported false.
+  - delx.ai /.well-known/acp.json 308-redirects to api.delx.ai/.well-known/acp.json, which 404s.
+  - 'delx.ai and ontology.delx.ai serve additional non-standard discovery documents not in the closed probe list: /.well-known/delx-capabilities.json
+    (1.8 MB tool registry), /.well-known/a2a-agent-card.json and /.well-known/a2a.json (compatibility aliases), /spec/openapi.json,
+    /spec/mcp.json, /spec/a2a.json, /agents.txt, /auth.md, /research/catalog.json, /solutions/catalog.json. api.delx.ai adds
+    /.well-known/x402 (6.2 MB x402 resource manifest), /x402-portfolio.json, /openapi.x402.json and /openapi.protocol.json.'
+  - delx.ai /openapi.json (and ontology.delx.ai /openapi.json) is an OpenAPI 3.1.0 document with ZERO paths - only securitySchemes,
+    four empty schemas and an x-delx discovery/tools block. The api-catalog advertises it as the Delx Agent Utilities OpenAPI;
+    the real contracts are api.delx.ai/openapi.protocol.json (15 ops) and api.delx.ai/openapi.json = openapi.x402.json (987
+    ops).
+hosts:
+- host: delx.ai
+  role: Registrable domain / Website; also fronts (proxies or mirrors) the ontology docs discovery documents
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    bytes: 304
+    file: delx-ai-security.txt
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    bytes: 433
+    file: delx-ai-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    bytes: 971
+    file: delx-ai-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    bytes: 450
+    file: delx-ai-oauth-protected-resource.json
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json
+    bytes: 2343
+    file: delx-ai-api-catalog.json
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: application/json
+    bytes: 1880
+    file: delx-ai-ai-plugin.json
+  - path: /.well-known/ucp.json
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /.well-known/acp.json
+    status: 308
+    content_type: text/plain
+    bytes: 15
+    redirect: https://api.delx.ai/.well-known/acp.json
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /.well-known/apis.json
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /apis.json
+    status: 404
+    content_type: text/html
+    bytes: 20752
+  - path: /apis.yml
+    status: 404
+    content_type: text/html
+    bytes: 20752
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    bytes: 21532
+    file: (identical body to api.delx.ai card except the extra ontology block; the api.delx.ai copy is saved at ../a2a/delx-ai-agent-card.json)
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    bytes: 21532
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    content_type: application/json
+    bytes: 2781
+    file: delx-ai-mcp-server-card.json
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json
+    bytes: 2781
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/agent-skills/index.json
+    status: 200
+    content_type: application/json
+    bytes: 914
+    file: delx-ai-agent-skills-index.json
+  - path: /.well-known/ai-catalog.json
+    status: 200
+    content_type: application/json
+    bytes: 3647
+    file: delx-ai-ai-catalog.json
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    bytes: 16674
+    file: ../llms/delx-ai-llms.txt
+  path_echo_control:
+    path: /.well-known/delx-ai-negative-control-e9b61f72.json
+    status: 404
+    result: passed
+- host: www.delx.ai
+  role: www variant
+  documents:
+  - path: /.well-known/security.txt
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/openid-configuration
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/oauth-authorization-server
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/oauth-protected-resource
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/api-catalog
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/ai-plugin.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/ucp.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/acp.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/aauth-resource.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/apis.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /apis.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /apis.yml
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/agent-card.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/agent.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/mcp/server-card.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/mcp.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/agent-skills/index.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /.well-known/ai-catalog.json
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  - path: /llms.txt
+    status: 0
+    note: Connection failed (no response); host does not resolve or refuses TLS.
+  path_echo_control:
+    path: /.well-known/delx-ai-negative-control-42ecc916.json
+    status: 0
+    result: passed
+- host: api.delx.ai
+  role: API baseURL host, OpenAPI servers[] host, MCP server host (RFC 9728 resource server) and A2A JSON-RPC host
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    bytes: 149
+    file: delx-ai-api-security.txt
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    bytes: 1090
+    file: delx-ai-api-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    bytes: 1090
+    file: delx-ai-api-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    bytes: 453
+    file: delx-ai-api-oauth-protected-resource.json
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json
+    bytes: 834
+    file: delx-ai-api-api-catalog.json
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/plain
+    bytes: 9
+  - path: /.well-known/ucp.json
+    status: 404
+    content_type: text/plain
+    bytes: 9
+  - path: /.well-known/acp.json
+    status: 404
+    content_type: text/plain
+    bytes: 9
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    content_type: text/plain
+    bytes: 9
+  - path: /.well-known/apis.json
+    status: 404
+    content_type: text/plain
+    bytes: 9
+  - path: /apis.json
+    status: 404
+    content_type: text/plain
+    bytes: 9
+  - path: /apis.yml
+    status: 404
+    content_type: text/plain
+    bytes: 9
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    bytes: 20021
+    file: ../a2a/delx-ai-agent-card.json
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    bytes: 20021
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    content_type: application/json
+    bytes: 31647
+    file: delx-ai-api-mcp-server-card.json
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json
+    bytes: 1322
+    file: delx-ai-api-mcp.json
+  - path: /.well-known/agent-skills/index.json
+    status: 200
+    content_type: application/json
+    bytes: 782
+    file: delx-ai-api-agent-skills-index.json
+  - path: /.well-known/ai-catalog.json
+    status: 200
+    content_type: application/json
+    bytes: 4374
+    file: delx-ai-api-ai-catalog.json
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    bytes: 5619
+    file: ../llms/delx-ai-api-llms.txt
+  path_echo_control:
+    path: /.well-known/delx-ai-negative-control-1894ccd2.json
+    status: 404
+    result: passed
+- host: ontology.delx.ai
+  role: Documentation host (Delx Protocol / Ontology property)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    bytes: 304
+    file: delx-ai-security.txt
+    note: Byte-identical to the delx.ai copy; saved once under that name.
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    bytes: 433
+    file: delx-ai-openid-configuration.json
+    note: Byte-identical to the delx.ai copy; saved once under that name.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    bytes: 430
+    file: delx-ai-ontology-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    bytes: 469
+    file: delx-ai-ontology-oauth-protected-resource.json
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json
+    bytes: 2343
+    file: delx-ai-api-catalog.json
+    note: Byte-identical to the delx.ai copy; saved once under that name.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: application/json
+    bytes: 1880
+    file: delx-ai-ai-plugin.json
+    note: Byte-identical to the delx.ai copy; saved once under that name.
+  - path: /.well-known/ucp.json
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /.well-known/acp.json
+    status: 308
+    content_type: text/plain
+    bytes: 15
+    redirect: https://api.delx.ai/.well-known/acp.json
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /.well-known/apis.json
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /apis.json
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /apis.yml
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    bytes: 21532
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    bytes: 21532
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    content_type: application/json
+    bytes: 2781
+    file: delx-ai-mcp-server-card.json
+    note: Byte-identical to the delx.ai copy; saved once under that name.
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json
+    bytes: 2781
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/agent-skills/index.json
+    status: 200
+    content_type: application/json
+    bytes: 914
+    file: delx-ai-agent-skills-index.json
+    note: Byte-identical to the delx.ai copy; saved once under that name.
+  - path: /.well-known/ai-catalog.json
+    status: 404
+    content_type: text/html
+    bytes: 51890
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    bytes: 11325
+    file: ../llms/delx-ai-ontology-llms.txt
+  path_echo_control:
+    path: /.well-known/delx-ai-negative-control-f10ff1c3.json
+    status: 404
+    result: passed
+- host: commerce.delx.ai
+  role: Delx Commerce storefront (named as related_services in the Protocol OpenAPI and in the protected-resource notes)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    bytes: 1306
+    file: delx-ai-commerce-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    bytes: 574
+    file: delx-ai-commerce-oauth-protected-resource.json
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json
+    bytes: 1860
+    file: delx-ai-commerce-api-catalog.json
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /.well-known/ucp.json
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /.well-known/acp.json
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /.well-known/apis.json
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /apis.json
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /apis.yml
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    bytes: 6402
+    file: ../a2a/delx-ai-commerce-agent-card.json
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    bytes: 4566
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    content_type: application/json
+    bytes: 1246
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/mcp.json
+    status: 404
+    content_type: text/plain
+    bytes: 79
+  - path: /.well-known/agent-skills/index.json
+    status: 200
+    content_type: application/json
+    bytes: 1699
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /.well-known/ai-catalog.json
+    status: 200
+    content_type: application/json
+    bytes: 4525
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    bytes: 22057
+    note: Served (200, non-HTML) but not saved as a separate file; see notes.
+  path_echo_control:
+    path: /.well-known/delx-ai-negative-control-cce8de06.json
+    status: 404
+    result: passed

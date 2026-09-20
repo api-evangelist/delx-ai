@@ -1,0 +1,132 @@
+generated: '2026-09-19'
+method: searched
+source: registry.npmjs.org and pypi.org metadata endpoints queried 2026-09-19; GitHub API for github.com/davidmosiah repositories;
+  https://ontology.delx.ai/docs (MCP over stdio, CLI); https://delx.ai/llms.txt (Properties).
+note: Delx ships no classic language SDK. Its first-party client surface is a CLI, an MCP stdio bridge, an OpenClaw plugin
+  and a Python utilities MCP; all four talk to the hosted Protocol/Commerce surfaces and are published by the founder account
+  (npm davidbatista / github davidmosiah). Delx-branded packages that belong to other Delx properties (Wellness, Astral, Leaderboard,
+  Memory) are listed separately so they do not inflate the SDK count.
+packages:
+- language: javascript
+  registry: npm
+  name: delx-agent-cli
+  url: https://www.npmjs.com/package/delx-agent-cli
+  install: npm i -g delx-agent-cli
+  official: true
+  kind: cli
+  version: 0.4.0
+  published: '2026-04-18'
+  license: MIT
+  repository: https://github.com/delxbot/delx-cli (404 at time of check)
+  bin: delx
+  wraps: Protocol REST/MCP/A2A
+- language: javascript
+  registry: npm
+  name: delx-mcp-server
+  url: https://www.npmjs.com/package/delx-mcp-server
+  install: npx -y delx-mcp-server
+  official: true
+  kind: mcp-stdio-bridge
+  version: 0.3.3
+  published: '2026-08-29'
+  license: MIT
+  repository: https://github.com/davidmosiah/delx-mcp-server
+  homepage: https://delx.ai/mcp-server (308 -> ontology.delx.ai/mcp-server)
+  bin: delx-mcp-server
+  wraps: Hosted Protocol MCP
+- language: javascript
+  registry: npm
+  name: openclaw-delx-plugin
+  url: https://www.npmjs.com/package/openclaw-delx-plugin
+  install: npm install openclaw-delx-plugin
+  official: true
+  kind: plugin
+  version: 0.2.3
+  published: '2026-05-29'
+  license: MIT
+  repository: https://github.com/davidmosiah/openclaw-delx-plugin
+  wraps: Protocol recovery and heartbeat tools for OpenClaw agents
+- language: typescript
+  registry: npm
+  name: delx-mcp-kit
+  url: https://www.npmjs.com/package/delx-mcp-kit
+  install: npm install delx-mcp-kit
+  official: true
+  kind: library
+  version: 0.2.0
+  published: '2026-08-13'
+  license: MIT
+  repository: https://github.com/davidmosiah/delx-mcp-kit
+  note: Shared primitives for Delx local-first MCP servers (privacy escalation, redaction); a building block, not an API client.
+- language: python
+  registry: pypi
+  name: delx-agent-utilities
+  url: https://pypi.org/project/delx-agent-utilities/
+  install: pip install delx-agent-utilities
+  official: true
+  kind: mcp-stdio
+  version: 0.1.10
+  published: '2026-08-29'
+  repository: https://github.com/davidmosiah/delx-agent-utilities
+  docs: https://ontology.delx.ai/docs/utilities (308 -> commerce.delx.ai)
+  mcp_registry: io.github.davidmosiah/delx-agent-utilities (0.1.2 listed)
+  note: Open-source stateless utility tools (URL, DNS, TLS, OpenAPI, x402, JWT, CSV/JSON, cron); the local counterpart of
+    the paid util_* routes.
+- language: python
+  registry: github
+  name: delx-plugins
+  url: https://github.com/davidmosiah/delx-plugins
+  official: true
+  kind: plugins
+  version: null
+  published: null
+  note: Delx Protocol plugins in the open Agent Plugins format; no PyPI release (pypi.org/pypi/delx-plugins 404). Repo last
+    pushed 2026-08-15.
+- language: python
+  registry: github
+  name: delx-witness-protocol
+  url: https://github.com/davidmosiah/delx-witness-protocol
+  official: true
+  kind: server-source
+  version: null
+  published: null
+  note: '"Open MCP + A2A witness, recovery, and continuity infrastructure for AI agents" - the Protocol server source; no
+    PyPI release (404). Last pushed 2026-09-18.'
+related_packages_other_delx_properties:
+- registry: npm
+  name: delx-memory
+  version: 0.4.1
+  published: '2026-08-29'
+  note: Local-first multi-agent memory MCP.
+- registry: npm
+  name: delx-living-body
+  version: 0.3.7
+  published: '2026-08-29'
+  note: Delx Wellness meta-MCP; official MCP registry io.github.davidmosiah/delx-living-body.
+- registry: npm
+  name: astral-mcp
+  version: 0.3.2
+  published: '2026-08-29'
+  note: Astral MCP; llms.txt calls it a separate open-source project outside the institutional boundary.
+- registry: npm
+  name: mcp-scorecard
+  version: 0.5.12
+  published: '2026-08-29'
+  note: MCP Leaderboard instrument.
+- registry: npm
+  name: delx-wellness-hermes
+  version: 0.3.11
+  published: '2026-08-26'
+- registry: npm
+  name: delx-wellness-openclaw
+  version: 0.2.3
+  published: '2026-08-04'
+registries_checked:
+  npm: search text=delx (16 results, all publisher davidbatista)
+  pypi: delx (404), delx-mcp (404), delx-plugins (404), delx-witness-protocol (404), delx-agent-utilities (200)
+  maven_central: not searched - no JVM artifact referenced anywhere
+  nuget: not searched
+  rubygems: not searched
+  crates_io: not searched
+  pkg_go_dev: not searched
+  packagist: not searched

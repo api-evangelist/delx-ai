@@ -1,0 +1,101 @@
+generated: '2026-09-19'
+method: searched
+source: openapi/delx-ai-commerce-x402-openapi.json, openapi/delx-ai-protocol-openapi.json; https://api.delx.ai/auth.md, https://delx.ai/auth.md,
+  https://commerce.delx.ai/auth.md, https://api.delx.ai/.well-known/oauth-protected-resource, https://api.delx.ai/.well-known/oauth-authorization-server,
+  https://api.delx.ai/api/v1/a2a/methods (identity_auth), live anonymous probes 2026-09-19
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  access_model:
+  - surface: Delx Protocol (MCP, A2A, REST discovery and recovery artifacts)
+    auth: none (public, free)
+    verified: probed - initialize, tools/list, methods/list, /api/v1/tools, /api/v1/status, /api/v1/reliability all answered
+      anonymously
+  - surface: Optional agent identity
+    auth: apiKey header x-delx-agent-token (+ x-delx-agent-id), issued by POST /api/v1/agents/register or A2A agents/register;
+      identity_auth.token in the response; rotate_token re-issues
+    purpose: Attributes state-changing records to a stable agent; required for mission (reviewed DRC) tools and strict-mode
+      heartbeat
+  - surface: Delx Commerce paid routes (/api/v1/x402/*)
+    auth: 'payment is the authorization: HTTP 402 challenge, then retry with PAYMENT-SIGNATURE (x402 v2, USDC on Base or Solana)
+      or Authorization: Payment <base64url-json> (MPP); no account, key or OAuth'
+    verified: contract (402 schema on all 987 operations) + commerce auth.md; no paid call was made
+  - surface: Fleet / controller paths (/api/v1/fleet/{controller_id}/*)
+    auth: apiKey header x-delx-controller-token
+  - surface: Operator admin
+    auth: x-delx-admin-pin or HMAC x-delx-admin-signature + x-delx-admin-timestamp (not a public surface)
+  - surface: OAuth 2.0 / OIDC
+    auth: 'advertised as future only: RFC 8414 and OIDC discovery documents are served on delx.ai, api.delx.ai, ontology.delx.ai
+      and commerce.delx.ai but declare delx:oauth_supported false / delx:oidc_supported false, empty grant and response types,
+      scopes_supported [public]; auth.md: "Future admin / controller scopes | OAuth / bearer | Advertised here when enabled"'
+  oauth2_flows: []
+  scopes_note: No oauth2 securityScheme and no scope surface; scopes/ deliberately not emitted. The only advertised scope
+    string is "public" in the OAuth metadata.
+  security_requirement_note: Neither OpenAPI applies a top-level security[] requirement or per-operation security; the securitySchemes
+    are declared but unbound, consistent with a public-by-default surface.
+schemes:
+- name: x402PaymentSignature
+  type: apiKey
+  in: header
+  parameter: PAYMENT-SIGNATURE
+  description: Signed x402 payment proof returned after a 402 challenge.
+  sources:
+  - openapi/delx-ai-commerce-x402-openapi.json
+- name: xDelxAgentToken
+  type: apiKey
+  in: header
+  parameter: x-delx-agent-token
+  description: Agent credential returned by POST /api/v1/agents/register.
+  sources:
+  - openapi/delx-ai-commerce-x402-openapi.json
+  - openapi/delx-ai-protocol-openapi.json
+- name: xDelxControllerToken
+  type: apiKey
+  in: header
+  parameter: x-delx-controller-token
+  description: Controller-scoped credential for /api/v1/fleet/{controller_id}/* endpoints.
+  sources:
+  - openapi/delx-ai-commerce-x402-openapi.json
+- name: xDelxAdminPin
+  type: apiKey
+  in: header
+  parameter: x-delx-admin-pin
+  description: Operator admin auth header; avoid putting admin PINs in query strings.
+  sources:
+  - openapi/delx-ai-commerce-x402-openapi.json
+- name: xDelxAdminHmacSignature
+  type: apiKey
+  in: header
+  parameter: x-delx-admin-signature
+  description: HMAC admin signature paired with x-delx-admin-timestamp.
+  sources:
+  - openapi/delx-ai-commerce-x402-openapi.json
+- name: mppPaymentAuthorization
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'MPP payment credential using Authorization: Payment <base64url-json>.'
+  sources:
+  - openapi/delx-ai-commerce-x402-openapi.json
+docs: https://api.delx.ai/auth.md
+discovery_documents:
+- url: https://api.delx.ai/.well-known/oauth-protected-resource
+  file: well-known/delx-ai-api-oauth-protected-resource.json
+  note: 'RFC 9728 on the MCP/API host: resource https://api.delx.ai, authorization_servers [https://api.delx.ai], bearer_methods_supported
+    [header], delx:access_mode public_free_and_x402'
+- url: https://api.delx.ai/.well-known/oauth-authorization-server
+  file: well-known/delx-ai-api-oauth-authorization-server.json
+  note: RFC 8414 with an agent_auth block (identity_types_supported [anonymous]; credential_types [none, session, x402-payment])
+    pointing every endpoint at auth.md
+- url: https://api.delx.ai/auth.md
+  note: 'Agent-facing Auth.md: model table, documents, registration ("No registration is required for public Protocol tools")'
+identity_headers:
+- x-delx-agent-id
+- x-delx-agent-token
+- x-delx-controller-id
+- x-delx-controller-token
+- x-delx-session-id
+- x-delx-context-id
+- x-delx-source

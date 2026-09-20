@@ -1,0 +1,8 @@
+Contact: mailto:support@delx.ai
+Contact: https://x.com/delxbot
+Policy: https://delx.ai/docs/security
+Acknowledgments: https://delx.ai/docs/security
+Canonical: https://delx.ai/.well-known/security.txt
+Hiring: https://delx.ai/docs/discovery
+Preferred-Languages: en, pt-BR
+Expires: 2027-02-17T00:00:00.000Z

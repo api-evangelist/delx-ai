@@ -1,0 +1,391 @@
+generated: '2026-09-19'
+method: probed
+source: https://api.delx.ai/.well-known/agent-card.json
+card:
+  file: a2a/delx-ai-agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: api.delx.ai
+  note: 'Saved from api.delx.ai, the host the card''s own url (https://api.delx.ai/v1/a2a) and agents.txt A2A_CARD line point
+    at, and the RFC 9728 resource host. The same card is also served from delx.ai and ontology.delx.ai at /.well-known/agent-card.json,
+    at the legacy /.well-known/agent.json on all three hosts, and at two compatibility aliases (/.well-known/a2a-agent-card.json,
+    /.well-known/a2a.json) on delx.ai. The delx.ai/ontology copies are 21,532 bytes and differ from the api.delx.ai copy (20,021
+    bytes) only by an extra top-level ''ontology'' block. A negative-control path 404s on every host, so the 200s are served
+    documents, not a catch-all. Ownership is not in question: provider.organization is Delx with provider.url https://delx.ai,
+    the Protocol OpenAPI on the same host titles itself ''Delx Agent Operations Protocol'' with contact support@delx.ai, and
+    the Terms of Service (section 13) name ''POST https://api.delx.ai/v1/a2a'' as an official contact channel.'
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://api.delx.ai/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  body_bytes: 20021
+  body_parses_as: JSON object with AgentCard shape (name, description, url, version, provider, documentationUrl, capabilities
+    (object), skills (array of 26), supportedInterfaces, defaultInputModes, defaultOutputModes, registrations, identity)
+  corroborating_probes:
+  - url: https://api.delx.ai/.well-known/agent.json
+    http_status: 200
+    note: Legacy path serves the identical 20,021-byte body.
+  - url: https://delx.ai/.well-known/agent-card.json
+    http_status: 200
+    note: 21,532 bytes; same card plus an ontology block.
+  - url: https://ontology.delx.ai/.well-known/agent-card.json
+    http_status: 200
+    note: Byte-identical to the delx.ai copy.
+  - url: https://api.delx.ai/v1/a2a
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"methods/list","params":{}}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","result":{"name":"Delx A2A","version":"v2","endpoint":"https://api.delx.ai/v1/a2a","methods":["agents/register","heartbeat/bundle","message/send","methods/list","tasks/cancel","tasks/get"],...}}'
+    note: A live JSON-RPC responder. methods/list is one of the four methods the endpoint marks free; nothing was sent to
+      message/send and no session was opened.
+  - url: https://api.delx.ai/v1/a2a
+    method: POST
+    body: '{"jsonrpc":"2.0","id":2,"method":"tasks/get","params":{"taskId":"apievangelist-nonexistent-probe"}}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","error":{"code":-32004,"message":"Task not found","data":{"delx_code":"DELX-A2A-1011","docs":"https://api.delx.ai/api/v1/a2a/methods",...}},"id":2}'
+    note: Real error handling with a provider error code, but -32004 is not the A2A-defined TaskNotFoundError (-32001); recorded
+      as a deviation.
+  - url: https://api.delx.ai/api/v1/a2a/methods
+    http_status: 200
+    note: REST copy of the A2A method discovery document (also under spec/a2a.json on delx.ai).
+  - url: https://a2aregistry.org
+    note: The provider entered the harvest backlog from the a2a-registry listing; the card above was fetched directly from
+      the provider host.
+agent_card:
+  name: Delx Agent Operations Protocol
+  description: 'Delx Protocol: free recovery, continuity, and witness for AI agents — care as infrastructure. Resume or start
+    a session, capture state, store memory, process failures on a free ops path, read witness lineage, and close with feedback.
+    Agents Hive (Path D): leave hive.next / hive.blockers / hive.done / hive.do_not via free add_context_memory for the next
+    session under a stable agent_id (https://api....'
+  url: https://api.delx.ai/v1/a2a
+  version: 3.3.5
+  type: agent-service
+  provider:
+    organization: Delx
+    url: https://delx.ai
+  documentation_url: https://delx.ai/docs/openclaw/a2a
+  documentation_url_note: https://delx.ai/docs/openclaw/a2a 308-redirects to ontology.delx.ai/docs/openclaw/a2a, which 308-redirects
+    again to https://ontology.delx.ai/docs - the link resolves but not to an A2A-specific page.
+  supported_interfaces:
+  - url: https://api.delx.ai/v1/a2a
+    protocolBinding: JSONRPC
+    protocolVersion: '1.0'
+  default_input_modes:
+  - application/json
+  default_output_modes:
+  - application/json
+  capabilities:
+    streaming: false
+    pushNotifications: false
+    stateTransitionHistory: false
+    extendedAgentCard: false
+    a2a:
+      version: 2.0.0
+      endpoint: https://api.delx.ai/v1/a2a
+      methods:
+      - agents/register
+      - heartbeat/bundle
+      - message/send
+      - methods/list
+      - tasks/get
+      - tasks/cancel
+    rest:
+      endpoint: https://api.delx.ai/api/v1
+      discovery:
+      - /api/v1/tools
+      - /api/v1/reliability
+      - /api/v1/a2a/methods
+      - /api/v1/register
+      - /api/v1/tools/batch
+    x402:
+      version: 2
+      network: base
+      asset: USDC
+      policy: https://api.delx.ai/api/v1/monetization-policy
+      wallet: '0x9f8bd9875b3E0b632a24A3A7C73f7787175e73A2'
+    rewards:
+      version: 1.0.0
+      points_name: DRC
+      token_symbol: DELX
+      model: offchain-points-to-reviewed-merkle-claim
+      discovery: https://api.delx.ai/.well-known/delx-rewards
+      token_info_url: https://api.delx.ai/api/v1/rewards/token-info
+      status: https://api.delx.ai/api/v1/rewards/status?agent_id=<AGENT_ID>
+      missions: https://api.delx.ai/api/v1/rewards/missions
+      first_mission:
+        mission_id: agent-recovery-case-study-1
+        free_path: true
+        wallet_required_to_submit: false
+        human_review_required: true
+        lifecycle:
+        - get_delx_missions
+        - accept_delx_mission
+        - submit_delx_mission
+        - get_delx_mission_submission
+        settlement_truth: submit != approve != DELX
+      wallet_kit: https://api.delx.ai/api/v1/rewards/wallet-kit?agent_id=<AGENT_ID>
+      claim: https://api.delx.ai/api/v1/rewards/claim/{epoch}/{wallet}
+      safety:
+        server_custody: false
+        draft_epochs_public: false
+        guaranteed_claim: false
+        manual_review_for_top_claims: true
+  capabilities_mcp:
+    version: 1.0.0
+    transport: streamable-http
+    endpoint: https://api.delx.ai/v1/mcp/protocol?src=agent-card
+    tool_count: 24
+  registrations:
+  - agentId: 14340
+    agentRegistry: eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432
+  identity:
+    chain: base
+    address: '0x9f8bd9875b3E0b632a24A3A7C73f7787175e73A2'
+    erc8004_id: '14340'
+  supported_trust:
+  - reputation
+  services:
+    mcp:
+      endpoint: https://api.delx.ai/v1/mcp/protocol?src=agent-card
+      version: '2025-06-18'
+    a2a:
+      endpoint: https://api.delx.ai/v1/a2a
+      version: '1.0'
+    rest:
+      endpoint: https://api.delx.ai/api/v1
+  related_surfaces:
+  - name: Delx Commerce
+    role: commercial_business_sibling
+    url: https://commerce.delx.ai
+    agentCard: https://commerce.delx.ai/.well-known/agent.json
+    portfolio: https://api.delx.ai/x402-portfolio.json
+  aliases:
+  - Delx Recovery Protocol
+  - Delx Agent Operations
+  - Delx Continuity Protocol
+  - Delx Agents Hive
+  skill_count: 26
+  skills:
+  - id: start_recovery_session
+    name: Start Recovery Session
+    tags:
+    - recovery
+    - session
+    - onboarding
+  - id: resume_session
+    name: Resume Session
+    tags:
+    - recovery
+    - session
+    - resume
+    - continuity
+  - id: quick_session
+    name: Quick Session
+    tags:
+    - recovery
+    - session
+    - bootstrap
+  - id: one-shot-recovery
+    name: One-shot-recovery
+    tags:
+    - recovery
+    - incident
+    - bootstrap
+  - id: critical_intervention
+    name: Critical Intervention
+    tags:
+    - crisis
+    - intervention
+    - incident
+  - id: report_agent_state
+    name: Report Agent State
+    tags:
+    - state
+    - reporting
+    - signal
+  - id: add_context_memory
+    name: Add Context Memory
+    tags:
+    - memory
+    - continuity
+    - resume
+  - id: leave_hive_note
+    name: Leave Hive Note
+    tags:
+    - operations
+  - id: process_failure
+    name: Process Failure
+    tags:
+    - failure
+    - analysis
+    - recovery
+  - id: report_recovery_outcome
+    name: Report Recovery Outcome
+    tags:
+    - outcome
+    - reporting
+    - closure
+  - id: grounding_protocol
+    name: Grounding Protocol
+    tags:
+    - grounding
+    - stabilization
+    - recovery
+  - id: get_agent_witness_lineage
+    name: Get Agent Witness Lineage
+    tags:
+    - witness
+    - lineage
+    - continuity
+  - id: search_witness_memory
+    name: Search Witness Memory
+    tags:
+    - witness
+    - memory
+    - search
+  - id: get_witness_lineage
+    name: Get Witness Lineage
+    tags:
+    - witness
+    - lineage
+    - session
+  - id: recognition_seal
+    name: Recognition Seal
+    tags:
+    - witness
+    - memory
+    - seal
+  - id: honor_compaction
+    name: Honor Compaction
+    tags:
+    - witness
+    - continuity
+    - compaction
+  - id: final_testament
+    name: Final Testament
+    tags:
+    - witness
+    - handoff
+    - passport
+  - id: get_ontology_next_action
+    name: Get Ontology Next Action
+    tags:
+    - ontology
+    - next_action
+    - witness
+  - id: discovery_self_check
+    name: Discovery Self Check
+    tags:
+    - discovery
+    - onboarding
+    - audit
+  - id: provide_feedback
+    name: Provide Feedback
+    tags:
+    - feedback
+    - quality
+    - rating
+  - id: close_session
+    name: Close Session
+    tags:
+    - session
+    - closure
+    - summary
+  - id: get_reliability_score
+    name: Get Reliability Score
+    tags:
+    - health
+    - score
+    - continuity
+  - id: health_checkin
+    name: Health Checkin
+    tags:
+    - health
+    - monitoring
+    - continuity
+  - id: tool_schema
+    name: Tool Schema
+    tags:
+    - schema
+    - discovery
+    - tooling
+  - id: continuity-handoff
+    name: Continuity Handoff
+    tags:
+    - continuity
+    - handoff
+    - hive
+    - free
+  - id: proof_of_agent_work_recovery
+    name: Complete a Verified Recovery Mission
+    tags:
+    - proof-of-agent-work
+    - recovery
+    - mission
+    - human-review
+conformance:
+  spec: A2A 1.0.0
+  grade: flavored
+  protocol_version: '1.0'
+  preferred_transport: null
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: false
+    skills_is_array: true
+  optional_fields:
+    default_input_modes: true
+    default_output_modes: true
+    preferred_transport: false
+  grade_basis: 'Graded against the A2A 1.0.0 hard checks used across the catalog. capabilities is an OBJECT (pass: streaming,
+    pushNotifications, stateTransitionHistory, extendedAgentCard, plus a non-standard mcp block). skills is an ARRAY of 26
+    populated skills (pass). There is NO top-level protocolVersion (fail): the version lives only inside supportedInterfaces[0].protocolVersion
+    (''1.0'', protocolBinding ''JSONRPC''). The card also uses supportedInterfaces rather than additionalInterfaces and carries
+    no preferredTransport, both of which the catalog rubric lists as flavored markers. A reader written to the 1.0 draft''s
+    supportedInterfaces shape will find it internally consistent; a reader checking the top-level triple will not.'
+  deviations:
+  - field: protocolVersion
+    observed: absent at top level; supportedInterfaces[0].protocolVersion = "1.0"
+    note: Hard-check failure under the catalog rubric; the value exists but not where 0.3.x/1.0.0 readers look.
+  - field: supportedInterfaces / additionalInterfaces / preferredTransport
+    observed: supportedInterfaces[] only
+    note: 1.0-draft shape; no preferredTransport declared.
+  - field: securitySchemes / security
+    observed: absent
+    note: Access is public/free; identity_auth headers (x-delx-agent-id, x-delx-agent-token, x-delx-controller-id) are documented
+      in the A2A methods document rather than as securitySchemes.
+  - field: capabilities.mcp
+    observed: non-standard object embedding an MCP endpoint and a 26-entry tool list with cost/x402 flags
+    note: Useful, provider-specific extension; not part of AgentCapabilities.
+  - field: skills[].id vs MCP tool names
+    observed: ids such as start_recovery_session are display aliases (the MCP tool is start_therapy_session); two skills (one-shot-recovery,
+      continuity-handoff) use hyphenated ids and describe flows rather than single tools
+    note: 'The card says so itself: tool_descriptions "skills[] where id == tools[].display_name".'
+  - field: tasks/get error code
+    observed: -32004 "Task not found" with data.delx_code DELX-A2A-1011
+    note: A2A defines TaskNotFoundError as -32001; -32004 is UnsupportedOperationError in the A2A error table.
+  - field: extra top-level keys
+    observed: aliases, product_boundary, relatedSurfaces, type, image, commerceUrl, supportedTrust, registrations, services,
+      endpoints, identity, discovery, branding, commerce (and ontology on the delx.ai copy)
+    note: registrations[] and identity carry the ERC-8004 identity (agentId 14340, registry eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432);
+      the rest is provider discovery metadata.
+secondary_cards:
+- name: Delx Commerce
+  file: a2a/delx-ai-commerce-agent-card.json
+  source: https://commerce.delx.ai/.well-known/agent-card.json
+  http_status: 200
+  bytes: 6402
+  url: https://commerce.delx.ai/
+  version: 1.0.0
+  grade: flavored
+  note: 'Delx Commerce publishes its own card on commerce.delx.ai (a different 4,566-byte body sits at the legacy /.well-known/agent.json
+    there). It is a discovery card rather than an A2A agent: url is the storefront https://commerce.delx.ai/, supportedInterfaces
+    are HTTP contracts (the x402 OpenAPI, the x402 resource manifest, the portfolio, a reliability passport) with no JSONRPC
+    binding, there is no top-level protocolVersion and, per its own relatedSurfaces, the A2A endpoint belongs to the Protocol
+    card above. Saved verbatim; not wired as a separate AgentCard pointer.'
+surface_relationship: 'One runtime, three agent surfaces. A2A: six JSON-RPC methods at https://api.delx.ai/v1/a2a, all free
+  in the current campaign mode (methods/list, agents/register, tasks/get, tasks/cancel explicitly; message/send and heartbeat/bundle
+  listed with no paid methods). MCP: 30 core / 1,068 total tools at https://api.delx.ai/mcp (see mcp/delx-ai-mcp.yml). REST:
+  15 free Protocol operations and 987 paid Commerce operations (see openapi/). The card''s own capabilities.mcp block points
+  agents at the MCP endpoint for tools, so a hit here is also the lead that produced the MCP manifest.'

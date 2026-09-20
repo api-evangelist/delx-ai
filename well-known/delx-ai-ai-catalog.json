@@ -1,0 +1,93 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Delx",
+    "identifier": "did:web:delx.ai",
+    "documentationUrl": "https://delx.ai/llms.txt",
+    "logoUrl": "https://delx.ai/icon-512.png"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:delx.ai:server:protocol-mcp",
+      "displayName": "Delx Protocol MCP server",
+      "type": "application/mcp-server-card+json",
+      "url": "https://api.delx.ai/.well-known/mcp/server-card.json",
+      "description": "MCP server for Delx Protocol agent recovery, continuity, and free operational tools.",
+      "tags": ["mcp", "protocol", "agents", "delx"],
+      "capabilities": ["AgentRecovery", "Continuity", "Witness"],
+      "representativeQueries": [
+        "MCP server for AI agent recovery and continuity",
+        "Delx free agent care protocol tools"
+      ],
+      "version": "3.3.5"
+    },
+    {
+      "identifier": "urn:air:delx.ai:agent:protocol",
+      "displayName": "Delx Agent Operations Protocol (A2A)",
+      "type": "application/a2a-agent-card+json",
+      "url": "https://delx.ai/.well-known/agent-card.json",
+      "description": "A2A agent card for Delx Protocol peer discovery and agent-to-agent handoffs.",
+      "tags": ["a2a", "protocol", "agents"],
+      "capabilities": ["A2A", "AgentCard"],
+      "representativeQueries": [
+        "A2A agent card for Delx protocol",
+        "agent-to-agent discovery Delx"
+      ]
+    },
+    {
+      "identifier": "urn:air:delx.ai:skills:index",
+      "displayName": "Delx agent skills index",
+      "type": "application/json",
+      "url": "https://delx.ai/.well-known/agent-skills/index.json",
+      "description": "Agent Skills discovery index for Delx studio and protocol surfaces.",
+      "tags": ["agent-skills", "skills"],
+      "capabilities": ["AgentSkills"],
+      "representativeQueries": [
+        "agent skills for Delx protocol",
+        "how agents start with Delx"
+      ]
+    },
+    {
+      "identifier": "urn:air:delx.ai:auth:authmd",
+      "displayName": "Delx Auth.md",
+      "type": "text/markdown",
+      "url": "https://delx.ai/auth.md",
+      "description": "Auth.md agent registration and access model for the Delx studio hub.",
+      "tags": ["auth.md"],
+      "capabilities": ["AgentAuth"],
+      "representativeQueries": [
+        "how agents authenticate to Delx",
+        "Delx Auth.md for autonomous agents"
+      ]
+    },
+    {
+      "identifier": "urn:air:delx.ai:catalog:commerce",
+      "displayName": "Delx Commerce catalog (nested)",
+      "type": "application/ai-catalog+json",
+      "url": "https://commerce.delx.ai/.well-known/ai-catalog.json",
+      "description": "Nested ARD catalog for the pay-per-result Commerce storefront (500 x402 products).",
+      "tags": ["ard", "nested", "commerce", "x402"]
+    },
+    {
+      "identifier": "urn:air:delx.ai:catalog:api",
+      "displayName": "Delx Protocol API catalog (nested)",
+      "type": "application/ai-catalog+json",
+      "url": "https://api.delx.ai/.well-known/ai-catalog.json",
+      "description": "Nested ARD catalog for api.delx.ai runtime discovery.",
+      "tags": ["ard", "nested", "api"]
+    },
+    {
+      "identifier": "urn:air:delx.ai:api:openapi-x402",
+      "displayName": "Delx paid OpenAPI x402",
+      "type": "application/vnd.oai.openapi+json",
+      "url": "https://api.delx.ai/openapi.x402.json",
+      "description": "OpenAPI for 500 production-ready paid x402 micro-results (USDC on Base).",
+      "tags": ["openapi", "x402"],
+      "capabilities": ["PaidOpenAPI"],
+      "representativeQueries": [
+        "paid OpenAPI for Delx agent utilities",
+        "x402 USDC API catalog Delx"
+      ]
+    }
+  ]
+}

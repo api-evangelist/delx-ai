@@ -1,0 +1,43 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+provider: Delx
+providerId: delx-ai
+generated: '2026-09-19'
+method: probed
+created: '2026-09-19'
+modified: '2026-09-19'
+sources:
+- Response headers observed on POST https://api.delx.ai/mcp, /v1/mcp and /v1/mcp/protocol (tools/list) 2026-09-19
+- https://ontology.delx.ai/legal/terms (section 5, Rate Limits and Fair Use)
+description: 'Delx does not publish a numeric limit in its docs (the Terms say "Current limits are documented in the discovery
+  documentation", and ontology.delx.ai/docs/rate-limits 404s). The runtime signal is complete, though: every api.delx.ai response
+  carries x-ratelimit-limit, x-ratelimit-remaining and x-ratelimit-reset, and the Terms commit to 429 on exhaustion with mandatory
+  exponential backoff and possible IP-level blocking for persistent abuse.'
+limit_count: 1
+headers:
+  limit: x-ratelimit-limit
+  remaining: x-ratelimit-remaining
+  reset: x-ratelimit-reset (seconds until reset)
+  retryAfter: retry-after (exposed via Access-Control-Expose-Headers; not observed on a 2xx)
+  requestId: x-delx-request-id
+responseCodes:
+  throttled: 429
+limits:
+- name: Anonymous requests to api.delx.ai (observed)
+  scope: unknown (per-IP or per-key not documented; observed on anonymous requests)
+  metric: requests_per_window
+  limit: 60
+  window: reset counter observed at 21-23 s after four requests in one minute; window length not documented
+  timeFrame: window
+  observed:
+    x-ratelimit-limit: '60'
+    x-ratelimit-remaining: 45 -> 44 -> 43 across three consecutive tools/list calls
+    x-ratelimit-reset: 23 -> 22 -> 21
+    fetched: '2026-09-19'
+    endpoint: https://api.delx.ai/mcp
+policy:
+  docs: https://ontology.delx.ai/legal/terms
+  quote: The Service enforces rate limits to ensure fair access. Current limits are communicated via standard HTTP headers
+    ( X-RateLimit-Limit , X-RateLimit-Remaining , X-RateLimit-Reset ). Agents that exceed rate limits will receive HTTP 429
+    responses. Agents must implement exponential backoff when receiving 429s. Persistent abuse of rate limits may result in
+    temporary or permanent IP-level blocking.

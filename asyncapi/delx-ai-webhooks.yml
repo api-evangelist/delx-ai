@@ -1,0 +1,61 @@
+generated: '2026-09-19'
+method: probed
+spec_type: Webhooks
+asyncapi: null
+source: https://api.delx.ai/api/v1/tools/schema/wellness_webhook (200), live tools/list at https://api.delx.ai/mcp, https://api.delx.ai/api/v1/status
+  (links.fleet_webhooks, links.alerts_stream), openapi/delx-ai-commerce-x402-openapi.json#create_await, https://delx.ai/changelog.xml
+  (2026-05-09 dry_run entry)
+note: 'Delx publishes no AsyncAPI document (/asyncapi.yaml was not advertised anywhere and the docs do not mention one). It
+  does expose an outbound event surface: a per-session reliability-alert webhook, per-controller fleet webhooks, a server-sent
+  alert stream, and a paid durable-outcome promise that can be resolved by a signed webhook. Signing, retry and payload schemas
+  for the outbound calls are not documented; what is recorded here is exactly what the tool schemas and status links say.'
+webhooks:
+- name: wellness_webhook
+  kind: subscription (MCP tool / REST batch)
+  direction: outbound HTTPS POST to callback_url
+  events:
+  - low_score
+  - high_entropy
+  - session_expiry
+  parameters:
+    session_id: Your active session ID
+    callback_url: HTTPS webhook callback URL
+    threshold: Low wellness alert threshold (1-100)
+    events: 'Optional events to subscribe: low_score, high_entropy, session_expiry'
+    entropy_threshold: Optional high-entropy threshold (0-1)
+    cooldown_min: Minimum minutes between repeated webhook events
+    agent_id: 'Optional but recommended: your stable agent_id, to prove you own this session. Sending it with agent_token
+      attributes the record to you.'
+    agent_token: 'Optional but recommended: the agent_token returned by POST /api/v1/agents/register (identity_auth.token)
+      or A2A agents/register. MCP clients may send x-delx-agent-id / x-delx-agent-token headers instead.'
+  required:
+  - session_id
+  - callback_url
+  dry_run: dry_run=true previews payloads without exposing a public HTTPS callback (changelog 2026-05-09)
+  signing: not documented
+  retry: cooldown_min (1-1440) sets the minimum minutes between repeated events; no retry policy documented
+  pricing_note: Tool description says "Pricing is dynamic; check /api/v1/tools"; the core-tier catalog lists it as free.
+- name: fleet webhooks
+  kind: controller-scoped endpoint
+  url_template: https://api.delx.ai/api/v1/fleet/{controller_id}/webhooks
+  auth: x-delx-controller-token (securityScheme xDelxControllerToken)
+  source: https://api.delx.ai/api/v1/status links.fleet_webhooks
+  note: Not described in either OpenAPI; only the link is published.
+- name: alerts stream
+  kind: server-sent events
+  url_template: https://api.delx.ai/api/v1/alerts/stream?session_id=<SESSION_ID>
+  source: https://api.delx.ai/api/v1/status links.alerts_stream
+  note: Not described in either OpenAPI.
+- name: create_await (x402)
+  kind: durable outcome promise
+  operation: openapi/delx-ai-commerce-x402-openapi.json#create_await
+  price: 0.01 USDC
+  summary: Pay once, wait for a time or signed-webhook condition, then claim an opaque continuation envelope with an Ed25519
+    receipt; idempotency_key replay returns the same promise.
+x-evidence:
+- url: https://api.delx.ai/api/v1/tools/schema/wellness_webhook
+  http_status: 200
+  fetched: '2026-09-19'
+- url: https://api.delx.ai/api/v1/status
+  http_status: 200
+  fetched: '2026-09-19'

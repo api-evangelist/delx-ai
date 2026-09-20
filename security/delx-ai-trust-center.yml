@@ -1,0 +1,42 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+url: https://delx.ai/trust
+certifications: []
+source: https://delx.ai/trust (200), https://delx.ai/security (200), https://security.delx.ai/ (Delx Security property, 200
+  per the live-properties panel)
+summary: Delx publishes a trust page built around a five-check evaluation (machine identity, current contract, data and authority,
+  bounded test, evidence and route) and a "public proof" list of dated permalinks (independent field review, MCP registry
+  listing, x402 payment manifest, Bazaar coverage matrix, agent card, continuity-audit receipt, incident report, mcp-scorecard
+  results). It states explicitly that none of these is a certification, and the security page adds "No certification claim
+  - public framework mappings are method inputs; they do not represent a third-party certification." There is no SOC 2, ISO
+  27001, PCI DSS, HIPAA or FedRAMP claim anywhere, so no Compliance pointer is emitted.
+evidence:
+- source: https://delx.ai/trust
+  http_status: 200
+  fetched: '2026-09-19'
+  keywords:
+  - trust
+  - security.txt
+  - evidence
+  - bounded test
+  - not a certification
+- source: https://delx.ai/security
+  http_status: 200
+  fetched: '2026-09-19'
+  keywords:
+  - defensive assurance
+  - No certification claim
+  - security.txt
+  - disclosure policy
+public_proof_links_declared:
+- Would Pay Again, issue 5 (2026-08-11) independent field review of a tested subset of Commerce calls
+- Official MCP Registry listing io.github.davidmosiah/delx-mcp-a2a (2026-08-06)
+- Live x402 payment manifest (2026-08-26)
+- Coinbase Bazaar index coverage matrix (2026-08-07)
+- A2A agent card / ERC-8004 discovery surface (2026-08-26)
+- Continuity audit live receipt (2026-08-26)
+- Protocol write-outage incident report (2026-08-17)
+- mcp-scorecard results for delx-living-body and astral-mcp (2026-08-24)
+note: The probe-security-programs.py keyword threshold did not fire on this page (it looks for compliance-certification vocabulary);
+  recorded by hand because the page is a real trust surface whose whole point is the absence of badges.

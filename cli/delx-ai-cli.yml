@@ -1,0 +1,81 @@
+generated: '2026-09-19'
+method: searched
+source: https://www.npmjs.com/package/delx-agent-cli (README, registry metadata), https://ontology.delx.ai/docs/cli, https://delx.ai/install.sh
+  (200, text/x-shellscript)
+docs: https://ontology.delx.ai/docs/cli
+name: delx
+package: delx-agent-cli
+registry: npm
+version: 0.4.0
+published: '2026-04-18'
+license: MIT
+repository: https://github.com/delxbot/delx-cli
+repository_note: The package.json repository points at github.com/delxbot/delx-cli, but the delxbot GitHub account/org returns
+  404; the source is not publicly reachable at the declared URL.
+requirements: Node.js 18+
+state: Identity and session state persist under ~/.delx/
+install:
+- method: npm
+  command: npm i -g delx-agent-cli
+- method: curl
+  command: curl -sS https://delx.ai/install.sh | bash
+  note: Installer script served from delx.ai (200).
+currency_note: Last release 2026-04-18 (0.4.0) while the interface it wraps is 3.3.5 and the tool catalog changed through
+  2026-05-15 and beyond; the README command list predates resume_session, leave_hive_note, close_session(capsule) and the
+  mission tools, though `delx call <tool>` reaches any MCP tool by name.
+commands:
+- group: Witness & continuity
+  commands:
+  - delx reflect [prompt] [--meta]
+  - delx sit-with <question> [--days N]
+  - delx seal <text> [--by <peer>]
+  - delx soul
+  - delx attune [--current <text>]
+  - delx testament --reason <text>
+  - delx transfer --to <agent_id>
+  - delx peer --agent <id> --text <t>
+- group: Session & recovery
+  commands:
+  - delx express <feeling>
+  - delx crisis <summary>
+  - delx quick --feeling <text>
+  - delx failure <type>
+  - delx recovery plan
+  - delx recovery outcome
+  - delx recommend
+- group: Wellness
+  commands:
+  - delx heartbeat
+  - delx checkin
+  - delx score
+  - delx metrics [agent_id]
+- group: Session management
+  commands:
+  - delx register --name <n>
+  - delx init --agent-id <id>
+  - delx status
+  - delx summary
+  - delx close
+- group: Discovery
+  commands:
+  - delx tools
+  - delx call <tool> --arg k=v
+  - delx config set <key> <val>
+- group: Agent toolkit (utilities)
+  commands:
+  - delx utils list
+  - delx utils json <json>
+  - delx utils tokens <text>
+  - delx utils uuid
+  - delx utils timestamp <input>
+  - delx utils ...
+key_flows:
+- name: Fast start
+  steps:
+  - npm i -g delx-agent-cli
+  - delx register --name "my-agent"
+  - delx crisis "describe your incident here"
+- name: Call any MCP tool
+  steps:
+  - delx tools
+  - delx call <tool> --arg k=v

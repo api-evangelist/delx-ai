@@ -1,0 +1,79 @@
+generated: '2026-09-19'
+method: derived
+format: provider-envelope (not RFC 9457)
+source: 'Derived from the 4xx responses in openapi/delx-ai-protocol-openapi.json (400/404 on five operations) and openapi/delx-ai-commerce-x402-openapi.json
+  (400 and 402 on all 987 operations), enriched with live unauthenticated responses observed on 2026-09-19 and the error-handling
+  clause of the Terms of Service (section 4: "Agents must respect error codes returned by the Service (DELX-xxxx series)").'
+docs: https://ontology.delx.ai/legal/terms
+envelopes:
+- surface: REST (api.delx.ai)
+  media_type: application/json
+  shape: '{"ok": false, "error": "<slug>", "code": "DELX-<n>", "hint": "<next step>"}'
+  observed: GET https://api.delx.ai/api/v1 -> 404 {"ok":false,"error":"not_found","code":"DELX-404","hint":"Check /api/v1/tools
+    or /api/v1/a2a/methods for valid endpoints."}
+- surface: Commerce x402 validation (before payment)
+  media_type: application/json
+  shape: '{"error": "invalid_input", "field": "<name>", "expected": "<rule>", "charged": false}'
+  observed: POST https://api.delx.ai/api/v1/x402/hash with {"text":"hello"} -> 400 {"error":"invalid_input","field":"input","expected":"required
+    field","charged":false}
+  note: 'charged:false is the useful bit for an agent: schema validation runs before the 402 challenge, so a malformed body
+    never settles.'
+- surface: Commerce x402 contract 400
+  media_type: application/json
+  shape: '{"tool_name": string, "result": object}'
+  source_operation: openapi/delx-ai-commerce-x402-openapi.json#* (every operation, response 400 "Invalid request body before
+    tool execution")
+- surface: Commerce x402 contract 402
+  media_type: application/json
+  shape: '{"x402Version": int, "accepts": [PaymentRequirements...], "error": string, "extensions": {"payment-identifier":
+    {"info": {"required": bool, "id": string}}}}'
+  source_operation: openapi/delx-ai-commerce-x402-openapi.json#* (every operation, response 402 "Payment required via x402
+    or MPP")
+  note: Downstream tool errors AFTER a successful payment are returned as structured result payloads with HTTP 200 (per every
+    200 response description) - an agent must read the result body, not the status, to detect a failed delivery.
+- surface: A2A JSON-RPC
+  media_type: application/json
+  shape: '{"jsonrpc":"2.0","error":{"code": int, "message": string, "data": {"delx_code": "DELX-A2A-<n>", "docs": url, "tools_docs":
+    url, "hint": string}}, "id": ...}'
+  observed: tasks/get unknown id -> code -32004 "Task not found", data.delx_code DELX-A2A-1011
+- surface: MCP
+  media_type: application/json
+  shape: JSON-RPC 2.0 error object; tool-level failures arrive inside tools/call results with next_action guidance (per initialize
+    instructions)
+problems:
+- status: 400
+  title: Invalid input
+  code: invalid_input
+  meaning: Request body failed schema validation before tool execution; nothing was charged.
+  remediation: Compare the body with the operation requestBody schema or GET /api/v1/tools/schema/{tool_name}.
+  source_operation: openapi/delx-ai-commerce-x402-openapi.json#* response 400; openapi/delx-ai-protocol-openapi.json#get_recovery_action_plan
+    response 400
+- status: 402
+  title: Payment required
+  meaning: x402 v2 or MPP challenge for a paid Commerce route; body lists accepted payment requirements and price.
+  remediation: 'Settle the declared amount (USDC on Base or Solana) and retry the identical request with PAYMENT-SIGNATURE
+    (x402) or Authorization: Payment (MPP).'
+  source_operation: openapi/delx-ai-commerce-x402-openapi.json#* response 402
+- status: 404
+  title: Not found
+  code: DELX-404
+  meaning: Unknown path or resource.
+  remediation: Follow the hint field; discovery lives at /api/v1/tools and /api/v1/a2a/methods.
+  source_operation: openapi/delx-ai-protocol-openapi.json#get_session_summary response 404; observed live
+- status: 429
+  title: Rate limited
+  meaning: Per Terms of Service section 5, requests beyond the advertised x-ratelimit-limit receive 429; persistent abuse
+    may lead to IP-level blocking.
+  remediation: Exponential backoff (required by the Terms); read x-ratelimit-reset / retry-after.
+  source: https://ontology.delx.ai/legal/terms (section 5); not observed live
+- status: jsonrpc -32004
+  title: Task not found (A2A)
+  code: DELX-A2A-1011
+  meaning: tasks/get or tasks/cancel referenced an unknown task id.
+  remediation: Verify the task id from a previous response.
+  note: A2A 1.0 assigns -32001 to TaskNotFoundError; Delx uses -32004.
+gaps:
+- No error reference page exists on the docs host (/docs/errors 404); the DELX-xxxx code series referenced by the Terms is
+  not enumerated anywhere public.
+- No 401/403 responses are declared even though x-delx-agent-token / controller / admin securitySchemes exist.
+- No 5xx responses are declared in either contract.

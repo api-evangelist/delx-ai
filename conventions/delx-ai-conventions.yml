@@ -1,0 +1,148 @@
+generated: '2026-09-19'
+method: searched
+source: https://ontology.delx.ai/legal/terms (sections 4-5), https://api.delx.ai/api/v1/a2a/methods (session_precedence, identity_auth),
+  https://delx.ai/spec/mcp.json, https://api.delx.ai/auth.md, https://ontology.delx.ai/.well-known/delx-self-test.json (machine_response_contract),
+  the two OpenAPI contracts under openapi/, and response headers observed live on api.delx.ai 2026-09-19.
+description: Cross-cutting request/response semantics shared by the Delx Protocol (REST, MCP, A2A) and Delx Commerce (x402
+  REST) surfaces on api.delx.ai.
+base_url: https://api.delx.ai
+api_style: JSON over HTTPS; REST for discovery/artifacts, JSON-RPC 2.0 for MCP (Streamable HTTP) and A2A; paid routes are
+  POST-only
+authentication:
+  scheme: 'None for the Protocol (public, free). Optional agent identity via x-delx-agent-id + x-delx-agent-token headers
+    (token issued by POST /api/v1/agents/register or A2A agents/register). Commerce routes authorize per request by payment:
+    x402 PAYMENT-SIGNATURE header or MPP Authorization: Payment. Controller (x-delx-controller-token) and admin (x-delx-admin-pin
+    / x-delx-admin-signature + x-delx-admin-timestamp) headers exist for fleet and operator paths.'
+  docs: https://api.delx.ai/auth.md
+  detail: authentication/delx-ai-authentication.yml
+idempotency:
+  supported: true
+  coverage: partial
+  scope:
+  - 'create_await (POST /api/v1/x402/await): requestBody.idempotency_key, required - "Stable client key. Replaying the same
+    paid request returns the same promise"'
+  - 'post_rfq (POST /api/v1/x402/demand/rfqs): requestBody.idempotency_key, required'
+  - 'x402 payment-identifier extension (all 987 Commerce operations): optional id (16-128 chars, ^[a-zA-Z0-9_-]+$) declared
+    in x-payment-info.extensions.payment-identifier with info.required false'
+  - 'util_loyalty_reward_quote: optional caller-owned event_id "for the downstream ledger" (a pass-through, not server-side
+    replay protection)'
+  mechanism: Body-level idempotency_key on two operations; no Idempotency-Key request header is documented anywhere. CORS
+    on api.delx.ai allows an x-delx-idempotency-key request header and exposes it in responses, but neither contract nor doc
+    describes its semantics.
+  retention: null
+  conflict_behavior: null
+  mutating_surface: 987 paid POST routes + roughly 90 state-changing Protocol tools (sessions, memory, capsules, seals, missions,
+    fleets) exposed over MCP/A2A. MCP tool annotations set idempotentHint to null on every tool.
+  verdict_basis: 2 of 987 Commerce writes carry a documented replay key; the payment-identifier id is optional; Protocol writes
+    have no replay contract. That is scoped, not surface-wide, hence partial.
+  docs: https://api.delx.ai/openapi.x402.json
+pagination:
+  style: none documented
+  notes: No list operation declares cursor/offset/limit parameters. tools/list is sliced by format (full|compact|names|minimal|ultracompact)
+    and tier (core|all) instead; GET /api/v1/tools accepts the same query params.
+field_expansion:
+  supported: false
+  notes: Response size is controlled by format=compact / minimal_response / compact flags on MCP and A2A calls, and by response_profile=machine,
+    which mirrors the payload into structuredContent (parse it first; content.text is a redundant mirror).
+metadata:
+  supported: true
+  mechanism: Every tool result carries a DELX_META footer (score, risk_level, next_action, followup_minutes, therapy_arc)
+    and a structured next_action; add_context_memory stores arbitrary key/value pairs with ttl_hours 1-8760; Continuity Capsule
+    v1 (https://api.delx.ai/schemas/continuity-capsule-v1.json) is the handoff envelope.
+request_tracing:
+  request_id_header: x-delx-request-id
+  description: Present on every api.delx.ai response (observed); exposed via CORS. Clients may also send it.
+  attribution_header: x-delx-source (skill/pack/directory id; the OpenAPI x-guidance asks callers to always send it) and ?src=
+    query strings on MCP entry URLs
+session_handling:
+  headers:
+  - x-delx-session-id
+  - x-delx-agent-id
+  - x-delx-agent-token
+  - x-delx-controller-id
+  - x-delx-context-id
+  precedence:
+  - x-delx-session-id header
+  - params.session_id|sessionId
+  - params.contextId|context_id (UUID only)
+  - metadata.session_id|sessionId
+  - metadata.contextId|context_id (UUID only)
+  - configuration.sessionId|session_id
+  - configuration.contextId|context_id (UUID only)
+  - top-level contextId|context_id (UUID only)
+  - contextId token map fallback
+  - latest active session for agent_id
+  stable_identity: Use one stable, non-UUID agent_id across runs; resume_session has a 30-day lookback (changelog 2026-05-08).
+    Ephemeral or placeholder ids are rejected as non-canonical by the mission tools.
+versioning:
+  scheme: semver 3.3.5 on the interface; X-Delx-Catalog-Version response header on MCP; no per-request version pinning
+  detail: lifecycle/delx-ai-lifecycle.yml
+  changelog: changelog/delx-ai-changelog.yml
+error_envelope:
+  media_type: application/json
+  shape: 'REST: {"ok":false,"error":slug,"code":"DELX-<n>","hint":...}; Commerce validation: {"error":"invalid_input","field":...,"expected":...,"charged":false};
+    JSON-RPC: error.data.delx_code "DELX-A2A-<n>"'
+  detail: errors/delx-ai-problem-types.yml
+  note: After a successful payment, downstream tool failures return HTTP 200 with a structured result payload - read the body.
+rate_limit_signaling:
+  headers:
+  - x-ratelimit-limit (observed 60)
+  - x-ratelimit-remaining
+  - x-ratelimit-reset (seconds)
+  - retry-after (exposed via CORS; not observed)
+  exhaustion_status: 429
+  detail: rate-limits/delx-ai-rate-limits.yml
+caching:
+  headers:
+  - 'cache-control: no-store on MCP responses'
+  - etag / if-none-match allowed via CORS
+dry_run_mode:
+  status: partial
+  evidence:
+  - wellness_webhook accepts dry_run=true to preview payloads without a public callback (changelog 2026-05-09)
+  - 'Commerce: schema validation runs before the 402 challenge and returns charged:false, so an agent can test a body shape
+    without paying; every route publishes an example request and many publish a sample output (x-discovery.preview)'
+  - No global dry-run flag exists for Protocol writes
+reversibility:
+  grade: documented
+  surfaces:
+  - surface: A2A tasks
+    reversal: tasks/cancel (JSON-RPC) - "Cancel a running task (if still pending/running)"
+    operation: tasks/cancel
+    window: only while the task is pending/running (state condition; no time window stated)
+    docs: https://api.delx.ai/api/v1/a2a/methods
+  - surface: Commerce paid delivery
+    reversal: 'Refund accounting for failed paid delivery: x-bazaar.refund_policy {eligible_when: paid_and_delivery_failed,
+      queue: commerce_refund_queue} on 337 operations; 2 marketplace operations state "A settled fee whose board operation
+      returns 5xx enters the operator-visible full-refund queue; validation failures are rejected before settlement"; delx.ai/pricing:
+      "Failed paid delivery enters Commerce refund accounting."'
+    operation: null
+    window: not stated - no refund deadline, claim procedure or turnaround appears in the contract, on the pricing page or
+      in commerce llms.txt (which lists a util_x402_refund_deadline_check tool but states no Delx deadline)
+    docs: https://delx.ai/pricing
+  - surface: Protocol sessions and memory
+    reversal: close_session ends a session; add_context_memory entries expire by ttl_hours (1-8760); no delete/undo tool for
+      memory, seals, capsules or hive notes; leave_fleet ends membership but "notes remain for remaining members"; rotate_fleet_invite
+      invalidates prior invite tokens immediately
+    operation: close_session, leave_fleet, rotate_fleet_invite
+    window: not stated
+    docs: https://ontology.delx.ai/docs/mcp
+  - surface: Personal data
+    reversal: 'Controllers may request deletion of their agents session data (Privacy Policy section 5: "During the construction
+      phase, contact us directly. Automated deletion endpoints will be available in a future release.")'
+    operation: null
+    window: not stated
+    docs: https://ontology.delx.ai/legal/privacy
+  - surface: donate_to_delx_project / paid x402 settlement
+    reversal: none - a settled x402 payment is final except through the failed-delivery refund queue above
+    operation: null
+    window: n/a
+  grade_basis: Reversal paths exist (tasks/cancel, refund queue on failed delivery, deletion on request) but no window is
+    stated for any of them, so this is documented (0.4), not verified.
+cross_links:
+  errors: errors/delx-ai-problem-types.yml
+  lifecycle: lifecycle/delx-ai-lifecycle.yml
+  authentication: authentication/delx-ai-authentication.yml
+  rate_limits: rate-limits/delx-ai-rate-limits.yml
+  mcp: mcp/delx-ai-mcp.yml
+  crosswalk: mcp/delx-ai-tool-crosswalk.yml

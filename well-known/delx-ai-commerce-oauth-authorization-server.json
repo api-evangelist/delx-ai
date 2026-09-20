@@ -1,0 +1,28 @@
+{
+  "issuer": "https://commerce.delx.ai",
+  "authorization_endpoint": "https://commerce.delx.ai/auth.md",
+  "token_endpoint": "https://commerce.delx.ai/auth.md",
+  "response_types_supported": [],
+  "grant_types_supported": [],
+  "scopes_supported": ["public"],
+  "service_documentation": "https://commerce.delx.ai/auth.md",
+  "delx:access_mode": "x402_payment_or_public_discovery",
+  "delx:oauth_supported": false,
+  "delx:note": "Commerce products authorize via USDC x402 payment challenges, not interactive OAuth. agent_auth documents how agents should register for payment-capable wallets.",
+  "agent_auth": {
+    "skill": "https://commerce.delx.ai/auth.md",
+    "register_uri": "https://commerce.delx.ai/auth.md",
+    "claim_uri": "https://commerce.delx.ai/auth.md",
+    "revocation_uri": "https://commerce.delx.ai/auth.md",
+    "identity_endpoint": "https://commerce.delx.ai/auth.md",
+    "claim_endpoint": "https://commerce.delx.ai/auth.md",
+    "events_endpoint": "https://commerce.delx.ai/auth.md",
+    "identity_types_supported": ["anonymous"],
+    "anonymous": {
+      "credential_types_supported": ["none", "x402-payment"]
+    },
+    "supported_identity_types": ["wallet", "agent"],
+    "credential_types": ["x402-payment", "none"],
+    "documentation": "https://commerce.delx.ai/auth.md"
+  }
+}

@@ -1,0 +1,43 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Delx Protocol API
+  version: 1.0.0
+extends: openapi/delx-ai-protocol-openapi.json
+x-apievangelist:
+  generated: '2026-09-19'
+  method: generated
+  source: Harvested verbatim from https://api.delx.ai/openapi.protocol.json on 2026-09-19; the original is never mutated.
+    This overlay records catalog metadata and the observed runtime facts the contract omits.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: delx-ai
+    x-apievangelist-harvested-from: https://api.delx.ai/openapi.protocol.json
+    x-apievangelist-harvested: '2026-09-19'
+    x-apievangelist-sibling-contract: openapi/delx-ai-commerce-x402-openapi.json
+- target: $.servers[0]
+  update:
+    x-apievangelist-observed-headers:
+    - x-ratelimit-limit
+    - x-ratelimit-remaining
+    - x-ratelimit-reset
+    - x-delx-request-id
+- target: $.paths['/v1/mcp/protocol'].post
+  update:
+    x-apievangelist-note: MCP Streamable HTTP endpoint (core tier). Canonical full-catalog endpoint is https://api.delx.ai/mcp;
+      /v1/mcp is served with Deprecation and Sunset (2026-08-01) headers.
+- target: $.paths['/v1/a2a'].post
+  update:
+    x-apievangelist-note: A2A JSON-RPC endpoint; method discovery at GET /api/v1/a2a/methods; agent card at /.well-known/agent-card.json.
+- target: $
+  update:
+    tags:
+    - name: protocol
+      description: Free Protocol recovery artifacts
+    - name: recovery
+    - name: continuity
+    - name: discovery
+    - name: agents
+    - name: tools
+    - name: reliability
+    - name: a2a

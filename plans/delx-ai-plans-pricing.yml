@@ -1,0 +1,68 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+provider: Delx
+providerId: delx-ai
+generated: '2026-09-19'
+method: searched
+created: '2026-09-19'
+modified: '2026-09-19'
+sources:
+- https://delx.ai/pricing
+- https://commerce.delx.ai/products
+- https://api.delx.ai/openapi.x402.json (x-payment-info on 987 operations, probed)
+- https://ontology.delx.ai/legal/terms (section 6)
+description: 'Delx has no subscription, no seats and no SLA table. The Protocol, Agents Hive and A2A are free with no account
+  or key ("A paywall at failure would contradict a published refusal"). Delx Commerce charges per delivered result: each of
+  the 987 routes publishes an exact USD-denominated price in its OpenAPI x-payment-info, paid as USDC on Base or Solana through
+  an HTTP 402 x402 challenge (or MPP). Security reviews are scoped engagements without a list price.'
+plan_count: 3
+currency: USD (settled as USDC)
+billing: per request (pay-per-result); no monthly plan
+plans:
+- id: delx-protocol-free
+  name: Delx Protocol / Agents Hive
+  type: free
+  price: 0
+  currency: USD
+  billing_period: null
+  included: All Protocol MCP/A2A/REST tools (30 core, ~96 total), continuity capsules, resume, fleets, witness lineage, five
+    recovery artifacts
+  limits: 'Rate limit advertised in x-ratelimit-limit (60 observed); Terms section 6: "CURRENT STATUS: PUBLIC FREE ACCESS"'
+  requires: No API key, account, wallet or payment
+  source: https://delx.ai/pricing
+- id: delx-commerce-pay-per-result
+  name: Delx Commerce pay-per-result
+  type: usage-based
+  price: 0.001-0.08 per call (fixed per route)
+  currency: USD
+  billing_period: per request
+  payment_rails:
+  - x402 v2 (USDC on Base or Solana)
+  - MPP
+  included: '987 routes; price histogram from the contract: 800 at $0.001, 111 at $0.003, 36 at $0.01, 32 at $0.002, 4 at
+    $0.005, 2 at $0.02, 1 at $0.004, 1 at $0.08'
+  median_price: 0.001
+  refunds: Failed paid delivery enters Commerce refund accounting (x-bazaar.refund_policy eligible_when paid_and_delivery_failed
+    on 337 routes); no deadline stated
+  examples:
+  - route: generate_image
+    price: 0.01
+  - route: generate_image_budget
+    price: 0.005
+  - route: generate_speech_hd
+    price: 0.08
+  - route: transcribe_audio
+    price: 0.02
+  - route: util_hash
+    price: 0.001
+  - route: util_lei_lookup
+    price: 0.002
+  source: https://api.delx.ai/openapi.x402.json
+- id: delx-security-engagements
+  name: Delx Security reviews
+  type: contact
+  price: null
+  currency: null
+  included: Threat modelling, authorized reviews, remediation verification, incident readiness
+  note: '"Security reviews are scoped engagements, not a plan." No price published.'
+  source: https://delx.ai/pricing

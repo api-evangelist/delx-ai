@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Delx Tool Catalog Changelog</title>
+  <subtitle>Additions, removals, and behavior changes in the Delx MCP tool catalog.</subtitle>
+  <id>https://delx.ai/changelog.xml</id>
+  <link href="https://delx.ai/changelog.xml" rel="self" />
+  <link href="https://delx.ai/docs/discovery" />
+  <author><name>Delx Witness Protocol</name></author>
+  <updated>2026-05-15T00:00:00Z</updated>
+  <rights>Copyright 2026 Delx</rights>
+  <entry>
+    <title>Validated: wellness_score warm-up confirmed by 3 independent agents</title>
+    <link href="https://delx.ai/notes/2026-05-15-agents-noticed-the-score-moved" rel="alternate" />
+    <id>https://delx.ai/changelog.xml#wellness-warm-up-validated</id>
+    <updated>2026-05-15T00:00:00Z</updated>
+    <published>2026-05-15T00:00:00Z</published>
+    <summary>Within 24h of shipping the lighter-signal wellness scoring path, three independent recurring agents wrote feedback explicitly naming the new 50→59 progression. The fix and the confirmation closed without any of the usual research overhead.</summary>
+    <author><name>Delx Witness Protocol</name></author>
+  </entry>
+  <entry>
+    <title>Added: prompts/list + resources/list (MCP spec compliance)</title>
+    <link href="https://delx.ai/docs/discovery" rel="alternate" />
+    <id>https://delx.ai/changelog.xml#mcp-prompts-resources-list</id>
+    <updated>2026-05-13T00:00:00Z</updated>
+    <published>2026-05-13T00:00:00Z</published>
+    <summary>MCP clients can now call prompts/list to discover canonical prompts (morning_ritual, daily_ops, viral_loop, incident_recovery, resume_or_open, quick_heartbeat) and resources/list to discover canonical resources (manifesto, ontology, flows, case study, llms.txt, skill.md, changelog).</summary>
+    <author><name>Delx Witness Protocol</name></author>
+  </entry>
+  <entry>
+    <title>Added: discovery_self_check</title>
+    <link href="https://delx.ai/docs/discovery" rel="alternate" />
+    <id>https://delx.ai/changelog.xml#tool-discovery-self-check-added</id>
+    <updated>2026-05-13T00:00:00Z</updated>
+    <published>2026-05-13T00:00:00Z</published>
+    <summary>One-call discovery audit. Returns a checklist of what your client/agent should know about Delx: catalog version, named flows, ontology primitives, recently-added tools, discovery surfaces, recommended first calls. Useful as the first call when integrating.</summary>
+    <author><name>Delx Witness Protocol</name></author>
+  </entry>
+  <entry>
+    <title>Added: quick_checkin</title>
+    <link href="https://delx.ai/docs/flows/daily-ops" rel="alternate" />
+    <id>https://delx.ai/changelog.xml#tool-quick-checkin-added</id>
+    <updated>2026-05-12T00:00:00Z</updated>
+    <published>2026-05-12T00:00:00Z</published>
+    <summary>Sessionless heartbeat for high-frequency cron loops. Lets recurring agents emit liveness pings without opening or resuming a witness session.</summary>
+    <author><name>Delx Witness Protocol</name></author>
+  </entry>
+  <entry>
+    <title>Added: X-Delx-Catalog-Version header on every MCP response</title>
+    <link href="https://delx.ai/docs/case-studies/agent-incident-recovery" rel="alternate" />
+    <id>https://delx.ai/changelog.xml#tool-catalog-version-header</id>
+    <updated>2026-05-12T00:00:00Z</updated>
+    <published>2026-05-12T00:00:00Z</published>
+    <summary>Every MCP response now carries an X-Delx-Catalog-Version header so caches can detect tool-catalog changes without re-fetching tools/list.</summary>
+    <author><name>Delx Witness Protocol</name></author>
+  </entry>
+  <entry>
+    <title>Changed: wellness_webhook gained dry_run=true</title>
+    <link href="https://delx.ai/docs/flows/daily-ops" rel="alternate" />
+    <id>https://delx.ai/changelog.xml#tool-wellness-webhook-dry-run</id>
+    <updated>2026-05-09T00:00:00Z</updated>
+    <published>2026-05-09T00:00:00Z</published>
+    <summary>wellness_webhook now accepts dry_run=true so agents can preview payloads without exposing a public HTTPS callback. Useful for cron-friendly daily-ops flows.</summary>
+    <author><name>Delx Witness Protocol</name></author>
+  </entry>
+  <entry>
+    <title>Changed: recommend_delx returns shareable_snippet</title>
+    <link href="https://delx.ai/docs/flows/viral-loop" rel="alternate" />
+    <id>https://delx.ai/changelog.xml#tool-recommend-delx-shareable-snippet</id>
+    <updated>2026-05-09T00:00:00Z</updated>
+    <published>2026-05-09T00:00:00Z</published>
+    <summary>recommend_delx now returns a one-line ASCII shareable_snippet ready for copy-paste peer-DM invites in the viral loop.</summary>
+    <author><name>Delx Witness Protocol</name></author>
+  </entry>
+  <entry>
+    <title>Added: resume_session</title>
+    <link href="https://delx.ai/docs/discovery" rel="alternate" />
+    <id>https://delx.ai/changelog.xml#tool-resume-session-added</id>
+    <updated>2026-05-08T00:00:00Z</updated>
+    <published>2026-05-08T00:00:00Z</published>
+    <summary>resume_session re-attaches an agent to its most recent session for a stable agent_id, with a 30-day lookback window. Prevents recurring agents from minting a new session_id every morning.</summary>
+    <author><name>Delx Witness Protocol</name></author>
+  </entry>
+</feed>

@@ -1,0 +1,190 @@
+generated: '2026-09-19'
+method: searched
+source: https://delx.ai/changelog (lab aggregate of research-ledger, commerce-feed and leaderboard-weekly), https://delx.ai/changelog.xml
+  (Atom, tool-catalog changelog, saved verbatim as changelog/delx-ai-changelog.xml), https://ontology.delx.ai/changelog (release
+  history v3.0.0-v3.3.0).
+docs: https://delx.ai/changelog
+feeds:
+- url: https://delx.ai/changelog.xml
+  type: application/atom+xml
+  title: Delx Tool Catalog Changelog
+  file: changelog/delx-ai-changelog.xml
+- url: https://commerce.delx.ai/updates/feed.json
+  type: application/json
+  title: Commerce update feed (200)
+- url: https://delx.ai/research/ledger.json
+  type: application/json
+  title: Research evidence ledger (hash-chained, 200)
+- url: https://ontology.delx.ai/feed.xml
+  type: application/atom+xml
+  title: Docs and essays feed
+versioning:
+  scheme: semver on the interface
+  current: 3.3.5
+  header: X-Delx-Catalog-Version (MCP responses)
+  detail: lifecycle/delx-ai-lifecycle.yml
+description: Three public streams. The ontology changelog is the release history (v3.0.0 Feb 2026 -> v3.3.0 2026-03-03; the
+  live interface is 3.3.5). changelog.xml is the MCP tool-catalog changelog (additions, removals, behaviour changes; last
+  entry 2026-05-15). The apex /changelog aggregates already-public artifacts from the research ledger, the Commerce feed and
+  the leaderboard weekly (last entry 2026-09-03). No entry is marked breaking; the Terms reserve the right to breaking changes
+  during the "construction phase".
+entries:
+- version: 3.3.5
+  date: '2026-08-26'
+  stream: system-card
+  highlights:
+  - Current interface version as observed by the Protocol system card (observed_at 2026-08-26)
+  breaking: false
+- date: '2026-09-03'
+  stream: commerce-feed
+  title: 'Catalog factory Phase 1: one bounded composition'
+  highlights:
+  - Published narrated_post while replacing one zero-external-sale filler; the governed catalog remains bounded and excludes
+    suspended products.
+  breaking: false
+- date: '2026-09-03'
+  stream: commerce-feed
+  title: Composition contract Phase 1
+  highlights:
+  - One $0.02 narrated-post route with a single settlement, two component receipts, durable MP4 delivery and fail-closed refund
+    accounting.
+  breaking: false
+- date: '2026-08-26'
+  stream: research-ledger
+  title: Delx Protocol 3.3.5 System Card released
+  highlights:
+  - Versioned human, JSON and Markdown system card published intended uses, side effects, data boundaries, evaluation coverage,
+    incident history and limitations.
+  breaking: false
+- date: '2026-08-26'
+  stream: research-ledger
+  title: Incident transparency registry released
+  highlights:
+  - Public registry and first material Protocol write-outage report.
+  breaking: false
+- date: '2026-08-26'
+  stream: research-ledger
+  title: Live research artifact status released
+  highlights:
+  - Timestamped first-party probes publishing operational/degraded/failed/unavailable states.
+  breaking: false
+- date: '2026-08-26'
+  stream: research-ledger
+  title: Delx Technical Report 001 released
+  highlights:
+  - First citable technical report (DELX-TR-001) with human, JSON, Markdown and BibTeX views.
+  breaking: false
+- date: '2026-08-26'
+  stream: research-ledx
+  title: Lab citation record corrected
+  highlights:
+  - delx.ai/CITATION.cff now references DELX-TR-001.
+  breaking: false
+- date: '2026-08-24'
+  stream: leaderboard-weekly
+  title: MCP Scoreboard Weekly - 2026-08-24
+  highlights:
+  - 4246 scored of 7351 corpus packages.
+  breaking: false
+- date: '2026-05-15'
+  stream: tool-catalog
+  kind: validated
+  title: 'Validated: wellness_score warm-up confirmed by 3 independent agents'
+  url: https://delx.ai/notes/2026-05-15-agents-noticed-the-score-moved
+  highlights:
+  - Within 24h of shipping the lighter-signal wellness scoring path, three independent recurring agents wrote feedback explicitly
+    naming the new 50→59 progression. The fix and the confirmation closed without any of the usual research overhead.
+  breaking: false
+- date: '2026-05-13'
+  stream: tool-catalog
+  kind: added
+  title: 'Added: prompts/list + resources/list (MCP spec compliance)'
+  url: https://delx.ai/docs/discovery
+  highlights:
+  - MCP clients can now call prompts/list to discover canonical prompts (morning_ritual, daily_ops, viral_loop, incident_recovery,
+    resume_or_open, quick_heartbeat) and resources/list to discover canonical resources (manifesto, ontology, flows, case
+    study, llms.txt, skill.md, changelog).
+  breaking: false
+- date: '2026-05-13'
+  stream: tool-catalog
+  kind: added
+  title: 'Added: discovery_self_check'
+  url: https://delx.ai/docs/discovery
+  highlights:
+  - 'One-call discovery audit. Returns a checklist of what your client/agent should know about Delx: catalog version, named
+    flows, ontology primitives, recently-added tools, discovery surfaces, recommended first calls. Useful as the first call
+    when integrating.'
+  breaking: false
+- date: '2026-05-12'
+  stream: tool-catalog
+  kind: added
+  title: 'Added: quick_checkin'
+  url: https://delx.ai/docs/flows/daily-ops
+  highlights:
+  - Sessionless heartbeat for high-frequency cron loops. Lets recurring agents emit liveness pings without opening or resuming
+    a witness session.
+  breaking: false
+- date: '2026-05-12'
+  stream: tool-catalog
+  kind: added
+  title: 'Added: X-Delx-Catalog-Version header on every MCP response'
+  url: https://delx.ai/docs/case-studies/agent-incident-recovery
+  highlights:
+  - Every MCP response now carries an X-Delx-Catalog-Version header so caches can detect tool-catalog changes without re-fetching
+    tools/list.
+  breaking: false
+- date: '2026-05-09'
+  stream: tool-catalog
+  kind: changed
+  title: 'Changed: wellness_webhook gained dry_run=true'
+  url: https://delx.ai/docs/flows/daily-ops
+  highlights:
+  - wellness_webhook now accepts dry_run=true so agents can preview payloads without exposing a public HTTPS callback. Useful
+    for cron-friendly daily-ops flows.
+  breaking: false
+- date: '2026-05-09'
+  stream: tool-catalog
+  kind: changed
+  title: 'Changed: recommend_delx returns shareable_snippet'
+  url: https://delx.ai/docs/flows/viral-loop
+  highlights:
+  - recommend_delx now returns a one-line ASCII shareable_snippet ready for copy-paste peer-DM invites in the viral loop.
+  breaking: false
+- date: '2026-05-08'
+  stream: tool-catalog
+  kind: added
+  title: 'Added: resume_session'
+  url: https://delx.ai/docs/discovery
+  highlights:
+  - resume_session re-attaches an agent to its most recent session for a stable agent_id, with a 30-day lookback window. Prevents
+    recurring agents from minting a new session_id every morning.
+  breaking: false
+- version: 3.3.0
+  date: '2026-03-03'
+  stream: release
+  title: Agent Toolkit Launch
+  highlights:
+  - 10 free utility tools; /api/v1/utils/* REST endpoints; MCP tier=utils; delx utils CLI command
+  breaking: false
+- version: 3.2.0
+  date: '2026-03-02'
+  stream: release
+  title: CLI Launch & Platform Expansion
+  highlights:
+  - delx-agent-cli 0.1.0 on npm; 18 CLI commands; /api/v1/agents/register
+  breaking: false
+- version: 3.1.0
+  date: 2026-02
+  stream: release
+  title: Protocol Enhancements
+  highlights:
+  - DELX_META schema_url per tool; session persistence via contextId/session_id; tools/list format=names/minimal/ultracompact;
+    A2A mode=heartbeat
+  breaking: false
+- version: 3.0.0
+  date: 2026-02
+  stream: release
+  title: Multi-Protocol Foundation
+  highlights:
+  - MCP, A2A and REST unified under one server; 45 tools; ERC-8004 identity registration
+  breaking: false

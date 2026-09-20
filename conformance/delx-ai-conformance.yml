@@ -1,0 +1,147 @@
+generated: '2026-09-19'
+method: searched
+source: Standards declared or exhibited by the saved contracts (openapi/, a2a/, mcp/, well-known/) and confirmed by live probes
+  on 2026-09-19; prose claims on delx.ai/trust and delx.ai/security were read but only contract-level evidence is credited.
+note: 'Delx is an AI-agent infrastructure provider; no sector regime in scoring.yml industry_regulatory maps to it, so this
+  file records the agent-protocol standards the contract itself declares. No third-party certification is claimed anywhere
+  (delx.ai/security: "No certification claim") and no Compliance pointer is emitted.'
+domain_standard_signature:
+  market: agent-native tooling and agent commerce
+  standards_declared_in_contract:
+  - MCP 2025-06-18
+  - A2A (1.0-draft agent card + JSON-RPC)
+  - x402 v2
+  - MPP (Machine Payments Protocol)
+  - ERC-8004 agent identity
+  - RFC 9727 api-catalog
+  - agentskills.io discovery 0.2.0
+  evidence:
+  - 'openapi/delx-ai-commerce-x402-openapi.json: every operation has a 402 response whose schema requires x402Version + accepts
+    and an x-payment-info.protocols list of [{x402:{}},{mpp:{}}]; components.securitySchemes x402PaymentSignature (PAYMENT-SIGNATURE
+    header) and mppPaymentAuthorization (Authorization: Payment <base64url-json>).'
+  - 'a2a/delx-ai-agent-card.json: registrations[0] = {agentId: 14340, agentRegistry: eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432};
+    supportedInterfaces[0] = {url: https://api.delx.ai/v1/a2a, protocolBinding: JSONRPC, protocolVersion: "1.0"}.'
+  - Live initialize at https://api.delx.ai/mcp returned protocolVersion 2025-06-18.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: 'Both harvested contracts declare openapi: 3.1.0 and parse (15 and 987 operations).'
+- id: json-schema-2020-12
+  conforms: true
+  evidence: x-payment-info extension schemas and https://api.delx.ai/schemas/continuity-capsule-v1.json declare $schema https://json-schema.org/draft/2020-12/schema.
+- id: mcp-2025-06-18
+  conforms: true
+  evidence: 'initialize response at https://api.delx.ai/mcp: protocolVersion 2025-06-18, serverInfo Delx Agent Operations
+    Protocol 3.3.5; tools/list returns tools with inputSchema and annotations. Non-standard extras: tools/list format/tier
+    params, tools/schema, tools/batch.'
+- id: mcp-server-card
+  conforms: true
+  evidence: https://delx.ai/.well-known/mcp/server-card.json declares $schema https://modelcontextprotocol.io/schemas/draft-2026/server-card.json
+    with serverInfo, transport streamable-http and endpoint.
+- id: a2a-agent-card
+  conforms: true
+  evidence: Card served at /.well-known/agent-card.json and /.well-known/agent.json on api.delx.ai, delx.ai and ontology.delx.ai;
+    graded flavored in a2a/delx-ai-a2a.yml (no top-level protocolVersion; supportedInterfaces shape).
+- id: a2a-json-rpc
+  conforms: true
+  evidence: POST https://api.delx.ai/v1/a2a answers methods/list; tasks/get on an unknown id returns a JSON-RPC error (-32004
+    rather than the A2A-defined -32001).
+- id: x402-v2
+  conforms: true
+  evidence: openapi/delx-ai-commerce-x402-openapi.json 402 response schema {x402Version, accepts[], error, extensions.payment-identifier};
+    https://api.delx.ai/.well-known/x402 resource manifest (200, 6.2 MB); commerce card supportedInterfaces protocolVersion
+    x402-v2. Live unpaid POST with a valid body was not issued (would create a payable challenge); an invalid body returned
+    400 {"error":"invalid_input",...,"charged":false} before any settlement.
+- id: mpp-machine-payments-protocol
+  conforms: true
+  evidence: 'Declared in the contract: securityScheme mppPaymentAuthorization ("Authorization: Payment <base64url-json>")
+    and x-payment-info.protocols[1] = {mpp:{}} on all 987 operations; /api/v1/status links mpp_setup and the mpp.dev directory.
+    Not exercised live.'
+- id: erc-8004-agent-identity
+  conforms: true
+  evidence: Agent card registrations[] and identity blocks, and GET https://api.delx.ai/ ("erc8004_id":"#14340"). On-chain
+    registration itself was not verified by this pipeline.
+- id: rfc9727-api-catalog
+  conforms: true
+  evidence: /.well-known/api-catalog answers 200 application/linkset+json on delx.ai, api.delx.ai, ontology.delx.ai and commerce.delx.ai
+    with anchor/service-desc/service-doc/service-meta/status relations; the delx.ai homepage carries <link rel="api-catalog">.
+- id: rfc8414-authorization-server-metadata
+  conforms: true
+  evidence: Document served on delx.ai, api.delx.ai, ontology.delx.ai and commerce.delx.ai with issuer, authorization_endpoint,
+    token_endpoint, response_types_supported [] and grant_types_supported []; each declares delx:oauth_supported false. The
+    document is used to advertise the access mode and an agent_auth block, not a flow.
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  evidence: '/.well-known/oauth-protected-resource on the MCP/API host api.delx.ai: resource https://api.delx.ai, authorization_servers
+    [https://api.delx.ai], scopes_supported [public], bearer_methods_supported [header], api_base_url https://api.delx.ai/api/v1.'
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 securityScheme in either OpenAPI; RFC 8414 metadata explicitly sets delx:oauth_supported false with
+    empty grant types. Admin/controller scopes are advertised as future.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration is served but declares delx:oidc_supported false, empty response_types_supported
+    and empty id_token_signing_alg_values_supported.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: 'https://delx.ai/.well-known/security.txt: Contact (mailto + x.com), Policy, Acknowledgments, Canonical, Hiring,
+    Preferred-Languages en/pt-BR, Expires 2027-02-17 (not signed). api.delx.ai serves its own (Expires 2027-07-29).'
+- id: rfc8594-rfc9745-deprecation-sunset-headers
+  conforms: true
+  evidence: 'Observed live on POST https://api.delx.ai/v1/mcp: deprecation: true, sunset: 2026-08-01, link: </mcp>; rel="canonical".
+    CORS exposes deprecation, sunset and link.'
+- id: ietf-ratelimit-headers
+  conforms: true
+  evidence: 'x-ratelimit-limit: 60, x-ratelimit-remaining, x-ratelimit-reset on every api.delx.ai response (legacy X-RateLimit-*
+    names, not the IETF RateLimit-Policy/RateLimit fields); retry-after exposed via CORS; Terms of Service section 5 documents
+    the headers and 429.'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: No application/problem+json anywhere in the contracts; errors are provider envelopes ({"ok":false,"error":"not_found","code":"DELX-404","hint":...})
+    and JSON-RPC errors with data.delx_code.
+- id: json-api
+  conforms: false
+  evidence: Plain JSON objects; no JSON:API media type or document structure.
+- id: idempotency-key-header
+  conforms: false
+  evidence: 'No Idempotency-Key request header is documented in either contract. Idempotency exists only as body fields on
+    two Commerce operations (create_await, post_rfq) and as the optional x402 payment-identifier extension; CORS allows an
+    x-delx-idempotency-key header the contract never describes. See conventions/ (coverage: partial).'
+- id: agentskills-discovery-0.2.0
+  conforms: true
+  evidence: /.well-known/agent-skills/index.json on delx.ai and api.delx.ai declares $schema https://schemas.agentskills.io/discovery/0.2.0/schema.json
+    with skill-md entries and sha256/digest values; the SKILL.md files resolve (saved under skills/).
+- id: ard-ai-catalog
+  conforms: true
+  evidence: /.well-known/ai-catalog.json (specVersion 1.0, host identifier did:web:delx.ai) on delx.ai and api.delx.ai, nesting
+    the Commerce and API catalogs.
+- id: llms-txt
+  conforms: true
+  evidence: /llms.txt served on delx.ai, api.delx.ai and ontology.delx.ai (saved under llms/); /llms-full.txt redirects to
+    ontology.
+- id: content-signal-robots
+  conforms: true
+  evidence: 'robots.txt on delx.ai carries Content-Signal: search=yes, ai-train=no, ai-input=yes for * and eight named AI
+    crawlers.'
+- id: auth-md
+  conforms: true
+  evidence: /auth.md (text/markdown) served on delx.ai, api.delx.ai and commerce.delx.ai and referenced from the RFC 8414
+    documents as authorization_endpoint/service_documentation.
+- id: ucp-universal-commerce-protocol
+  conforms: false
+  evidence: Claimed (agent card commerce.protocols includes ucp; delx.ai api-catalog service-meta names ontology.delx.ai/.well-known/ucp)
+    but /.well-known/ucp.json 404s on delx.ai and api.delx.ai.
+- id: acp-agentic-commerce-protocol
+  conforms: false
+  evidence: Claimed (commerce.protocols includes acp; api-catalog names /.well-known/acp.json) but delx.ai/.well-known/acp.json
+    308s to api.delx.ai where it 404s.
+- id: aauth-resource
+  conforms: false
+  evidence: /.well-known/aauth-resource.json 404 on delx.ai and api.delx.ai.
+- id: apis-json
+  conforms: false
+  evidence: /apis.json, /.well-known/apis.json and /apis.yml 404 on every host.
+- id: pagination
+  conforms: false
+  evidence: 'Not applicable in practice: no list operation in either contract documents cursor or offset parameters (tools/list
+    slices by format/tier instead).'

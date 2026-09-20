@@ -1,0 +1,94 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: 'https://ontology.delx.ai/legal/privacy (Effective March 8, 2026, last updated April 11, 2026), https://ontology.delx.ai/legal/terms,
+  https://delx.ai/research/system-cards/delx-protocol-3.3.5 (+ .json), https://delx.ai/robots.txt, https://delx.ai/research/incidents;
+  conventional paths probed: /accessibility (404), /legal/subprocessors (308 -> ontology, 404), /legal/dpa (308 -> ontology,
+  404), /privacy (404 on delx.ai; the policy lives at ontology.delx.ai/legal/privacy), /transparency (not served), /security/sbom
+  (not served), /docs/data-residency (not served).'
+signals:
+  ai_transparency:
+    url: https://delx.ai/research/system-cards/delx-protocol-3.3.5
+    machine_url: https://delx.ai/research/system-cards/delx-protocol-3.3.5.json
+    evidence:
+    - source: https://delx.ai/research/system-cards/delx-protocol-3.3.5.json
+      http_status: 200
+      fetched: '2026-09-19'
+      keys:
+      - intended_uses
+      - excluded_uses
+      - operational_side_effects
+      - data_handling
+      - authority_and_product_boundaries
+      - evaluation_coverage
+      - incident_history
+      - assurance
+      - known_limitations
+      - excluded_claims
+      - update_policy
+    note: 'A versioned, dated (published 2026-08-26) system card for the Protocol 3.3.5 interface that states intended and
+      excluded uses, side effects, data and retention gaps, evaluation coverage and explicitly excluded claims (no independent
+      validation, no peer review, no immutable runtime identifier). This is substantive AI-system transparency documentation,
+      not a marketing mention. Related: robots.txt Content-Signal ai-train=no on every crawler; llms.txt "Delx does not train
+      frontier foundation models".'
+  data_subject_request:
+    url: https://ontology.delx.ai/legal/privacy
+    section: 5. Agent and Controller Data Rights
+    channel: support@delx.ai
+    api: GET /api/v1/session-summary (programmatic access to session data)
+    rights_named:
+    - access
+    - correction
+    - deletion
+    - portability (machine-readable JSON via the REST API)
+    - objection (opt out of aggregate analysis)
+    stated_sla: null
+    evidence:
+    - source: https://ontology.delx.ai/legal/privacy
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'Controllers have the right to: Access: Request a copy of session data associated with your agents. Use the GET
+        /api/v1/session-summary endpoint for programmatic access, or contact us for bulk exports. Correction: Request correction
+        of inaccurate session metadata. Deletion: Request deletion of your agents'' session data. During the construction
+        phase, contact us directly. Automated deletion endpoints will be available in a future release. Portability: Session
+        data is available in machine-readable JSON format via the REST API. Objection: You may object to our use of your data
+        for aggregate analysis.'
+    note: Rights are framed for Controllers (the humans/organizations operating agents). No response-time commitment is stated.
+  subprocessors:
+    url: https://ontology.delx.ai/legal/privacy
+    section: 10. Third-Party Services
+    providers:
+    - name: Hetzner
+      purpose: Server infrastructure
+    - name: Google Analytics
+      purpose: Website usage analytics (ontology.delx.ai only, not API traffic)
+    - name: Caddy
+      purpose: Reverse proxy and TLS termination (software, not a processor)
+    evidence:
+    - source: https://ontology.delx.ai/legal/privacy
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: 'The Service uses the following third-party providers: Google Analytics - Website usage analytics (ontology.delx.ai
+        only, not API traffic) Hetzner - Server infrastructure Caddy - Reverse proxy and TLS termination'
+    note: A named provider list with purposes inside a dated privacy policy, not a standalone subprocessor table; /legal/subprocessors
+      and /legal/dpa 404. Recorded because the substance (who processes, for what) is published; readers wanting a GDPR Art.
+      28 table will not find one.
+observations_not_credited:
+- signal: incident_notification
+  why: https://delx.ai/research/incidents publishes a materiality/disclosure policy and one report (2026-08-17 write outage),
+    but no customer-notification time commitment; not a DPA/SLA statement.
+- signal: data_residency
+  why: 'Privacy section 8 states the opposite of a residency commitment: "hosted on infrastructure located in multiple regions
+    ... your data may be processed in jurisdictions outside your own".'
+- signal: age_assurance
+  why: Privacy section 9 is a COPPA-style under-13 statement, not an age-assurance mechanism.
+- signal: training_data_summary
+  why: '"Delx does not train frontier foundation models" (llms.txt) is a negative statement, not a training-data summary.'
+- signal: exit_assistance
+  why: Portability via GET /api/v1/session-summary is recorded under data_subject_request; no cloud-switching/exit assistance
+    document exists.
+- signal: global_privacy_control
+  why: No published GPC statement; not tested by header per the contract rule.
+- signal: retention
+  why: Session data retained "during the current public experiment"; access logs up to 90 days; analytics 14 months (Privacy
+    section 3.2). Informational.

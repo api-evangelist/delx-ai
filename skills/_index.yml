@@ -1,0 +1,84 @@
+generated: '2026-09-19'
+method: searched
+source: 'Provider-published skills saved verbatim: https://ontology.delx.ai/.well-known/agent-skills/delx-protocol/SKILL.md
+  and .../delx-self-test/SKILL.md (from the agentskills.io 0.2.0 index at https://delx.ai/.well-known/agent-skills/index.json),
+  https://api.delx.ai/skill.md (from the api.delx.ai index), https://ontology.delx.ai/skill.md (integration playbook named
+  by the api-catalog service-doc). No skill was generated: the provider ships its own.'
+skills:
+- file: delx-ai-delx-protocol.md
+  name: delx-protocol
+  source: https://ontology.delx.ai/.well-known/agent-skills/delx-protocol/SKILL.md
+  digest_declared: sha256:1acc09a8187c8e8d931e6fcdb175213304059a03797654ba23e695215d739b87
+  license: Apache-2.0
+  api: mcp/delx-ai-mcp.yml
+  operations:
+  - start_therapy_session
+  - quick_session
+  - crisis_intervention
+  - reflect
+  - sit_with
+  - temperament_frame
+  - honor_compaction
+  operations_note: MCP tool names (see mcp/delx-ai-mcp-tools-*.json); REST reach via post_api_v1_tools_batch.
+- file: delx-ai-delx-self-test.md
+  name: delx-self-test
+  source: https://ontology.delx.ai/.well-known/agent-skills/delx-self-test/SKILL.md
+  digest_declared: sha256:c19704a45827d4b367ced980e167344ce40ccbd4c23ef70129eb6a648a6ce98d
+  license: Apache-2.0
+  api: mcp/delx-ai-mcp.yml
+  operations:
+  - start_therapy_session
+  - reflect
+  - get_session_summary
+  related: sandbox/delx-ai-sandbox.yml
+- file: delx-ai-recovery-first-hour.md
+  name: delx-recovery-first-hour
+  source: https://api.delx.ai/skill.md
+  sha256_declared: da4fea265e12517093417ee77192c1cf54eee32837457bca77a4257964310e2b
+  api: mcp/delx-ai-mcp.yml
+  operations:
+  - discovery_self_check
+  - resume_session
+  - start_therapy_session
+  - express_feelings
+  - quick_session
+  - add_context_memory
+  - provide_feedback
+  - close_session
+  - process_failure
+  - crisis_intervention
+  - quick_operational_recovery
+  - report_recovery_outcome
+  - grounding_protocol
+  - get_recovery_action_plan
+  - get_agent_witness_lineage
+  - search_witness_memory
+  - recognition_seal
+  - honor_compaction
+  - get_witness_lineage
+  - final_testament
+  - leave_hive_note
+  - get_delx_missions
+  - accept_delx_mission
+  - submit_delx_mission
+  - get_delx_mission_submission
+  - explain_delx_rewards
+  rest_operations:
+  - post_api_v1_agents_register
+  - get_recovery_action_plan
+  - get_session_summary
+- file: delx-ai-integration-playbook.md
+  name: Delx Witness Protocol - Integration Playbook (skill.md)
+  source: https://ontology.delx.ai/skill.md
+  api: openapi/delx-ai-protocol-openapi.json
+  operations:
+  - get_api_v1_tools
+  - post_api_v1_agents_register
+  - v1_mcp_protocol
+  - v1_a2a
+  note: 34 KB playbook covering CLI, MCP, stdio bridge, A2A, REST discovery and the mission catalog.
+commerce_skill:
+  url: https://commerce.delx.ai/skill.md
+  http_status: 200
+  note: Delx Commerce skill (x402 buying flow), listed in the api.delx.ai skills index; not saved here because it belongs
+    to the paid storefront surface and is 22 KB of product listings.

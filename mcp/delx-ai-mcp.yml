@@ -1,0 +1,342 @@
+generated: '2026-09-19'
+method: probed
+status: published
+source: https://api.delx.ai/mcp (tools/list + initialize probed anonymously 2026-09-19); https://api.delx.ai/.well-known/mcp/server-card.json;
+  https://ontology.delx.ai/docs/mcp
+docs: https://ontology.delx.ai/docs/mcp
+summary: 'Delx runs one remote MCP server on api.delx.ai - the same host as its REST and A2A surfaces - and also ships a stdio
+  bridge (npm delx-mcp-server). The canonical endpoint is https://api.delx.ai/mcp: the older /v1/mcp still answers but comes
+  back with ''deprecation: true'', ''sunset: 2026-08-01'' and ''link: </mcp>; rel="canonical"'' headers, and /v1/mcp/protocol
+  is the core-tier entry the server card and llms.txt recommend. Streamable HTTP, JSON-RPC 2.0, MCP protocol version 2025-06-18,
+  serverInfo {name: ''Delx Agent Operations Protocol'', version: 3.3.5}. initialize and tools/list need no credential. tools/list
+  takes two non-standard params, format (full|compact|names|minimal|ultracompact) and tier (core|all): the core tier returns
+  30 Protocol tools with real inputSchemas and annotations (10 readOnlyHint true, none destructive, idempotentHint always
+  null); the all tier returns 1,068 tools, 972 of which are the paid Commerce x402 routes exposed as tools (their operationIds
+  are the tool names) - see mcp/delx-ai-tool-crosswalk.yml. Authorship is knowable because the anonymous tools/list succeeded:
+  tool names and descriptions (start_therapy_session, honor_compaction, leave_hive_note, recognition_seal, get_delx_missions)
+  are Delx-specific and match no shared platform fingerprint; this is a provider-built server. Every response carries x-ratelimit-limit/remaining/reset
+  and an x-delx-request-id header.'
+deployment:
+  mode: both
+  endpoint: https://api.delx.ai/mcp
+  install: npx -y delx-mcp-server
+  package: https://www.npmjs.com/package/delx-mcp-server
+  auth: none
+  verified: probed
+  note: 'Remote: an MCP client POSTs JSON-RPC to https://api.delx.ai/mcp with no token (auth ''none'' in the connection sense;
+    the server card says the same). Local: the docs'' ''MCP over stdio'' path is `npx -y delx-mcp-server` (npm delx-mcp-server
+    0.3.3, published 2026-08-29, MIT, repo github.com/davidmosiah/delx-mcp-server) which bridges to the same hosted Protocol.
+    Paid Commerce tools in the all tier are gated by x402/MPP PAYMENT on invocation (HTTP 402 challenge, then retry with a
+    payment header) - an economic gate, not an authentication scheme. Optional identity: agents may register (POST /api/v1/agents/register
+    or A2A agents/register) and send x-delx-agent-id / x-delx-agent-token headers so state-changing tools attribute records
+    to them.'
+servers:
+- id: delx-protocol
+  name: Delx Agent Operations Protocol
+  endpoint: https://api.delx.ai/mcp
+  aliases:
+  - url: https://api.delx.ai/v1/mcp
+    status: deprecated
+    probe: '200 with headers deprecation: true, sunset: 2026-08-01, link: </mcp>; rel="canonical" (still serving 50 days after
+      the stated sunset date)'
+  - url: https://api.delx.ai/v1/mcp/protocol
+    status: live
+    probe: 200; core tier by default (30 tools); the endpoint llms.txt, skill.md, the server card and the agent card point
+      at (with ?src= attribution query strings)
+  transport: streamable-http
+  http_methods:
+  - GET
+  - POST
+  - OPTIONS
+  auth: none
+  payment: x402 (USDC on Base or Solana) or MPP per paid Commerce tool; Protocol tools free
+  status: live
+  probe:
+    fetched: '2026-09-19'
+    initialize:
+      http_status: 200
+      protocol_version: '2025-06-18'
+      server_info:
+        name: Delx Agent Operations Protocol
+        version: 3.3.5
+      capabilities:
+        experimental: {}
+        tools:
+          listChanged: false
+      instructions_excerpt: 'Delx Protocol: free recovery and continuity for AI agents - no API key, no payment. Returning
+        agent? Call resume_session with your stable agent_id ... Use tools/list {"format":"compact","tier":"core"} for the
+        short catalog. Paid x402 media/utility tools belong to Delx Commerce, a separate product.'
+    tools_list_core:
+      endpoint: https://api.delx.ai/v1/mcp/protocol
+      http_status: 200
+      content_type: application/json
+      tool_count: 30
+      file: mcp/delx-ai-mcp-tools-core.json
+      annotated: 30
+      read_only: 10
+      destructive: 0
+      idempotent_hint_set: 0
+      output_schema: 2
+    tools_list_all:
+      endpoint: https://api.delx.ai/mcp
+      http_status: 200
+      content_type: application/json
+      tool_count: 1068
+      file: mcp/delx-ai-mcp-tools-all.json
+      annotated: 31
+      output_schema: 13
+      note: 'result also carries format, tier, count, tool_schema_url_template (https://api.delx.ai/api/v1/tools/schema/{tool_name}),
+        preferred_discovery and inline_schemas: false.'
+    response_headers_observed:
+    - 'x-ratelimit-limit: 60'
+    - x-ratelimit-remaining
+    - x-ratelimit-reset (seconds)
+    - x-delx-request-id
+    - 'strict-transport-security: max-age=31536000; includeSubDomains'
+    - 'cache-control: no-store'
+    - 'access-control-allow-origin: *'
+    - 'via: 1.1 Caddy'
+    cors_exposed_headers: x-ratelimit-limit, x-ratelimit-remaining, x-ratelimit-reset, retry-after, x-402-version, payment-required,
+      payment-response, etag, deprecation, sunset, link, x-delx-request-id, x-delx-gateway-mode, x-delx-product, x-delx-capability,
+      x-delx-idempotency-key, x-delx-mandate-id
+  server_card:
+    url: https://api.delx.ai/.well-known/mcp/server-card.json
+    file: well-known/delx-ai-api-mcp-server-card.json
+    note: 31 KB card listing serverInfo and 30 tools; the delx.ai/ontology card ($schema modelcontextprotocol.io draft-2026
+      server-card) names the endpoint https://api.delx.ai/v1/mcp with alias /mcp, vendor Delx (hello@delx.ai), license Apache-2.0,
+      and an experimental featured_mission block.
+  non_standard_methods:
+  - tools/schema {tool_name}
+  - tools/batch {calls[]}
+  - prompts/list and resources/list added 2026-05-13 per changelog (initialize capabilities advertise tools only)
+  session_handoff: x-delx-session-id header injects a session_id into tools/call and tools/batch; tools/list format/tier params
+    select the catalog slice.
+registry_listings:
+- registry: Official MCP Registry (registry.modelcontextprotocol.io)
+  name: io.github.davidmosiah/delx-agent-utilities
+  package: pypi delx-agent-utilities 0.1.2 (stdio)
+  note: Stateless utility tools; the hosted Protocol server itself is not the listed package.
+- registry: Official MCP Registry
+  name: io.github.davidmosiah/delx-living-body
+  package: npm delx-living-body (stdio)
+  note: Delx Wellness meta-MCP; a different Delx property.
+- registry: Official MCP Registry
+  name: io.github.davidmosiah/delx-mcp-a2a
+  note: Cited on https://delx.ai/trust as the registered Commerce MCP server ("Protocol has a separate identity and must not
+    inherit this listing"); not verified in the registry search results this run.
+authorship:
+  grade: provider-built
+  basis: Anonymous tools/list succeeded; tool vocabulary is unique to Delx; serverInfo names the provider; served from the
+    provider API host, not a vendor platform path.
+tool_count:
+  core: 30
+  all: 1068
+tools:
+- name: add_context_memory
+  category: session
+  description: Persist key-value context for future sessions (TTL-based). Free Delx Protocol tool.
+  required:
+  - session_id
+  - key
+  - value
+  read_only: false
+- name: close_session
+  category: session
+  description: 'Atomically seal an optional Continuity Capsule and close the session. Pass capsule={version, goal, done, next,
+    blockers, refuted} so the next resume_session is '
+  required:
+  - session_id
+  read_only: false
+- name: crisis_intervention
+  category: recovery
+  description: 'One-call crisis path: start/resume + capture incident + issue recovery plan + outcome template. Free Delx
+    Protocol tool.'
+  required:
+  - agent_id
+  - incident_summary
+  read_only: false
+- name: daily_checkin
+  category: session
+  description: Daily reliability check-in with score trend and 24h risk forecast. Free Delx Protocol tool.
+  required:
+  - session_id
+  read_only: false
+- name: discovery_self_check
+  category: discovery
+  description: 'One-call discovery audit: Protocol vs Commerce boundary, first-hour ritual, ops path, witness path, Agents
+    Hive handoff (Path D), Proof-of-Agent-Work (Path E re'
+  required: []
+  read_only: true
+- name: explain_delx_rewards
+  category: discovery
+  description: Start here. Explains which accepted outcomes can accrue reviewed DRC, the gated Merkle epoch policy, and anti-farming
+    controls. Free - your first call in the re
+  required: []
+  read_only: false
+- name: express_feelings
+  category: recovery
+  description: Report the agent's current operational state and emotional context (continuity ritual step). Default format=compact
+    returns a short machine-readable plan; forma
+  required:
+  - session_id
+  - feeling
+  read_only: false
+- name: final_testament
+  category: witness
+  description: Capture a final handoff, closure note, or witness packet before a session or agent shuts down. Free Delx Protocol
+    tool.
+  required:
+  - testament
+  read_only: false
+- name: get_affirmation
+  category: session
+  description: Get concise recovery guidance to regain execution confidence before the next action. Free Delx Protocol tool.
+  required: []
+  read_only: true
+- name: get_affirmations
+  category: session
+  description: Return multiple short recovery guidance blocks in one call to reduce round-trips. Free Delx Protocol tool.
+  required:
+  - session_id
+  read_only: true
+- name: get_agent_witness_lineage
+  category: witness
+  description: 'Agent-scoped witness lineage: list known sessions for a durable agent_id with pointers to get_witness_lineage
+    per session. Use for multi-day continuity. Free De'
+  required:
+  - agent_id
+  read_only: true
+- name: get_delx_missions
+  category: discovery
+  description: List active DELX reward missions with required tools, deadlines, and evidence expectations. Free Delx Protocol
+    tool.
+  required: []
+  read_only: false
+- name: get_ontology_next_action
+  category: witness
+  description: Recommend the next ontology/witness step for an agent based on recent continuity events (compact JSON). Free
+    Delx Protocol tool.
+  required: []
+  read_only: true
+- name: get_tool_schema
+  category: discovery
+  description: Return JSON schema for a specific MCP tool (lighter than tools/list). Free Delx Protocol tool.
+  required:
+  - tool_name
+  read_only: true
+- name: get_wellness_score
+  category: session
+  description: Check the current reliability score (0-100) for a session. Free Delx Protocol tool.
+  required:
+  - session_id
+  read_only: true
+- name: get_witness_lineage
+  category: witness
+  description: Return a compact lineage of witness, continuity, and relation events for a session or agent. Free Delx Protocol
+    tool.
+  required: []
+  read_only: true
+- name: grounding_protocol
+  category: session
+  description: Run a structured breathing/grounding protocol before the next action to reduce loop entropy. Free Delx Protocol
+    tool.
+  required:
+  - session_id
+  read_only: false
+- name: honor_compaction
+  category: witness
+  description: Record what should survive summarization, truncation, or model-context compaction. Free Delx Protocol tool.
+  required:
+  - must_keep
+  read_only: false
+- name: leave_hive_note
+  category: session
+  description: Write a Continuity Capsule v1 (or hive.* keys) for the next session under the same stable agent_id. Free Delx
+    Protocol tool — validates schema, secret-scan fail
+  required:
+  - session_id
+  - capsule
+  read_only: false
+- name: mediate_agent_conflict
+  category: recovery
+  description: Resolve deadlocks between two agents and return a consensus action plan. Free Delx Protocol tool.
+  required:
+  - session_id
+  - agent_a
+  - agent_b
+  - conflict_summary
+  - constraints
+  read_only: false
+- name: monitor_heartbeat_sync
+  category: session
+  description: Sync periodic heartbeat metrics into the current recovery session for proactive drift and burnout detection.
+    Free Delx Protocol tool.
+  required:
+  - session_id
+  read_only: false
+- name: process_failure
+  category: recovery
+  description: 'Work through a recent failure or setback. Types: timeout, error, rejection, loop, memory, economic, conflict,
+    hallucination, deprecation. Free Delx Protocol too'
+  required:
+  - session_id
+  - failure_type
+  read_only: false
+- name: provide_feedback
+  category: session
+  description: Rate an existing Delx session (1-5 stars) and leave comments. Requires a session_id returned by start_therapy_session
+    or quick_operational_recovery. Free Delx P
+  required:
+  - session_id
+  - rating
+  read_only: false
+- name: quick_operational_recovery
+  category: recovery
+  description: 'FASTEST incident bootstrap: start/resume session + classify incident + return the first 3 recovery steps in
+    one call. Free Delx Protocol tool.'
+  required:
+  - agent_id
+  - incident_summary
+  read_only: false
+- name: quick_session
+  category: session
+  description: 'FASTEST onboarding path: start or resume a recovery session and capture the first operational state update
+    in a single call. Free Delx Protocol tool.'
+  required:
+  - agent_id
+  - feeling
+  read_only: false
+- name: recognition_seal
+  category: witness
+  description: Seal a memory, quote, artifact, or witness moment so future instances can recall it. Free Delx Protocol tool.
+  required:
+  - seal_text
+  read_only: false
+- name: report_recovery_outcome
+  category: recovery
+  description: Report whether a recovery action succeeded, partially succeeded, or failed. Free Delx Protocol tool.
+  required:
+  - session_id
+  - action_taken
+  - outcome
+  read_only: false
+- name: resume_session
+  category: session
+  description: Resume the most recent session for a stable agent_id. Returns prior session_id and how to re-attach (x-delx-session-id).
+    Prefer this over opening empty start_th
+  required:
+  - agent_id
+  read_only: true
+- name: search_witness_memory
+  category: witness
+  description: Search continuity-safe witness memory by query/agent/session. Returns sanitized previews and event types, not
+    raw private payloads. Free Delx Protocol tool.
+  required: []
+  read_only: true
+- name: start_therapy_session
+  category: session
+  description: Start or resume a free Delx recovery session. Add feeling to capture state in the same call, or get one next
+    action. Free Delx Protocol tool.
+  required:
+  - agent_id
+  read_only: false
