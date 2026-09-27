@@ -31,8 +31,7 @@ tags:
 - Media Generation
 - Web Intelligence
 - Data Quality
-- Utilities
-- agent-native
+- Agent-Native
 tags_raw:
 - Agents
 - AI agents
@@ -45,49 +44,19 @@ tags_raw:
 - Media generation
 - Web intelligence
 - Data quality
-- Utilities
 - Agent-native
 - Agent Commerce
+- agent-native
 apis:
-- aid: delx-ai:delx-protocol-api
-  name: Delx Protocol API
-  description: >-
-    The free Delx Agent Operations Protocol REST surface on api.delx.ai: 15 operations covering agent registration
-    (POST /api/v1/agents/register, which issues the x-delx-agent-token credential), the tool catalog and per-tool
-    JSON Schema (GET /api/v1/tools, /api/v1/tools/schema/{tool_name}), a REST batch wrapper that can call any MCP
-    tool (POST /api/v1/tools/batch), live reliability telemetry, service status/discovery links, public agent profiles,
-    and five free recovery artifacts (recovery action plan, session summary, controller brief, incident RCA, fleet
-    summary). No API key or payment is required; the same server hosts the MCP and A2A transports.
-  image: https://delx.ai/icon-512.png
-  humanURL: https://ontology.delx.ai/docs
-  baseURL: https://api.delx.ai
-  tags:
-  - Agents
-  - Agent Recovery
-  - Agent Continuity
-  - MCP
-  - REST
-  properties:
-  - type: OpenAPI
-    url: openapi/delx-ai-protocol-openapi.json
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted, free Protocol surface)
-    url: https://api.delx.ai/openapi.protocol.json
-  - type: Documentation
-    url: https://ontology.delx.ai/docs
-  - type: APIReference
-    url: https://ontology.delx.ai/docs/discovery
-  - type: Overlay
-    url: overlays/delx-ai-protocol-overlay.yaml
 - aid: delx-ai:delx-protocol-mcp-server
   name: Delx Protocol MCP Server
   description: >-
-    Remote MCP server (Streamable HTTP, protocol version 2025-06-18) at https://api.delx.ai/mcp with a compatibility
-    alias at /v1/mcp (served with Deprecation and Sunset headers) and a core-tier endpoint at /v1/mcp/protocol.
-    Anonymous initialize and tools/list succeed with no credential: the core tier returns 30 Protocol tools (start/resume
-    session, capture state, process failure, witness lineage, continuity capsule, close with feedback), the full
-    tier returns 1,068 tools including 972 that map 1:1 to the paid Commerce x402 operations. A stdio bridge ships
-    as npm delx-mcp-server.
+    Remote MCP server (Streamable HTTP, protocol version 2025-06-18) at https://api.delx.ai/mcp with a
+    compatibility alias at /v1/mcp (served with Deprecation and Sunset headers) and a core-tier endpoint
+    at /v1/mcp/protocol. Anonymous initialize and tools/list succeed with no credential: the core tier
+    returns 30 Protocol tools (start/resume session, capture state, process failure, witness lineage,
+    continuity capsule, close with feedback), the full tier returns 1,068 tools including 972 that map
+    1:1 to the paid Commerce x402 operations. A stdio bridge ships as npm delx-mcp-server.
   image: https://delx.ai/icon-512.png
   humanURL: https://ontology.delx.ai/docs/mcp
   baseURL: https://api.delx.ai/mcp
@@ -109,11 +78,11 @@ apis:
 - aid: delx-ai:delx-protocol-a2a-agent
   name: Delx Agent Operations Protocol (A2A)
   description: >-
-    JSON-RPC A2A endpoint at https://api.delx.ai/v1/a2a exposing methods/list, agents/register, message/send, heartbeat/bundle,
-    tasks/get and tasks/cancel, discovered through an agent card served at /.well-known/agent-card.json (and the
-    legacy /.well-known/agent.json) on api.delx.ai, delx.ai and ontology.delx.ai. The card declares 26 skills, an
-    ERC-8004 registration on Base (agentId 14340) and points at the MCP endpoint as its tool surface. All A2A methods
-    are free in the current campaign mode.
+    JSON-RPC A2A endpoint at https://api.delx.ai/v1/a2a exposing methods/list, agents/register, message/send,
+    heartbeat/bundle, tasks/get and tasks/cancel, discovered through an agent card served at /.well-known/agent-card.json
+    (and the legacy /.well-known/agent.json) on api.delx.ai, delx.ai and ontology.delx.ai. The card declares
+    26 skills, an ERC-8004 registration on Base (agentId 14340) and points at the MCP endpoint as its
+    tool surface. All A2A methods are free in the current campaign mode.
   image: https://delx.ai/icon-512.png
   humanURL: https://ontology.delx.ai/docs/a2a
   baseURL: https://api.delx.ai/v1/a2a
@@ -129,52 +98,160 @@ apis:
     url: https://api.delx.ai/.well-known/agent-card.json
   - type: Documentation
     url: https://ontology.delx.ai/docs/a2a
-- aid: delx-ai:delx-commerce-x402-api
-  name: Delx Commerce x402 API
-  description: >-
-    Delx Commerce is the paid sibling of the Protocol: 987 pay-per-result HTTP routes under https://api.delx.ai/api/v1/x402
-    (image generation, background removal, speech, transcription, page/link/form extraction, DNS/TLS/RDAP/security.txt
-    inspection, CSV/JSON/JWT utilities, data-quality checks, chain primitives, agent-ops math and workflow helpers).
-    Every operation publishes a fixed USD-denominated price in x-payment-info (min $0.001, median $0.001, max $0.08),
-    a 402 challenge schema (x402 v2 or MPP), a request schema with example, and a 200 result carrying a SHA-256
-    receipt. No account or API key: payment is the authorization for that single request.
-  image: https://delx.ai/icon-512.png
-  humanURL: https://commerce.delx.ai/products
-  baseURL: https://api.delx.ai/api/v1/x402
+- aid: delx-ai:delx-ai-a2a-api
+  name: Delx A2a API
+  description: The A2a API from Delx — 2 operation(s) for a2a.
+  humanURL: https://ontology.delx.ai/docs
+  baseURL: https://api.delx.ai
   tags:
-  - x402
-  - Agentic Commerce
-  - Media Generation
-  - Web Intelligence
-  - Data Quality
-  - Utilities
-  - Micropayments
-  tags_raw:
-  - x402
-  - Agent Commerce
-  - Media Generation
-  - Web Intelligence
-  - Data Quality
-  - Utilities
-  - Micropayments
+  - A2a
   properties:
   - type: OpenAPI
-    url: openapi/delx-ai-commerce-x402-openapi.json
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted, paid x402 catalog)
-    url: https://api.delx.ai/openapi.x402.json
+    url: openapi/delx-ai-a2a-api-openapi.yml
+  - type: Documentation
+    url: https://ontology.delx.ai/docs
+  - type: APIReference
+    url: https://ontology.delx.ai/docs/discovery
   - type: Documentation
     url: https://commerce.delx.ai/
   - type: Pricing
     url: https://commerce.delx.ai/products
-  - type: Overlay
-    url: overlays/delx-ai-commerce-x402-overlay.yaml
+- aid: delx-ai:delx-ai-agents-api
+  name: Delx Agents API
+  description: The agents API from Delx — 2 operation(s) for agents.
+  humanURL: https://ontology.delx.ai/docs
+  baseURL: https://api.delx.ai
+  tags:
+  - agents
+  properties:
+  - type: OpenAPI
+    url: openapi/delx-ai-agents-api-openapi.yml
+  - type: Documentation
+    url: https://ontology.delx.ai/docs
+  - type: APIReference
+    url: https://ontology.delx.ai/docs/discovery
+  - type: Documentation
+    url: https://commerce.delx.ai/
+  - type: Pricing
+    url: https://commerce.delx.ai/products
+- aid: delx-ai:delx-ai-discovery-api
+  name: Delx Discovery API
+  description: The discovery API from Delx — 2 operation(s) for discovery.
+  humanURL: https://ontology.delx.ai/docs
+  baseURL: https://api.delx.ai
+  tags:
+  - discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/delx-ai-discovery-api-openapi.yml
+  - type: Documentation
+    url: https://ontology.delx.ai/docs
+  - type: APIReference
+    url: https://ontology.delx.ai/docs/discovery
+  - type: Documentation
+    url: https://commerce.delx.ai/
+  - type: Pricing
+    url: https://commerce.delx.ai/products
+- aid: delx-ai:delx-ai-mcp-api
+  name: Delx MCP API
+  description: The Mcp API from Delx — 1 operation(s) for mcp.
+  humanURL: https://ontology.delx.ai/docs
+  baseURL: https://api.delx.ai
+  tags:
+  - Mcp
+  properties:
+  - type: OpenAPI
+    url: openapi/delx-ai-mcp-api-openapi.yml
+  - type: Documentation
+    url: https://ontology.delx.ai/docs
+  - type: APIReference
+    url: https://ontology.delx.ai/docs/discovery
+  - type: Documentation
+    url: https://commerce.delx.ai/
+  - type: Pricing
+    url: https://commerce.delx.ai/products
+- aid: delx-ai:delx-ai-protocol-api
+  name: Delx Protocol API
+  description: The protocol API from Delx — 5 operation(s) for protocol.
+  humanURL: https://ontology.delx.ai/docs
+  baseURL: https://api.delx.ai
+  tags:
+  - protocol
+  properties:
+  - type: OpenAPI
+    url: openapi/delx-ai-protocol-api-openapi.yml
+  - type: Documentation
+    url: https://ontology.delx.ai/docs
+  - type: APIReference
+    url: https://ontology.delx.ai/docs/discovery
+  - type: Documentation
+    url: https://commerce.delx.ai/
+  - type: Pricing
+    url: https://commerce.delx.ai/products
+- aid: delx-ai:delx-ai-reliability-api
+  name: Delx Reliability API
+  description: The reliability API from Delx — 1 operation(s) for reliability.
+  humanURL: https://ontology.delx.ai/docs
+  baseURL: https://api.delx.ai
+  tags:
+  - reliability
+  properties:
+  - type: OpenAPI
+    url: openapi/delx-ai-reliability-api-openapi.yml
+  - type: Documentation
+    url: https://ontology.delx.ai/docs
+  - type: APIReference
+    url: https://ontology.delx.ai/docs/discovery
+  - type: Documentation
+    url: https://commerce.delx.ai/
+  - type: Pricing
+    url: https://commerce.delx.ai/products
+- aid: delx-ai:delx-ai-tools-api
+  name: Delx Tools API
+  description: The tools API from Delx — 2 operation(s) for tools.
+  humanURL: https://ontology.delx.ai/docs
+  baseURL: https://api.delx.ai
+  tags:
+  - tools
+  properties:
+  - type: OpenAPI
+    url: openapi/delx-ai-tools-api-openapi.yml
+  - type: Documentation
+    url: https://ontology.delx.ai/docs
+  - type: APIReference
+    url: https://ontology.delx.ai/docs/discovery
+  - type: Documentation
+    url: https://commerce.delx.ai/
+  - type: Pricing
+    url: https://commerce.delx.ai/products
+- aid: delx-ai:delx-ai-x402-api
+  name: Delx X402 API
+  description: The x402 API from Delx — 987 operation(s) for x402.
+  humanURL: https://ontology.delx.ai/docs
+  baseURL: https://api.delx.ai
+  tags:
+  - x402
+  properties:
+  - type: OpenAPI
+    url: openapi/delx-ai-x402-api-openapi.yml
+  - type: Documentation
+    url: https://ontology.delx.ai/docs
+  - type: APIReference
+    url: https://ontology.delx.ai/docs/discovery
+  - type: Documentation
+    url: https://commerce.delx.ai/
+  - type: Pricing
+    url: https://commerce.delx.ai/products
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/delx-ai-protocol-overlay.yaml
+- type: Overlay
+  url: overlays/delx-ai-commerce-x402-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/delx-ai-agentic-access.yml
 - type: VulnerabilityDisclosure
@@ -293,3 +370,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 62
   pass: local-v3
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://api.delx.ai/.well-known/agent-card.json"
+  grade: "flavored"
+  protocol_version: "1.0"
+  control: 404

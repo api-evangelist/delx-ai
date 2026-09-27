@@ -1,0 +1,45 @@
+{
+  "provider": "delx-ai",
+  "sources": [
+    "delx-ai-commerce-x402-openapi.json",
+    "delx-ai-protocol-openapi.json"
+  ],
+  "outputs": [
+    "delx-ai-x402-api-openapi.yml",
+    "delx-ai-a2a-api-openapi.yml",
+    "delx-ai-mcp-api-openapi.yml",
+    "delx-ai-agents-api-openapi.yml",
+    "delx-ai-discovery-api-openapi.yml",
+    "delx-ai-protocol-api-openapi.yml",
+    "delx-ai-reliability-api-openapi.yml",
+    "delx-ai-tools-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/delx-ai-commerce-x402-openapi.json",
+    "archived openapi/delx-ai-protocol-openapi.json"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "delx-ai-commerce-x402-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "delx-ai-commerce-x402-openapi.json: declared missing tag: utility",
+    "delx-ai-commerce-x402-openapi.json: declared missing tag: x402",
+    "delx-ai-commerce-x402-openapi.json: multi-axis tagging (2 tags, 1 first tags, 2.00x duplication over 987 operations) \u2014 split on first tag, 987 operations narrowed",
+    "delx-ai-protocol-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "delx-ai-protocol-openapi.json: tagged paths POST /v1/mcp/protocol -> Mcp",
+    "delx-ai-protocol-openapi.json: tagged paths POST /v1/a2a -> A2a",
+    "delx-ai-protocol-openapi.json: declared missing tag: A2a",
+    "delx-ai-protocol-openapi.json: declared missing tag: Mcp",
+    "delx-ai-protocol-openapi.json: declared missing tag: a2a",
+    "delx-ai-protocol-openapi.json: declared missing tag: agents",
+    "delx-ai-protocol-openapi.json: declared missing tag: continuity",
+    "delx-ai-protocol-openapi.json: declared missing tag: discovery",
+    "delx-ai-protocol-openapi.json: declared missing tag: protocol",
+    "delx-ai-protocol-openapi.json: declared missing tag: recovery",
+    "delx-ai-protocol-openapi.json: declared missing tag: reliability",
+    "delx-ai-protocol-openapi.json: declared missing tag: tools",
+    "delx-ai-protocol-openapi.json: multi-axis tagging (10 tags, 8 first tags, 1.67x duplication over 15 operations) \u2014 split on first tag, 5 operations narrowed",
+    "apis.yml register: written (+8 apis, 10 total)"
+  ],
+  "skipped": []
+}

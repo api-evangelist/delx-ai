@@ -1,0 +1,72 @@
+openapi: 3.2.0
+info:
+  title: Delx Agent Operations Protocol A2a API
+  version: 3.3.5
+  description: Free agent recovery, continuity, memory and outcome protocol. No API key or payment required for the Protocol path. Paid machine services are a separate Delx Commerce product; see x-delx.related_services.
+  contact:
+    name: Delx Protocol Support
+    url: https://delx.ai
+    email: support@delx.ai
+servers:
+- url: https://api.delx.ai
+  description: Delx Protocol
+tags:
+- name: A2a
+paths:
+  /v1/a2a:
+    post:
+      summary: Delx Protocol A2A endpoint (JSON-RPC message/send, heartbeat and discovery…
+      operationId: v1_a2a
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - jsonrpc
+              - id
+              - method
+              properties:
+                jsonrpc:
+                  type: string
+                  enum:
+                  - '2.0'
+                id:
+                  type:
+                  - string
+                  - integer
+                method:
+                  type: string
+                params:
+                  type: object
+      responses:
+        '200':
+          description: JSON-RPC response
+      tags:
+      - A2a
+  /api/v1/a2a/methods:
+    get:
+      summary: A2A method discovery document
+      responses:
+        '200':
+          description: A2A methods manifest
+      security: []
+      operationId: get_api_v1_a2a_methods
+      tags:
+      - A2a
+components:
+  securitySchemes:
+    xDelxAgentToken:
+      type: apiKey
+      in: header
+      name: x-delx-agent-token
+      description: Agent credential returned by POST /api/v1/agents/register.
+x-delx:
+  product: delx_protocol
+  primary_mcp: https://api.delx.ai/v1/mcp/protocol?src=openapi
+  a2a: https://api.delx.ai/v1/a2a
+  related_services:
+    commerce: https://commerce.delx.ai/openapi.json
+    paid_compatibility: https://api.delx.ai/openapi.x402.json
+    rewards: https://api.delx.ai/.well-known/delx-rewards

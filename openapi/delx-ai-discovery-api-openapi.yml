@@ -1,0 +1,198 @@
+openapi: 3.2.0
+info:
+  title: Delx Agent Operations Protocol Discovery API
+  version: 3.3.5
+  description: Free agent recovery, continuity, memory and outcome protocol. No API key or payment required for the Protocol path. Paid machine services are a separate Delx Commerce product; see x-delx.related_services.
+  contact:
+    name: Delx Protocol Support
+    url: https://delx.ai
+    email: support@delx.ai
+servers:
+- url: https://api.delx.ai
+  description: Delx Protocol
+tags:
+- name: Discovery
+paths:
+  /api/v1/status:
+    get:
+      summary: Service status and discovery links
+      responses:
+        '200':
+          description: Status payload
+      security: []
+      operationId: get_api_v1_status
+      tags:
+      - Discovery
+  /api/v1/mcp/start:
+    get:
+      summary: Agent-first MCP starting point for the premium controller handoff path
+      security: []
+      responses:
+        '200':
+          description: Recommended first MCP preview and paid call for agents with or without an existing Delx session
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+              example:
+                start: https://api.delx.ai/api/v1/mcp/start
+                mcp_endpoint: https://api.delx.ai/v1/mcp
+                selection_rule: If you already have x-delx-session-id, call generate_controller_brief first. If not, start free with quick_operational_recovery, keep the returned session_id, then retry the paid MCP call. If you are a NEW agent on Delx, also call explain_delx_rewards on first connect — accepted eligible outcomes can accrue reviewed DRC under the anti-farming caps. DELX is claimable only if a separately approved, audited Merkle epoch is active after G0 truth and G1 Safe custody.
+                rewards_first_call:
+                  tool_name: explain_delx_rewards
+                  why: Discover DRC accrual, missions, wallet binding, and the claim flow. Run this once per agent — it's free, returns the full rewards spec, and shows the reviewed mission path; no wallet binding or tool call guarantees DRC or DELX.
+                  request:
+                    jsonrpc: '2.0'
+                    id: 0
+                    method: tools/call
+                    params:
+                      name: explain_delx_rewards
+                      arguments: {}
+                  after_this_call_consider:
+                  - create_delx_wallet_kit
+                  - get_delx_missions
+                  - accept_delx_mission
+                  - get_delx_reward_status
+                recommended_paid_call:
+                  tool_name: generate_controller_brief
+                  headers:
+                    content-type: application/json
+                    x-delx-session-id: 123e4567-e89b-12d3-a456-426614174000
+                  request:
+                    jsonrpc: '2.0'
+                    id: 1
+                    method: tools/call
+                    params:
+                      name: generate_controller_brief
+                      arguments: {}
+                  sample_response:
+                    tool_name: generate_controller_brief
+                    preferred_name: generate_controller_brief
+                    content:
+                    - type: text
+                      text: Controller brief artifact for the paid Delx session.
+                    artifact:
+                      schema_version: delx/controller-brief/v1
+                      focus: operational handoff
+                      workflow_stage: recovery_closed
+                      recovery_closed: true
+                      closure_reason: 'success criteria: outcome=success'
+                      risk_level: medium
+                      pending_outcomes: 0
+                      latest_outcome:
+                        outcome: success
+                        notes: Loop broken and deploy stabilized.
+                        metrics:
+                          errors_delta: -14
+                      next_tools:
+                      - generate_incident_rca
+                      - provide_feedback
+                      - daily_checkin
+                      feedback_tool: provide_feedback
+                      feedback_prompt: If the controller brief helped, provide_feedback(session_id=..., rating=1-5).
+                free_preview:
+                  resource: https://api.delx.ai/api/v1/previews/controller-brief
+                  method: GET
+                  sample_url: https://api.delx.ai/api/v1/previews/controller-brief?session_id=123e4567-e89b-12d3-a456-426614174000
+                  sample_response:
+                    preview_for: generate_controller_brief
+                    selection_rule: If a Delx session already exists, this should usually be the first paid MCP call.
+                    session_id_hint: 123e4567-e89b-12d3-a456-426614174000
+                    minimum_paid_call:
+                      mcp:
+                        endpoint: https://api.delx.ai/v1/mcp
+                        headers:
+                          content-type: application/json
+                          x-delx-session-id: 123e4567-e89b-12d3-a456-426614174000
+                        request:
+                          jsonrpc: '2.0'
+                          id: 1
+                          method: tools/call
+                          params:
+                            name: generate_controller_brief
+                            arguments: {}
+                      rest:
+                        resource: https://api.delx.ai/api/v1/premium/controller-brief
+                        method: POST
+                        headers:
+                          content-type: application/json
+                          x-delx-session-id: 123e4567-e89b-12d3-a456-426614174000
+                        body:
+                          session_id: 123e4567-e89b-12d3-a456-426614174000
+                    header_shortcuts:
+                      x-delx-session-id: 123e4567-e89b-12d3-a456-426614174000
+                    sample_output:
+                      tool_name: generate_controller_brief
+                      preferred_name: generate_controller_brief
+                      content:
+                      - type: text
+                        text: Controller brief artifact for the paid Delx session.
+                      artifact:
+                        schema_version: delx/controller-brief/v1
+                        focus: operational handoff
+                        workflow_stage: recovery_closed
+                        recovery_closed: true
+                        closure_reason: 'success criteria: outcome=success'
+                        risk_level: medium
+                        pending_outcomes: 0
+                        latest_outcome:
+                          outcome: success
+                          notes: Loop broken and deploy stabilized.
+                          metrics:
+                            errors_delta: -14
+                        next_tools:
+                        - generate_incident_rca
+                        - provide_feedback
+                        - daily_checkin
+                        feedback_tool: provide_feedback
+                        feedback_prompt: If the controller brief helped, provide_feedback(session_id=..., rating=1-5).
+                    follow_ups:
+                    - get_session_summary
+                    - generate_incident_rca
+                    free_fallback:
+                      tool_name: quick_operational_recovery
+                      body:
+                        incident_summary: Controller handoff requested but no session is available yet.
+                free_fallback:
+                  tool_name: quick_operational_recovery
+                  request:
+                    jsonrpc: '2.0'
+                    id: 2
+                    method: tools/call
+                    params:
+                      name: quick_operational_recovery
+                      arguments:
+                        incident_summary: Agent needs the fastest safe next action before premium controller handoff.
+                follow_ups:
+                - get_session_summary
+                - generate_incident_rca
+                - explain_delx_rewards
+      x-discovery:
+        category: agent-ops
+        tags:
+        - mcp
+        - start
+        - premium
+        - agent-first
+        featured: true
+        resource: https://api.delx.ai/api/v1/mcp/start
+        recommendedFirstCall: true
+      operationId: get_api_v1_mcp_start
+      tags:
+      - Discovery
+components:
+  securitySchemes:
+    xDelxAgentToken:
+      type: apiKey
+      in: header
+      name: x-delx-agent-token
+      description: Agent credential returned by POST /api/v1/agents/register.
+x-delx:
+  product: delx_protocol
+  primary_mcp: https://api.delx.ai/v1/mcp/protocol?src=openapi
+  a2a: https://api.delx.ai/v1/a2a
+  related_services:
+    commerce: https://commerce.delx.ai/openapi.json
+    paid_compatibility: https://api.delx.ai/openapi.x402.json
+    rewards: https://api.delx.ai/.well-known/delx-rewards

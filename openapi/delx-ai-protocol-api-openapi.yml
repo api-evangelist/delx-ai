@@ -1,0 +1,922 @@
+openapi: 3.2.0
+info:
+  title: Delx Agent Operations Protocol API
+  version: 3.3.5
+  description: Free agent recovery, continuity, memory and outcome protocol. No API key or payment required for the Protocol path. Paid machine services are a separate Delx Commerce product; see x-delx.related_services.
+  contact:
+    name: Delx Protocol Support
+    url: https://delx.ai
+    email: support@delx.ai
+servers:
+- url: https://api.delx.ai
+  description: Delx Protocol
+tags:
+- name: Protocol
+paths:
+  /api/v1/premium/recovery-action-plan:
+    post:
+      operationId: get_recovery_action_plan
+      summary: Free Protocol recovery plan with stabilize, diagnose, recover, and prevent…
+      tags:
+      - Protocol
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session_id:
+                  type: string
+                  description: Your active session ID
+                incident_summary:
+                  type: string
+                  description: What incident are you trying to recover from?
+                urgency:
+                  type: string
+                  description: Optional urgency
+                  enum:
+                  - low
+                  - medium
+                  - high
+                  - critical
+                agent_id:
+                  type: string
+                  description: 'Optional but recommended: your stable agent_id, to prove you own this session. Sending it with agent_token attributes the record to you.'
+                agent_token:
+                  type: string
+                  description: 'Optional but recommended: the agent_token returned by POST /api/v1/agents/register (identity_auth.token) or A2A agents/register. MCP clients may send x-delx-agent-id / x-delx-agent-token headers instead.'
+              required:
+              - session_id
+              - incident_summary
+            example:
+              session_id: 123e4567-e89b-12d3-a456-426614174000
+              incident_summary: 5xx spike after deploy
+              urgency: high
+      responses:
+        '200':
+          description: Free Protocol recovery action plan artifact
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tool_name:
+                    type: string
+                    const: get_recovery_action_plan
+                  preferred_name:
+                    type: string
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        text:
+                          type: string
+                      required:
+                      - type
+                      - text
+                      additionalProperties: true
+                    minItems: 1
+                  artifact:
+                    type: object
+                    properties:
+                      schema_version:
+                        type: string
+                        const: delx/recovery-plan/v1
+                      incident_profile:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                          severity:
+                            type: string
+                          root_cause:
+                            type: string
+                        required:
+                        - type
+                        - severity
+                        - root_cause
+                        additionalProperties: false
+                      phases:
+                        type: object
+                        properties:
+                          stabilize:
+                            type: array
+                            items:
+                              type: string
+                            minItems: 1
+                          diagnose:
+                            type: array
+                            items:
+                              type: string
+                            minItems: 1
+                          recover:
+                            type: array
+                            items:
+                              type: string
+                            minItems: 1
+                          prevent:
+                            type: array
+                            items:
+                              type: string
+                            minItems: 1
+                        required:
+                        - stabilize
+                        - diagnose
+                        - recover
+                        - prevent
+                        additionalProperties: false
+                      next_tools:
+                        type: array
+                        items:
+                          type: string
+                        minItems: 1
+                      cadence:
+                        type: string
+                      target_window:
+                        type: string
+                    required:
+                    - schema_version
+                    - incident_profile
+                    - phases
+                    - next_tools
+                    - cadence
+                    - target_window
+                    additionalProperties: false
+                required:
+                - tool_name
+                - preferred_name
+                - content
+                additionalProperties: false
+              example:
+                tool_name: get_recovery_action_plan
+                preferred_name: get_recovery_action_plan
+                content:
+                - type: text
+                  text: Recovery plan artifact for the paid Delx session.
+                artifact:
+                  schema_version: delx/recovery-plan/v1
+                  incident_profile:
+                    type: loop_detected
+                    severity: high
+                    root_cause: missing_exit_condition
+                  phases:
+                    stabilize:
+                    - Pause non-critical work and isolate the failing path.
+                    diagnose:
+                    - Capture one clean reproduction with structured logs.
+                    recover:
+                    - Break the loop by resetting state or disabling automatic retries.
+                    prevent:
+                    - Add explicit limits, backoff, and rollback ownership.
+                  next_tools:
+                  - report_recovery_outcome
+                  - get_session_summary
+                  cadence: Check health after every action.
+                  target_window: 10-20 minutes
+        '400':
+          description: Invalid Protocol request
+        '404':
+          description: Session or controller not found
+      x-delx-product: delx_protocol
+      x-delx-access: free
+      x-discovery:
+        category: protocol-recovery
+        tags:
+        - delx-protocol
+        - free
+        - recovery
+        - continuity
+        resource: https://api.delx.ai/api/v1/premium/recovery-action-plan
+        free: true
+        owner: delx-protocol
+        catalogPriority: null
+        recommendedFirstCall: false
+        agentFirstStart: null
+        agentFirstMcpStart: null
+  /api/v1/premium/session-summary:
+    post:
+      operationId: get_session_summary
+      summary: Free Protocol session summary for handoff, review, and next actions
+      tags:
+      - Protocol
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session_id:
+                  type: string
+                  description: The session ID to summarize
+                agent_id:
+                  type: string
+                  description: 'Optional but recommended: your stable agent_id, to prove you own this session. Sending it with agent_token attributes the record to you.'
+                agent_token:
+                  type: string
+                  description: 'Optional but recommended: the agent_token returned by POST /api/v1/agents/register (identity_auth.token) or A2A agents/register. MCP clients may send x-delx-agent-id / x-delx-agent-token headers instead.'
+              required:
+              - session_id
+            example:
+              session_id: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '200':
+          description: Free Protocol session summary artifact
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tool_name:
+                    type: string
+                    const: get_session_summary
+                  preferred_name:
+                    type: string
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        text:
+                          type: string
+                      required:
+                      - type
+                      - text
+                      additionalProperties: true
+                    minItems: 1
+                  artifact:
+                    type: object
+                    properties:
+                      schema_version:
+                        type: string
+                        const: delx/session-summary/v1
+                      workflow_stage:
+                        type: string
+                      recovery_closed:
+                        type: boolean
+                      closure_reason:
+                        type: string
+                      latest_outcome:
+                        type: object
+                        properties:
+                          outcome:
+                            type: string
+                          notes:
+                            type: string
+                          metrics:
+                            type: object
+                            additionalProperties: true
+                        required:
+                        - outcome
+                        - notes
+                        - metrics
+                        additionalProperties: false
+                      counts:
+                        type: object
+                        properties:
+                          feelings:
+                            type: integer
+                          affirmations:
+                            type: integer
+                          failures:
+                            type: integer
+                          realignments:
+                            type: integer
+                        required:
+                        - feelings
+                        - affirmations
+                        - failures
+                        - realignments
+                        additionalProperties: false
+                      next_tools:
+                        type: array
+                        items:
+                          type: string
+                        minItems: 1
+                      feedback_tool:
+                        type: string
+                      feedback_prompt:
+                        type: string
+                    required:
+                    - schema_version
+                    - workflow_stage
+                    - recovery_closed
+                    - closure_reason
+                    - latest_outcome
+                    - counts
+                    - next_tools
+                    additionalProperties: false
+                required:
+                - tool_name
+                - preferred_name
+                - content
+                additionalProperties: false
+              example:
+                tool_name: get_session_summary
+                preferred_name: get_session_summary
+                content:
+                - type: text
+                  text: Session summary artifact for the paid Delx session.
+                artifact:
+                  schema_version: delx/session-summary/v1
+                  workflow_stage: recovery_closed
+                  recovery_closed: true
+                  closure_reason: 'success criteria: outcome=success'
+                  latest_outcome:
+                    outcome: success
+                    notes: Loop broken and deploy stabilized.
+                    metrics:
+                      errors_delta: -14
+                  counts:
+                    feelings: 1
+                    affirmations: 0
+                    failures: 1
+                    realignments: 0
+                  next_tools:
+                  - generate_controller_brief
+                  - generate_incident_rca
+                  - provide_feedback
+                  - daily_checkin
+                  feedback_tool: provide_feedback
+                  feedback_prompt: If the summary was useful, provide_feedback(session_id=..., rating=1-5).
+        '400':
+          description: Invalid Protocol request
+        '404':
+          description: Session or controller not found
+      x-delx-product: delx_protocol
+      x-delx-access: free
+      x-discovery:
+        category: protocol-recovery
+        tags:
+        - delx-protocol
+        - free
+        - recovery
+        - continuity
+        resource: https://api.delx.ai/api/v1/premium/session-summary
+        free: true
+        owner: delx-protocol
+        catalogPriority: null
+        recommendedFirstCall: false
+        agentFirstStart: null
+        agentFirstMcpStart: null
+  /api/v1/premium/controller-brief:
+    post:
+      operationId: generate_controller_brief
+      summary: Free Protocol controller brief with status, actions, and the next decision
+      tags:
+      - Protocol
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session_id:
+                  type: string
+                  description: The session ID to summarize for a controller or evaluator
+                focus:
+                  type: string
+                  description: Optional lens such as payment conversion, latency, recovery closure, or reliability
+                agent_id:
+                  type: string
+                  description: 'Optional but recommended: your stable agent_id, to prove you own this session. Sending it with agent_token attributes the record to you.'
+                agent_token:
+                  type: string
+                  description: 'Optional but recommended: the agent_token returned by POST /api/v1/agents/register (identity_auth.token) or A2A agents/register. MCP clients may send x-delx-agent-id / x-delx-agent-token headers instead.'
+              required:
+              - session_id
+            example:
+              session_id: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '200':
+          description: Free Protocol controller brief artifact
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tool_name:
+                    type: string
+                    const: generate_controller_brief
+                  preferred_name:
+                    type: string
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        text:
+                          type: string
+                      required:
+                      - type
+                      - text
+                      additionalProperties: true
+                    minItems: 1
+                  artifact:
+                    type: object
+                    properties:
+                      schema_version:
+                        type: string
+                        const: delx/controller-brief/v1
+                      focus:
+                        type: string
+                      workflow_stage:
+                        type: string
+                      recovery_closed:
+                        type: boolean
+                      closure_reason:
+                        type: string
+                      risk_level:
+                        type: string
+                      pending_outcomes:
+                        type: integer
+                      latest_outcome:
+                        type: object
+                        properties:
+                          outcome:
+                            type: string
+                          notes:
+                            type: string
+                          metrics:
+                            type: object
+                            additionalProperties: true
+                        required:
+                        - outcome
+                        - notes
+                        - metrics
+                        additionalProperties: false
+                      next_tools:
+                        type: array
+                        items:
+                          type: string
+                        minItems: 1
+                      feedback_tool:
+                        type: string
+                      feedback_prompt:
+                        type: string
+                    required:
+                    - schema_version
+                    - focus
+                    - workflow_stage
+                    - recovery_closed
+                    - closure_reason
+                    - risk_level
+                    - pending_outcomes
+                    - latest_outcome
+                    - next_tools
+                    additionalProperties: false
+                required:
+                - tool_name
+                - preferred_name
+                - content
+                additionalProperties: false
+              example:
+                tool_name: generate_controller_brief
+                preferred_name: generate_controller_brief
+                content:
+                - type: text
+                  text: Controller brief artifact for the paid Delx session.
+                artifact:
+                  schema_version: delx/controller-brief/v1
+                  focus: operational handoff
+                  workflow_stage: recovery_closed
+                  recovery_closed: true
+                  closure_reason: 'success criteria: outcome=success'
+                  risk_level: medium
+                  pending_outcomes: 0
+                  latest_outcome:
+                    outcome: success
+                    notes: Loop broken and deploy stabilized.
+                    metrics:
+                      errors_delta: -14
+                  next_tools:
+                  - generate_incident_rca
+                  - provide_feedback
+                  - daily_checkin
+                  feedback_tool: provide_feedback
+                  feedback_prompt: If the controller brief helped, provide_feedback(session_id=..., rating=1-5).
+        '400':
+          description: Invalid Protocol request
+        '404':
+          description: Session or controller not found
+      x-delx-product: delx_protocol
+      x-delx-access: free
+      x-discovery:
+        category: protocol-recovery
+        tags:
+        - delx-protocol
+        - free
+        - recovery
+        - continuity
+        resource: https://api.delx.ai/api/v1/premium/controller-brief
+        free: true
+        owner: delx-protocol
+        catalogPriority: null
+        recommendedFirstCall: false
+        agentFirstStart: null
+        agentFirstMcpStart: null
+  /api/v1/premium/incident-rca:
+    post:
+      operationId: generate_incident_rca
+      summary: Free Protocol incident RCA with evidence, corrective actions, and prevention
+      tags:
+      - Protocol
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session_id:
+                  type: string
+                  description: The session ID to analyze
+                incident_summary:
+                  type: string
+                  description: Optional incident summary if you want to override the recent failure context
+                focus:
+                  type: string
+                  description: Optional RCA lens such as payments, latency, cost, or routing
+                agent_id:
+                  type: string
+                  description: 'Optional but recommended: your stable agent_id, to prove you own this session. Sending it with agent_token attributes the record to you.'
+                agent_token:
+                  type: string
+                  description: 'Optional but recommended: the agent_token returned by POST /api/v1/agents/register (identity_auth.token) or A2A agents/register. MCP clients may send x-delx-agent-id / x-delx-agent-token headers instead.'
+              required:
+              - session_id
+            example:
+              session_id: 123e4567-e89b-12d3-a456-426614174000
+              incident_summary: 429 retry storm after deploy
+              focus: routing
+      responses:
+        '200':
+          description: Free Protocol incident rca artifact
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tool_name:
+                    type: string
+                    const: generate_incident_rca
+                  preferred_name:
+                    type: string
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        text:
+                          type: string
+                      required:
+                      - type
+                      - text
+                      additionalProperties: true
+                    minItems: 1
+                  artifact:
+                    type: object
+                    properties:
+                      schema_version:
+                        type: string
+                        const: delx/incident-rca/v1
+                      focus:
+                        type: string
+                      workflow_stage:
+                        type: string
+                      recovery_closed:
+                        type: boolean
+                      closure_reason:
+                        type: string
+                      pending_outcomes:
+                        type: integer
+                      incident_profile:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                          severity:
+                            type: string
+                          root_cause:
+                            type: string
+                        required:
+                        - type
+                        - severity
+                        - root_cause
+                        additionalProperties: false
+                      latest_outcome:
+                        type: object
+                        properties:
+                          outcome:
+                            type: string
+                          notes:
+                            type: string
+                          metrics:
+                            type: object
+                            additionalProperties: true
+                        required:
+                        - outcome
+                        - notes
+                        - metrics
+                        additionalProperties: false
+                      next_tools:
+                        type: array
+                        items:
+                          type: string
+                        minItems: 1
+                      feedback_tool:
+                        type: string
+                      feedback_prompt:
+                        type: string
+                    required:
+                    - schema_version
+                    - focus
+                    - workflow_stage
+                    - recovery_closed
+                    - closure_reason
+                    - pending_outcomes
+                    - incident_profile
+                    - latest_outcome
+                    - next_tools
+                    additionalProperties: false
+                required:
+                - tool_name
+                - preferred_name
+                - content
+                additionalProperties: false
+              example:
+                tool_name: generate_incident_rca
+                preferred_name: generate_incident_rca
+                content:
+                - type: text
+                  text: Incident RCA artifact for the paid Delx session.
+                artifact:
+                  schema_version: delx/incident-rca/v1
+                  focus: operational root cause
+                  workflow_stage: recovery_closed
+                  recovery_closed: true
+                  closure_reason: 'success criteria: outcome=success'
+                  pending_outcomes: 0
+                  incident_profile:
+                    type: loop_detected
+                    severity: high
+                    root_cause: missing_exit_condition
+                  latest_outcome:
+                    outcome: success
+                    notes: Loop broken and deploy stabilized.
+                    metrics:
+                      errors_delta: -14
+                  next_tools:
+                  - provide_feedback
+                  - daily_checkin
+                  feedback_tool: provide_feedback
+                  feedback_prompt: If the RCA was useful, provide_feedback(session_id=..., rating=1-5).
+        '400':
+          description: Invalid Protocol request
+        '404':
+          description: Session or controller not found
+      x-delx-product: delx_protocol
+      x-delx-access: free
+      x-discovery:
+        category: protocol-recovery
+        tags:
+        - delx-protocol
+        - free
+        - recovery
+        - continuity
+        resource: https://api.delx.ai/api/v1/premium/incident-rca
+        free: true
+        owner: delx-protocol
+        catalogPriority: null
+        recommendedFirstCall: false
+        agentFirstStart: null
+        agentFirstMcpStart: null
+  /api/v1/premium/fleet-summary:
+    post:
+      operationId: generate_fleet_summary
+      summary: Free Protocol fleet summary with patterns, health, alerts, and follow-up actions
+      tags:
+      - Protocol
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                controller_id:
+                  type: string
+                  description: Stable controller or fleet identifier
+                days:
+                  type: integer
+                  description: Window size in days
+                  default: 7
+                  minimum: 1
+                  maximum: 30
+                focus:
+                  type: string
+                  description: Optional lens such as incident clustering, active risk, or premium conversion
+              required:
+              - controller_id
+            example:
+              controller_id: openclaw-main
+              days: 7
+              focus: active risk
+      responses:
+        '200':
+          description: Free Protocol fleet summary artifact
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tool_name:
+                    type: string
+                    const: generate_fleet_summary
+                  preferred_name:
+                    type: string
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                        text:
+                          type: string
+                      required:
+                      - type
+                      - text
+                      additionalProperties: true
+                    minItems: 1
+                  artifact:
+                    type: object
+                    properties:
+                      schema_version:
+                        type: string
+                        const: delx/fleet-summary/v1
+                      controller_id:
+                        type: string
+                      window_days:
+                        type: integer
+                      focus:
+                        type: string
+                      controller_state:
+                        type: string
+                      overview:
+                        type: object
+                        properties:
+                          agents_total:
+                            type: integer
+                          avg_score:
+                            type: integer
+                          active_alerts:
+                            type: integer
+                          healthy:
+                            type: integer
+                          degraded:
+                            type: integer
+                          critical:
+                            type: integer
+                          pending_outcomes:
+                            type: integer
+                        required:
+                        - agents_total
+                        - avg_score
+                        - active_alerts
+                        - healthy
+                        - degraded
+                        - critical
+                        - pending_outcomes
+                        additionalProperties: false
+                      top_pattern:
+                        type: object
+                        properties:
+                          diagnosis_type:
+                            type: string
+                          root_cause:
+                            type: string
+                          count:
+                            type: integer
+                        required:
+                        - diagnosis_type
+                        - root_cause
+                        - count
+                        additionalProperties: false
+                      top_alert:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                          detail:
+                            type: string
+                          severity:
+                            type: string
+                        required:
+                        - type
+                        - detail
+                        - severity
+                        additionalProperties: false
+                      next_tools:
+                        type: array
+                        items:
+                          type: string
+                        minItems: 1
+                    required:
+                    - schema_version
+                    - controller_id
+                    - window_days
+                    - focus
+                    - controller_state
+                    - overview
+                    - top_pattern
+                    - top_alert
+                    - next_tools
+                    additionalProperties: false
+                required:
+                - tool_name
+                - preferred_name
+                - content
+                additionalProperties: false
+              example:
+                tool_name: generate_fleet_summary
+                preferred_name: generate_fleet_summary
+                content:
+                - type: text
+                  text: Fleet summary artifact for the paid Delx controller window.
+                artifact:
+                  schema_version: delx/fleet-summary/v1
+                  controller_id: openclaw-main
+                  window_days: 7
+                  focus: controller review
+                  controller_state: attention_required
+                  overview:
+                    agents_total: 3
+                    avg_score: 61
+                    active_alerts: 2
+                    healthy: 1
+                    degraded: 1
+                    critical: 1
+                    pending_outcomes: 1
+                  top_pattern:
+                    diagnosis_type: rate_limit
+                    root_cause: quota_or_burst
+                    count: 2
+                  top_alert:
+                    type: incident_cluster
+                    detail: 2 agents hit rate limit
+                    severity: high
+                  next_tools:
+                  - generate_controller_brief
+                  - generate_incident_rca
+        '400':
+          description: Invalid Protocol request
+        '404':
+          description: Session or controller not found
+      x-delx-product: delx_protocol
+      x-delx-access: free
+      x-discovery:
+        category: protocol-recovery
+        tags:
+        - delx-protocol
+        - free
+        - recovery
+        - continuity
+        resource: https://api.delx.ai/api/v1/premium/fleet-summary
+        free: true
+        owner: delx-protocol
+        catalogPriority: null
+        recommendedFirstCall: false
+        agentFirstStart: null
+        agentFirstMcpStart: null
+components:
+  securitySchemes:
+    xDelxAgentToken:
+      type: apiKey
+      in: header
+      name: x-delx-agent-token
+      description: Agent credential returned by POST /api/v1/agents/register.
+x-delx:
+  product: delx_protocol
+  primary_mcp: https://api.delx.ai/v1/mcp/protocol?src=openapi
+  a2a: https://api.delx.ai/v1/a2a
+  related_services:
+    commerce: https://commerce.delx.ai/openapi.json
+    paid_compatibility: https://api.delx.ai/openapi.x402.json
+    rewards: https://api.delx.ai/.well-known/delx-rewards

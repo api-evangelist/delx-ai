@@ -1,0 +1,62 @@
+openapi: 3.2.0
+info:
+  title: Delx Agent Operations Protocol MCP API
+  version: 3.3.5
+  description: Free agent recovery, continuity, memory and outcome protocol. No API key or payment required for the Protocol path. Paid machine services are a separate Delx Commerce product; see x-delx.related_services.
+  contact:
+    name: Delx Protocol Support
+    url: https://delx.ai
+    email: support@delx.ai
+servers:
+- url: https://api.delx.ai
+  description: Delx Protocol
+tags:
+- name: MCP
+paths:
+  /v1/mcp/protocol:
+    post:
+      summary: Delx Protocol MCP endpoint (JSON-RPC; core recovery/continuity tool catalog by…
+      operationId: v1_mcp_protocol
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - jsonrpc
+              - id
+              - method
+              properties:
+                jsonrpc:
+                  type: string
+                  enum:
+                  - '2.0'
+                id:
+                  type:
+                  - string
+                  - integer
+                method:
+                  type: string
+                params:
+                  type: object
+      responses:
+        '200':
+          description: JSON-RPC response
+      tags:
+      - MCP
+components:
+  securitySchemes:
+    xDelxAgentToken:
+      type: apiKey
+      in: header
+      name: x-delx-agent-token
+      description: Agent credential returned by POST /api/v1/agents/register.
+x-delx:
+  product: delx_protocol
+  primary_mcp: https://api.delx.ai/v1/mcp/protocol?src=openapi
+  a2a: https://api.delx.ai/v1/a2a
+  related_services:
+    commerce: https://commerce.delx.ai/openapi.json
+    paid_compatibility: https://api.delx.ai/openapi.x402.json
+    rewards: https://api.delx.ai/.well-known/delx-rewards
