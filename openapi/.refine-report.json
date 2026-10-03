@@ -1,8 +1,8 @@
 {
   "provider": "delx-ai",
   "sources": [
-    "delx-ai-commerce-x402-openapi.json",
-    "delx-ai-protocol-openapi.json"
+    "_original/delx-ai-commerce-x402-openapi.json",
+    "_original/delx-ai-protocol-openapi.json"
   ],
   "outputs": [
     "delx-ai-x402-api-openapi.yml",
@@ -14,13 +14,11 @@
     "delx-ai-reliability-api-openapi.yml",
     "delx-ai-tools-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/delx-ai-commerce-x402-openapi.json",
-    "archived openapi/delx-ai-protocol-openapi.json"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "delx-ai-commerce-x402-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "delx-ai-commerce-x402-openapi.json: declared missing tag: utility",
     "delx-ai-commerce-x402-openapi.json: declared missing tag: x402",
@@ -39,7 +37,16 @@
     "delx-ai-protocol-openapi.json: declared missing tag: reliability",
     "delx-ai-protocol-openapi.json: declared missing tag: tools",
     "delx-ai-protocol-openapi.json: multi-axis tagging (10 tags, 8 first tags, 1.67x duplication over 15 operations) \u2014 split on first tag, 5 operations narrowed",
-    "apis.yml register: written (+8 apis, 10 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "delx-ai-a2a-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "delx-ai-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "delx-ai-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "delx-ai-mcp-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "delx-ai-protocol-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "delx-ai-reliability-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "delx-ai-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "delx-ai-x402-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
