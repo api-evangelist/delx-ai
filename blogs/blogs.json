@@ -1,0 +1,28 @@
+{
+  "repo": "delx-ai",
+  "feeds": [
+    {
+      "source": "https://delx.ai/trust",
+      "feed_url": "https://delx.ai/feed.xml",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    },
+    {
+      "source": "https://delx.ai/research",
+      "feed_url": "https://delx.ai/feed.xml",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    },
+    {
+      "source": "https://delx.ai/feed.xml",
+      "feed_url": "https://delx.ai/feed.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    }
+  ],
+  "post_count": 50,
+  "fetched": "2026-10-03T12:30:02Z"
+}

@@ -104,6 +104,8 @@ apis:
   humanURL: https://ontology.delx.ai/docs
   baseURL: https://api.delx.ai
   tags:
+  - A2A
+  tags_raw:
   - A2a
   properties:
   - type: OpenAPI
@@ -122,6 +124,8 @@ apis:
   humanURL: https://ontology.delx.ai/docs
   baseURL: https://api.delx.ai
   tags:
+  - Agents
+  tags_raw:
   - agents
   properties:
   - type: OpenAPI
@@ -140,6 +144,8 @@ apis:
   humanURL: https://ontology.delx.ai/docs
   baseURL: https://api.delx.ai
   tags:
+  - Discovery
+  tags_raw:
   - discovery
   properties:
   - type: OpenAPI
@@ -158,6 +164,8 @@ apis:
   humanURL: https://ontology.delx.ai/docs
   baseURL: https://api.delx.ai
   tags:
+  - MCP
+  tags_raw:
   - Mcp
   properties:
   - type: OpenAPI
@@ -176,6 +184,8 @@ apis:
   humanURL: https://ontology.delx.ai/docs
   baseURL: https://api.delx.ai
   tags:
+  - Protocol
+  tags_raw:
   - protocol
   properties:
   - type: OpenAPI
@@ -194,6 +204,8 @@ apis:
   humanURL: https://ontology.delx.ai/docs
   baseURL: https://api.delx.ai
   tags:
+  - Reliability
+  tags_raw:
   - reliability
   properties:
   - type: OpenAPI
@@ -212,6 +224,8 @@ apis:
   humanURL: https://ontology.delx.ai/docs
   baseURL: https://api.delx.ai
   tags:
+  - Tools
+  tags_raw:
   - tools
   properties:
   - type: OpenAPI
