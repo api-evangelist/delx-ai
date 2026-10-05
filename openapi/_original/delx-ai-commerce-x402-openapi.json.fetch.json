@@ -1,0 +1,12 @@
+{
+ "url": "https://api.delx.ai/openapi.json",
+ "requested_url": "https://api.delx.ai/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 6303205,
+ "sha256": "bd284eb32c52ed8da0f26fedac813d9e10bcea6415bcfba97fd522f13116567e",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.999), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
