@@ -66,3 +66,30 @@ plans:
   included: Threat modelling, authorized reviews, remediation verification, incident readiness
   note: '"Security reviews are scoped engagements, not a plan." No price published.'
   source: https://delx.ai/pricing
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - metered
+  - negotiated
+  units: []
+  plans:
+  - name: Delx Protocol / Agents Hive
+    access: free
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Delx Commerce pay-per-result
+    access: other
+    model: metered
+    model_how: stated
+    units: []
+    periods: []
+  - name: Delx Security reviews
+    access: negotiated
+    model: negotiated
+    model_how: stated
+    units: []
+    periods: []
