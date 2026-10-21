@@ -26,6 +26,7 @@ signals:
       - known_limitations
       - excluded_claims
       - update_policy
+      quote: Free recovery, continuity, memory, witness and outcome infrastructure for AI agents over MCP, A2A and REST.
     note: 'A versioned, dated (published 2026-08-26) system card for the Protocol 3.3.5 interface that states intended and
       excluded uses, side effects, data and retention gaps, evaluation coverage and explicitly excluded claims (no independent
       validation, no peer review, no immutable runtime identifier). This is substantive AI-system transparency documentation,

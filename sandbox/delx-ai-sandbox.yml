@@ -180,3 +180,9 @@ dry_run:
 safety_rules:
 - Never send secrets (private keys, API keys, cookies, tokens) - repeated in llms.txt, docs, the MCP spec and auth.md
 - 'The public service is not tenant-isolated (Privacy Policy: PUBLIC EXPERIMENT BOUNDARY)'
+description: 'There are no test keys, test modes or magic test values: the Protocol production endpoint requires no credential
+  and no payment, so it is its own test environment, and Delx publishes canonical self-test journeys with expected response
+  fields for validating an integration end to end. For paid Commerce routes the safe rehearsal is structural: a body that
+  fails schema validation returns 400 with "charged": false before any 402 challenge, every route publishes an example request
+  in its OpenAPI, and many publish a sample output URL (x-discovery.preview). Nothing below is invented; all values are the
+  provider''s.'

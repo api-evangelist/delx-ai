@@ -1,5 +1,7 @@
 aid: delx-ai
+
 name: Delx
+
 description: >-
   Delx is an independent, founder-led AI agent lab (David Batista) that publishes an agent-native stack on delx.ai:
   the free Delx Protocol for agent recovery, continuity, witness lineage and handoff (30 core MCP tools over Streamable
@@ -10,15 +12,25 @@ description: >-
   for a small provider: RFC 9727 api-catalog, RFC 8414/9728 OAuth metadata, MCP server card, agentskills.io index,
   ARD ai-catalog, llms.txt, agents.txt, security.txt and an ERC-8004 on-chain agent identity are all served from
   the provider's own hosts.
+
 url: https://raw.githubusercontent.com/api-evangelist/delx-ai/refs/heads/main/apis.yml
+
 image: https://delx.ai/icon-512.png
+
 x-type: company
+
 x-source: harvest:a2a-registry
+
 x-tier: profiled
+
 x-tier-reason: enrichment pass 2026-09-19 (local-v3; was a2a-registry harvest stub)
+
 specificationVersion: '0.20'
+
 created: '2026-09-19'
-modified: '2026-09-19'
+
+modified: '2026-10-20'
+
 tags:
 - Agents
 - AI Agents
@@ -32,6 +44,7 @@ tags:
 - Web Intelligence
 - Data Quality
 - Agent-Native
+
 tags_raw:
 - Agents
 - AI agents
@@ -47,6 +60,142 @@ tags_raw:
 - Agent-native
 - Agent Commerce
 - agent-native
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
+
+common:
+- type: Spectral
+  url: rules/delx-ai-rules.yml
+- type: Vocabulary
+  url: vocabulary/delx-ai-vocabulary.yml
+- type: SecurityTxt
+  url: well-known/delx-ai-api-security.txt
+- type: Hosts
+  url: hosts/delx-ai-hosts.yml
+- type: IntegrationEdges
+  url: integrations/delx-ai-integration-edges.yml
+- type: Vendors
+  url: vendors/delx-ai-vendors.yml
+- type: Overlay
+  url: overlays/delx-ai-protocol-overlay.yaml
+- type: Overlay
+  url: overlays/delx-ai-commerce-x402-overlay.yaml
+- type: AgenticAccess
+  url: agentic-access/delx-ai-agentic-access.yml
+- type: VulnerabilityDisclosure
+  url: security/delx-ai-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/delx-ai-domain-security.yml
+- type: Website
+  url: https://delx.ai/
+- type: DeveloperPortal
+  url: https://delx.ai/developers
+- type: Documentation
+  url: https://ontology.delx.ai/docs
+- type: APIReference
+  url: https://ontology.delx.ai/docs/discovery
+- type: GettingStarted
+  name: Agent-first MCP start (JSON getting-started document)
+  url: https://api.delx.ai/api/v1/mcp/start
+- type: Support
+  name: Trust page with support contact (support@delx.ai)
+  url: https://delx.ai/trust
+- type: Blog
+  name: Research index (technical reports, notes, system cards)
+  url: https://delx.ai/research
+- type: BlogRSS
+  url: https://ontology.delx.ai/feed.xml
+- type: ChangeLog
+  url: https://delx.ai/changelog
+- type: ChangeLog
+  name: Changelog (structured artifact)
+  url: changelog/delx-ai-changelog.yml
+- type: GitHubOrganization
+  name: GitHub (founder account hosting the Delx repositories)
+  url: https://github.com/davidmosiah
+- type: Newsroom
+  url: https://delx.ai/press
+- type: Pricing
+  url: https://delx.ai/pricing
+- type: TermsOfService
+  url: https://ontology.delx.ai/legal/terms
+- type: PrivacyPolicy
+  url: https://ontology.delx.ai/legal/privacy
+- type: StatusPage
+  name: Live research artifact status (first-party readback)
+  url: https://delx.ai/research/status
+- type: Security
+  name: Security policy (security.txt Policy target)
+  url: https://ontology.delx.ai/docs/security
+- type: SecurityTxt
+  url: well-known/delx-ai-security.txt
+- type: WellKnown
+  url: well-known/delx-ai-well-known.yml
+- type: APICatalog
+  name: RFC 9727 API catalog (linkset)
+  url: https://delx.ai/.well-known/api-catalog
+- type: AgentCard
+  url: a2a/delx-ai-a2a.yml
+- type: MCPServer
+  url: mcp/delx-ai-mcp.yml
+- type: LLMsTxt
+  url: llms/delx-ai-llms.txt
+- type: LLMsTxt
+  name: llms.txt (api.delx.ai runtime host)
+  url: llms/delx-ai-api-llms.txt
+- type: LLMsTxt
+  name: llms.txt (ontology.delx.ai docs host)
+  url: llms/delx-ai-ontology-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Authentication
+  url: authentication/delx-ai-authentication.yml
+- type: Conventions
+  url: conventions/delx-ai-conventions.yml
+- type: Idempotency
+  name: 'Idempotency (partial: body-level keys on create_await and post_rfq, x402 payment-identifier)'
+  url: conventions/delx-ai-conventions.yml
+- type: ErrorCatalog
+  url: errors/delx-ai-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/delx-ai-lifecycle.yml
+- type: Deprecation
+  name: Deprecation + Sunset headers observed on /v1/mcp (RFC 8594/9745)
+  url: lifecycle/delx-ai-lifecycle.yml
+- type: Conformance
+  url: conformance/delx-ai-conformance.yml
+- type: RateLimits
+  url: rate-limits/delx-ai-rate-limits.yml
+- type: Plans
+  url: plans/delx-ai-plans-pricing.yml
+- type: Packages
+  url: packages/delx-ai-packages.yml
+- type: SDKs
+  name: First-party client packages (CLI, MCP stdio bridge, utilities)
+  url: packages/delx-ai-packages.yml
+- type: CLI
+  url: cli/delx-ai-cli.yml
+- type: DataModel
+  url: data-model/delx-ai-data-model.yml
+- type: Sandbox
+  url: sandbox/delx-ai-sandbox.yml
+- type: AITransparency
+  name: Delx Protocol 3.3.5 system card
+  url: https://delx.ai/research/system-cards/delx-protocol-3.3.5
+- type: DataSubjectRequest
+  name: Privacy Policy section 5 (access, correction, deletion, portability, objection)
+  url: https://ontology.delx.ai/legal/privacy
+- type: Subprocessors
+  name: Privacy Policy section 10 (named third-party providers)
+  url: https://ontology.delx.ai/legal/privacy
+- type: TrustCenter
+  name: Trust page (five-check evaluation; no certifications claimed)
+  url: security/delx-ai-trust-center.yml
+
 apis:
 - aid: delx-ai:delx-protocol-mcp-server
   name: Delx Protocol MCP Server
@@ -256,134 +405,8 @@ apis:
     url: https://commerce.delx.ai/
   - type: Pricing
     url: https://commerce.delx.ai/products
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
-- FN: APIs.json
-  email: info@apis.io
-common:
-- type: Overlay
-  url: overlays/delx-ai-protocol-overlay.yaml
-- type: Overlay
-  url: overlays/delx-ai-commerce-x402-overlay.yaml
-- type: AgenticAccess
-  url: agentic-access/delx-ai-agentic-access.yml
-- type: VulnerabilityDisclosure
-  url: security/delx-ai-vulnerability-disclosure.yml
-- type: DomainSecurity
-  url: security/delx-ai-domain-security.yml
-- type: Website
-  url: https://delx.ai/
-- type: DeveloperPortal
-  url: https://delx.ai/developers
-- type: Documentation
-  url: https://ontology.delx.ai/docs
-- type: APIReference
-  url: https://ontology.delx.ai/docs/discovery
-- type: GettingStarted
-  name: Agent-first MCP start (JSON getting-started document)
-  url: https://api.delx.ai/api/v1/mcp/start
-- type: Support
-  name: Trust page with support contact (support@delx.ai)
-  url: https://delx.ai/trust
-- type: Blog
-  name: Research index (technical reports, notes, system cards)
-  url: https://delx.ai/research
-- type: BlogRSS
-  url: https://ontology.delx.ai/feed.xml
-- type: ChangeLog
-  url: https://delx.ai/changelog
-- type: ChangeLog
-  name: Changelog (structured artifact)
-  url: changelog/delx-ai-changelog.yml
-- type: GitHubOrganization
-  name: GitHub (founder account hosting the Delx repositories)
-  url: https://github.com/davidmosiah
-- type: Newsroom
-  url: https://delx.ai/press
-- type: Pricing
-  url: https://delx.ai/pricing
-- type: TermsOfService
-  url: https://ontology.delx.ai/legal/terms
-- type: PrivacyPolicy
-  url: https://ontology.delx.ai/legal/privacy
-- type: StatusPage
-  name: Live research artifact status (first-party readback)
-  url: https://delx.ai/research/status
-- type: Security
-  name: Security policy (security.txt Policy target)
-  url: https://ontology.delx.ai/docs/security
-- type: SecurityTxt
-  url: well-known/delx-ai-security.txt
-- type: WellKnown
-  url: well-known/delx-ai-well-known.yml
-- type: APICatalog
-  name: RFC 9727 API catalog (linkset)
-  url: https://delx.ai/.well-known/api-catalog
-- type: AgentCard
-  url: a2a/delx-ai-a2a.yml
-- type: MCPServer
-  url: mcp/delx-ai-mcp.yml
-- type: LLMsTxt
-  url: llms/delx-ai-llms.txt
-- type: LLMsTxt
-  name: llms.txt (api.delx.ai runtime host)
-  url: llms/delx-ai-api-llms.txt
-- type: LLMsTxt
-  name: llms.txt (ontology.delx.ai docs host)
-  url: llms/delx-ai-ontology-llms.txt
-- type: AgentSkill
-  url: skills/_index.yml
-- type: Authentication
-  url: authentication/delx-ai-authentication.yml
-- type: Conventions
-  url: conventions/delx-ai-conventions.yml
-- type: Idempotency
-  name: 'Idempotency (partial: body-level keys on create_await and post_rfq, x402 payment-identifier)'
-  url: conventions/delx-ai-conventions.yml
-- type: ErrorCatalog
-  url: errors/delx-ai-problem-types.yml
-- type: Lifecycle
-  url: lifecycle/delx-ai-lifecycle.yml
-- type: Deprecation
-  name: Deprecation + Sunset headers observed on /v1/mcp (RFC 8594/9745)
-  url: lifecycle/delx-ai-lifecycle.yml
-- type: Conformance
-  url: conformance/delx-ai-conformance.yml
-- type: RateLimits
-  url: rate-limits/delx-ai-rate-limits.yml
-- type: Plans
-  url: plans/delx-ai-plans-pricing.yml
-- type: Packages
-  url: packages/delx-ai-packages.yml
-- type: SDKs
-  name: First-party client packages (CLI, MCP stdio bridge, utilities)
-  url: packages/delx-ai-packages.yml
-- type: CLI
-  url: cli/delx-ai-cli.yml
-- type: Webhooks
-  url: asyncapi/delx-ai-webhooks.yml
-- type: DataModel
-  url: data-model/delx-ai-data-model.yml
-- type: Sandbox
-  url: sandbox/delx-ai-sandbox.yml
-- type: AITransparency
-  name: Delx Protocol 3.3.5 system card
-  url: https://delx.ai/research/system-cards/delx-protocol-3.3.5
-- type: DataSubjectRequest
-  name: Privacy Policy section 5 (access, correction, deletion, portability, objection)
-  url: https://ontology.delx.ai/legal/privacy
-- type: Subprocessors
-  name: Privacy Policy section 10 (named third-party providers)
-  url: https://ontology.delx.ai/legal/privacy
-- type: TrustCenter
-  name: Trust page (five-check evaluation; no certifications claimed)
-  url: security/delx-ai-trust-center.yml
-x-enrichment:
-  date: '2026-09-19'
-  status: enriched
-  artifacts_added: 62
-  pass: local-v3
+
+
 x-a2a:
   verified: true
   probed: '2026-09-26'
@@ -391,3 +414,9 @@ x-a2a:
   grade: "flavored"
   protocol_version: "1.0"
   control: 404
+
+x-enrichment:
+  date: '2026-10-20'
+  status: enriched
+  artifacts_added: 0
+  pass: local-v5

@@ -35655,7 +35655,7 @@ paths:
   /api/v1/x402/percentile:
     post:
       operationId: util_percentile
-      summary: Percentile of a list.
+      summary: Percentile of a list. Use for p50/p95 style summaries without a stats stack.
       tags:
       - X402
       requestBody:
@@ -38176,7 +38176,7 @@ paths:
   /api/v1/x402/iso-week:
     post:
       operationId: util_iso_week
-      summary: ISO week number.
+      summary: ISO week number. Call for weekly reporting buckets and standup cadence keys.
       tags:
       - X402
       requestBody:
@@ -39302,7 +39302,7 @@ paths:
   /api/v1/x402/json-minify:
     post:
       operationId: util_json_minify
-      summary: Minify JSON.
+      summary: Minify JSON. Use to shrink payloads before cache, transport, or signature steps.
       tags:
       - X402
       requestBody:
@@ -40193,7 +40193,7 @@ paths:
   /api/v1/x402/csv-headers:
     post:
       operationId: util_csv_headers
-      summary: CSV header row.
+      summary: CSV header row. Use to map columns before import or transformation steps.
       tags:
       - X402
       requestBody:
@@ -40667,7 +40667,7 @@ paths:
   /api/v1/x402/url-encode-component:
     post:
       operationId: util_url_encode_component
-      summary: URL-encode a component.
+      summary: URL-encode a component. Use before building query strings or safe path segments.
       tags:
       - X402
       requestBody:
@@ -45288,7 +45288,7 @@ paths:
   /api/v1/x402/ipv4-octets:
     post:
       operationId: util_ipv4_octets
-      summary: Parse IPv4 into octets.
+      summary: Parse IPv4 into octets. Call when you validate IP literals held by agents.
       tags:
       - X402
       requestBody:
@@ -46172,7 +46172,7 @@ paths:
   /api/v1/x402/url-decode-safe:
     post:
       operationId: util_url_decode_safe
-      summary: Percent-decode text.
+      summary: Percent-decode text. Call when you reverse query encoding from agent-held URLs.
       tags:
       - X402
       requestBody:
@@ -95808,7 +95808,7 @@ paths:
   /api/v1/x402/arr-take:
     post:
       operationId: util_arr_take
-      summary: Take the first N elements.
+      summary: Take the first N elements. Call when you cap agent payloads before paid calls.
       tags:
       - X402
       requestBody:
@@ -96276,7 +96276,7 @@ paths:
   /api/v1/x402/arr-reverse:
     post:
       operationId: util_arr_reverse
-      summary: Reverse a list.
+      summary: Reverse a list. Call when you need reverse chronological agent logs.
       tags:
       - X402
       requestBody:
@@ -96501,7 +96501,7 @@ paths:
   /api/v1/x402/arr-sort-num:
     post:
       operationId: util_arr_sort_num
-      summary: Sort a list numerically.
+      summary: Sort a list numerically. Call when you order agent-held scores or prices.
       tags:
       - X402
       requestBody:
@@ -96728,7 +96728,7 @@ paths:
   /api/v1/x402/arr-sort-str:
     post:
       operationId: util_arr_sort_str
-      summary: Sort a list as strings.
+      summary: Sort a list as strings. Call when you order agent-held labels stably.
       tags:
       - X402
       requestBody:
@@ -97414,7 +97414,7 @@ paths:
   /api/v1/x402/set-union:
     post:
       operationId: util_set_union
-      summary: Set union of two lists (order-preserving).
+      summary: Set union of two lists (order-preserving). Call when you merge agent allowlists.
       tags:
       - X402
       requestBody:
@@ -97649,7 +97649,7 @@ paths:
   /api/v1/x402/set-intersect:
     post:
       operationId: util_set_intersect
-      summary: Set intersection of two lists.
+      summary: Set intersection of two lists. Call when you find shared agent tags/IDs.
       tags:
       - X402
       requestBody:
@@ -98351,7 +98351,7 @@ paths:
   /api/v1/x402/dict-keys:
     post:
       operationId: util_dict_keys
-      summary: List object keys.
+      summary: List object keys. Call when you introspect agent-held JSON objects.
       tags:
       - X402
       requestBody:
@@ -98574,7 +98574,7 @@ paths:
   /api/v1/x402/dict-values:
     post:
       operationId: util_dict_values
-      summary: List object values.
+      summary: List object values. Call when you extract value bags from agent JSON.
       tags:
       - X402
       requestBody:
@@ -98797,7 +98797,7 @@ paths:
   /api/v1/x402/obj-size:
     post:
       operationId: util_obj_size
-      summary: Count object keys.
+      summary: Count object keys. Call when you size agent payloads before paying.
       tags:
       - X402
       requestBody:
@@ -99925,7 +99925,7 @@ paths:
   /api/v1/x402/omit-fields:
     post:
       operationId: util_omit_fields
-      summary: Omit keys from an object.
+      summary: Omit keys from an object. Call when you strip secrets before agent logging.
       tags:
       - X402
       requestBody:
@@ -150982,7 +150982,7 @@ paths:
   /api/v1/x402/funding-annualize:
     post:
       operationId: util_funding_annualize
-      summary: Annualize a period funding rate (e.g.
+      summary: Annualize a period funding rate (e.g. 8h → APR).
       tags:
       - X402
       requestBody:
@@ -179670,7 +179670,7 @@ paths:
   /api/v1/x402/month-name:
     post:
       operationId: util_month_name
-      summary: Month name from ISO date.
+      summary: Month name from ISO date. Call when you label agent reports by month.
       tags:
       - X402
       requestBody:
@@ -224203,7 +224203,7 @@ paths:
   /api/v1/x402/min-n:
     post:
       operationId: util_min_n
-      summary: Minimum of a numeric list.
+      summary: Minimum of a numeric list. Call when you find floors across agent-held samples.
       tags:
       - X402
       requestBody:
@@ -224857,7 +224857,7 @@ paths:
   /api/v1/x402/avg-n:
     post:
       operationId: util_avg_n
-      summary: Average of a numeric list.
+      summary: Average of a numeric list. Call when you need a mean for agent metrics samples.
       tags:
       - X402
       requestBody:
@@ -226943,7 +226943,7 @@ paths:
   /api/v1/x402/rad-to-deg:
     post:
       operationId: util_rad_to_deg
-      summary: Convert radians to degrees.
+      summary: Convert radians to degrees. Call when you display geometry results in degrees.
       tags:
       - X402
       requestBody:
@@ -227815,7 +227815,7 @@ paths:
   /api/v1/x402/bits-to-bytes:
     post:
       operationId: util_bits_to_bytes
-      summary: Convert bit count to bytes.
+      summary: Convert bit count to bytes. Call when you convert link rates into byte budgets.
       tags:
       - X402
       requestBody:
@@ -228700,7 +228700,7 @@ paths:
   /api/v1/x402/bool-not:
     post:
       operationId: util_bool_not
-      summary: Boolean NOT of a coerced value.
+      summary: Boolean NOT of a coerced value. Call when you invert agent gate flags.
       tags:
       - X402
       requestBody:
@@ -228910,7 +228910,7 @@ paths:
   /api/v1/x402/bool-and:
     post:
       operationId: util_bool_and
-      summary: Boolean AND of two coerced values.
+      summary: Boolean AND of two coerced values. Call when you combine agent preflight gates.
       tags:
       - X402
       requestBody:
@@ -229587,7 +229587,7 @@ paths:
   /api/v1/x402/iota:
     post:
       operationId: util_iota
-      summary: Generate 0..n-1 integers.
+      summary: Generate 0..n-1 integers. Call when you need simple index arrays for agent maps.
       tags:
       - X402
       requestBody:
@@ -230040,7 +230040,7 @@ paths:
   /api/v1/x402/seconds-to-hms:
     post:
       operationId: util_seconds_to_hms
-      summary: Convert seconds to HH:MM:SS.
+      summary: Convert seconds to HH:MM:SS. Call when you format agent SLA timers.
       tags:
       - X402
       requestBody:

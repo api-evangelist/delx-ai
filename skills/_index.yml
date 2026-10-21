@@ -67,7 +67,7 @@ skills:
   - post_api_v1_agents_register
   - get_recovery_action_plan
   - get_session_summary
-- file: delx-ai-integration-playbook.md
+- file: delx-ai-integration-playbook.txt
   name: Delx Witness Protocol - Integration Playbook (skill.md)
   source: https://ontology.delx.ai/skill.md
   api: openapi/delx-ai-protocol-openapi.json

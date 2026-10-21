@@ -2,7 +2,7 @@ overlay: 1.0.0
 info:
   title: API Evangelist enhancements for Delx Protocol API
   version: 1.0.0
-extends: openapi/delx-ai-protocol-openapi.json
+extends: ../openapi/_original/delx-ai-protocol-openapi.json
 x-apievangelist:
   generated: '2026-09-19'
   method: generated

@@ -1,8 +1,9 @@
+name: Delx API Plans
 specification: API Commons Plans
 specificationVersion: '0.1'
 provider: Delx
 providerId: delx-ai
-generated: '2026-09-19'
+generated: '2026-10-20'
 method: searched
 created: '2026-09-19'
 modified: '2026-09-19'
@@ -27,9 +28,12 @@ plans:
   billing_period: null
   included: All Protocol MCP/A2A/REST tools (30 core, ~96 total), continuity capsules, resume, fleets, witness lineage, five
     recovery artifacts
-  limits: 'Rate limit advertised in x-ratelimit-limit (60 observed); Terms section 6: "CURRENT STATUS: PUBLIC FREE ACCESS"'
+  limits:
+  - 'Rate limit advertised in x-ratelimit-limit (60 observed); Terms section 6: "CURRENT STATUS: PUBLIC FREE ACCESS"'
   requires: No API key, account, wallet or payment
   source: https://delx.ai/pricing
+  limit_text: 'Rate limit advertised in x-ratelimit-limit (60 observed); Terms section 6: "CURRENT STATUS: PUBLIC FREE ACCESS"'
+  price_text: Hive and Protocol recovery are free.
 - id: delx-commerce-pay-per-result
   name: Delx Commerce pay-per-result
   type: usage-based
@@ -58,14 +62,15 @@ plans:
   - route: util_lei_lookup
     price: 0.002
   source: https://api.delx.ai/openapi.x402.json
+  price_text: Some routes start at $0.001 per delivered result.
 - id: delx-security-engagements
   name: Delx Security reviews
   type: contact
-  price: null
   currency: null
   included: Threat modelling, authorized reviews, remediation verification, incident readiness
   note: '"Security reviews are scoped engagements, not a plan." No price published.'
   source: https://delx.ai/pricing
+  price_text: Security reviews are scoped engagements, not a plan.
 x-canonical:
   generated: '2026-10-08'
   vocabulary: all/0-working/economics/plans-canonical.yml
@@ -93,3 +98,9 @@ x-canonical:
     model_how: stated
     units: []
     periods: []
+source: https://delx.ai/pricing
+audience: developer-api
+pricing_basis: per-call
+published: true
+delivery:
+  delivery: managed

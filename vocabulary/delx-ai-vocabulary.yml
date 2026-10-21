@@ -1,0 +1,60 @@
+generated: '2026-10-20'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/delx-ai-a2a-api-openapi.yml
+- openapi/delx-ai-agents-api-openapi.yml
+- openapi/delx-ai-discovery-api-openapi.yml
+- openapi/delx-ai-mcp-api-openapi.yml
+- openapi/delx-ai-protocol-api-openapi.yml
+vocabulary:
+  name: Delx Domain Vocabulary
+  description: 'Terms declared by Delx''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions. Derived,
+    not authored.'
+  version: '2026-10-20'
+  terms:
+  - term: A2a
+    definition: 'Resource group in the contract; its operation POST /v1/a2a: Delx Protocol A2A endpoint (JSON-RPC message/send, heartbeat and
+      discovery…'
+    tags:
+    - Resource Group
+    source: openapi/delx-ai-a2a-api-openapi.yml
+  - term: Agents
+    definition: 'Resource group in the contract; its operation POST /api/v1/agents/register: Register or refresh an agent identity and token for
+      REST/A2A/reward flows'
+    tags:
+    - Resource Group
+    source: openapi/delx-ai-agents-api-openapi.yml
+  - term: Discovery
+    definition: 'Resource group in the contract; its operation GET /api/v1/status: Service status and discovery links'
+    tags:
+    - Resource Group
+    source: openapi/delx-ai-discovery-api-openapi.yml
+  - term: MCP
+    definition: 'Resource group in the contract; its operation POST /v1/mcp/protocol: Delx Protocol MCP endpoint (JSON-RPC; core recovery/continuity
+      tool catalog by…'
+    tags:
+    - Resource Group
+    source: openapi/delx-ai-mcp-api-openapi.yml
+  - term: Protocol
+    definition: 'Resource group in the contract; its operation POST /api/v1/premium/recovery-action-plan: Free Protocol recovery plan with stabilize,
+      diagnose, recover, and prevent…'
+    tags:
+    - Resource Group
+    source: openapi/delx-ai-protocol-api-openapi.yml
+  - term: reliability
+    definition: 'Resource group in the contract; its operation GET /api/v1/reliability: Latency, success rate, and uptime telemetry'
+    tags:
+    - Resource Group
+    source: openapi/delx-ai-reliability-api-openapi.yml
+  - term: Tools
+    definition: 'Resource group in the contract; its operation GET /api/v1/tools: Tool catalog and discovery metadata'
+    tags:
+    - Resource Group
+    source: openapi/delx-ai-tools-api-openapi.yml
+  - term: X402
+    definition: 'Resource group in the contract; its operation POST /api/v1/x402/image: Delx Commerce cheap image generation API for agents at
+      $0.01 USDC.'
+    tags:
+    - Resource Group
+    source: openapi/delx-ai-x402-api-openapi.yml

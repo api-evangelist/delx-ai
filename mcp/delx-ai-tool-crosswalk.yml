@@ -1485,7 +1485,8 @@ mcp_only:
 - tool: wellness_webhook
   reason: MCP-native Protocol tool; REST reach only via POST /api/v1/tools/batch
 rest_only:
-  commerce_x402:
+- group: commerce_x402
+  operations:
   - generate_image
   - generate_image_budget
   - remove_background
@@ -1501,7 +1502,8 @@ rest_only:
   - create_await
   - post_rfq
   - demand_feed
-  protocol:
+- group: protocol
+  operations:
   - get_api_v1_status
   - post_api_v1_agents_register
   - get_api_v1_tools

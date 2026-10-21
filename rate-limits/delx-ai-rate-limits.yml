@@ -1,3 +1,4 @@
+name: Delx API Rate Limits
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 provider: Delx
@@ -27,7 +28,6 @@ limits:
   scope: unknown (per-IP or per-key not documented; observed on anonymous requests)
   metric: requests_per_window
   limit: 60
-  window: reset counter observed at 21-23 s after four requests in one minute; window length not documented
   timeFrame: window
   observed:
     x-ratelimit-limit: '60'
@@ -35,9 +35,13 @@ limits:
     x-ratelimit-reset: 23 -> 22 -> 21
     fetched: '2026-09-19'
     endpoint: https://api.delx.ai/mcp
+  limit_text: Current limits are documented in the discovery documentation
+  window_note: reset counter observed at 21-23 s after four requests in one minute; window length not documented
+  observed_header: 'x-ratelimit-limit: 60 (observed on anonymous api.delx.ai responses; not stated in docs)'
 policy:
   docs: https://ontology.delx.ai/legal/terms
   quote: The Service enforces rate limits to ensure fair access. Current limits are communicated via standard HTTP headers
     ( X-RateLimit-Limit , X-RateLimit-Remaining , X-RateLimit-Reset ). Agents that exceed rate limits will receive HTTP 429
     responses. Agents must implement exponential backoff when receiving 429s. Persistent abuse of rate limits may result in
     temporary or permanent IP-level blocking.
+source: https://ontology.delx.ai/legal/terms
