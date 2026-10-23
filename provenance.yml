@@ -15,9 +15,6 @@ artifacts:
   agentic-access/delx-ai-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
-  asyncapi/delx-ai-webhooks.yml:
-    method: unknown
-    evidence: no authorship recorded
   authentication/delx-ai-authentication.yml:
     method: searched
     evidence: declared in the artifact
@@ -45,7 +42,16 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  hosts/delx-ai-hosts.yml:
+    method: derived
+    evidence: declared in the artifact
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/delx-ai-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-19T193153.yml:
@@ -78,10 +84,28 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/delx-ai-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
   llms/delx-ai-api-llms.txt:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
+  llms/delx-ai-llms-provenance.yml:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
   llms/delx-ai-llms.txt:
@@ -102,16 +126,65 @@ artifacts:
   mcp/delx-ai-tool-crosswalk.yml:
     method: derived
     evidence: declared in the artifact
-  openapi/delx-ai-commerce-x402-openapi.json:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/delx-ai-protocol-openapi.json:
-    method: unknown
-    evidence: no authorship recorded
+  openapi/_original/delx-ai-commerce-x402-openapi.json:
+    method: harvested
+    evidence: the same operations as https://api.delx.ai/openapi.json (sha256 bd284eb32c52, fetched 2026-10-04)
+  openapi/_original/delx-ai-protocol-openapi.json:
+    method: harvested
+    evidence: the same operations as https://api.delx.ai/openapi.protocol.json (sha256 2a8f15875ba7, fetched
+      2026-10-04)
+  openapi/delx-ai-a2a-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/delx-ai-agents-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/delx-ai-discovery-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/delx-ai-mcp-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/delx-ai-protocol-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/delx-ai-reliability-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/delx-ai-tools-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/delx-ai-x402-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/delx-ai-a2a-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/delx-ai-agents-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/delx-ai-commerce-x402-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/delx-ai-discovery-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/delx-ai-mcp-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/delx-ai-protocol-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/delx-ai-protocol-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/delx-ai-reliability-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/delx-ai-tools-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/delx-ai-x402-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   packages/delx-ai-packages.yml:
@@ -125,6 +198,9 @@ artifacts:
     evidence: no authorship recorded
   regulatory/delx-ai-regulatory-posture.yml:
     method: searched
+    evidence: declared in the artifact
+  rules/delx-ai-rules.yml:
+    method: generated
     evidence: declared in the artifact
   sandbox/delx-ai-sandbox.yml:
     method: searched
@@ -147,12 +223,18 @@ artifacts:
   skills/delx-ai-delx-self-test.md:
     method: unknown
     evidence: no authorship recorded
-  skills/delx-ai-integration-playbook.md:
+  skills/delx-ai-integration-playbook.txt:
     method: unknown
     evidence: no authorship recorded
   skills/delx-ai-recovery-first-hour.md:
     method: unknown
     evidence: no authorship recorded
+  vendors/delx-ai-vendors.yml:
+    method: unknown
+    evidence: no authorship recorded
+  vocabulary/delx-ai-vocabulary.yml:
+    method: derived
+    evidence: declared in the artifact
   well-known/delx-ai-agent-skills-index.json:
     method: unknown
     evidence: no authorship recorded

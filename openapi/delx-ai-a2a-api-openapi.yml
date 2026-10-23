@@ -70,3 +70,9 @@ x-delx:
     commerce: https://commerce.delx.ai/openapi.json
     paid_compatibility: https://api.delx.ai/openapi.x402.json
     rewards: https://api.delx.ai/.well-known/delx-rewards
+x-provenance:
+  method: harvested
+  publisher: Delx
+  source: https://api.delx.ai/openapi.protocol.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

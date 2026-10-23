@@ -253217,3 +253217,9 @@ x-delx:
   - create_await
   - post_rfq
   - demand_feed
+x-provenance:
+  method: harvested
+  publisher: Delx
+  source: https://api.delx.ai/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
